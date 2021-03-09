@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">kejaksaan</string>
+    <string name="title_login">Let`s sign you in.\nWelcome back.\nYou`ve been missed !</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="home">Home</string>
+    <string name="document">Document</string>
+    <string name="report">Reports</string>
+    <string name="users">Profile</string>
+    <string name="pass_info">Forgot password ? </string>
+    <string name="get_pass"> Get my password !</string>
+    </resources>
