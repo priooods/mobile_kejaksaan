@@ -2,12 +2,20 @@
     <string name="app_name">kejaksaan</string>
     <string name="title_login">Let`s sign you in.\nWelcome back.\nYou`ve been missed !</string>
     <string name="username">Username</string>
+    <string name="fullname">Fullname</string>
+    <string name="type">Type</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="home">Home</string>
     <string name="document">Document</string>
     <string name="report">Reports</string>
     <string name="users">Profile</string>
+    <string name="error_fields">Your Must Completed All Fields !</string>
+    <string name="min_pass">Password Min 6 Char !</string>
+    <string name="add_users">Create User</string>
+    <string name="edit_users">Edit Profile</string>
+    <string name="desc_add_users">Created new user access for apps. You must be add all fields on form </string>
+    <string name="url_image">https://digitalsystemindo.com/jaksa/public/images/</string>
     <string name="pass_info">Forgot password ? </string>
     <string name="get_pass"> Get my password !</string>
     </resources>

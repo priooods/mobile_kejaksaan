@@ -11,7 +11,7 @@ import com.valdesekamdem.library.mdtoast.MDToast;
 
 public class Calling {
     @SerializedName("error_code")
-    public String error;
+    public Integer error;
     @SerializedName("error_message")
     public String desc;
 
@@ -26,7 +26,7 @@ public class Calling {
     public boolean TreatResponse(Context context, String tag) {
         Log.i(tag, "Error          -->  " + error);
         Log.i(tag, "Description       -->  " + desc);
-        if (error.equals("0")) {
+        if (error == 0) {
             Log.i(tag, "Success : " + tag + " : " + desc);
             return true;
         } else {

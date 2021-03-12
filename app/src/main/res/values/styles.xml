@@ -13,6 +13,20 @@
         <item name="boxStrokeColor">@color/grey</item>
         <item name="boxStrokeWidth">0.8dp</item>
     </style>
+
+    <style name="TextInputLayoutStyleDropdown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/grey</item>
+        <item name="boxStrokeWidth">0.8dp</item>
+    </style>
+
+    <style name="DialogFullscreen" parent="Theme.AppCompat.DialogWhenLarge">
+        <item name="android:windowAnimationStyle">@style/Animation.AppCompat.Dialog</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="windowNoTitle">true</item>
+    </style>
     
     <style name="tabmenuprofile" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@android:color/transparent</item>

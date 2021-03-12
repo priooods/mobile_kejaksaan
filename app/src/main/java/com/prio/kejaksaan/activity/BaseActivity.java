@@ -10,13 +10,27 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ActivityBaseBinding;
 import com.prio.kejaksaan.layer.Layer_Document;
 import com.prio.kejaksaan.layer.Layer_Home;
 import com.prio.kejaksaan.layer.Layer_Profile;
 import com.prio.kejaksaan.layer.Layer_Report;
-import com.prio.kejaksaan.model.UsersModel;
+import com.prio.kejaksaan.model.BaseModel;
+import com.prio.kejaksaan.model.UserModel;
+import com.prio.kejaksaan.service.Calling;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -34,14 +48,12 @@ public class BaseActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
 
-        if (UsersModel.isExist()) {
-            Log.i("home", "onCreate: " + "Ada");
-            UsersModel.i.setToken(sharedPreferences.getString("token", null));
-        } else {
-            UsersModel data = new UsersModel(sharedPreferences.getString("token",null));
-            UsersModel.i = data;
+        if (!BaseModel.isExist()) {
+            BaseModel data = new BaseModel(sharedPreferences.getString("token",null));
+            BaseModel.i = data;
             Log.i("home", "token: " + data.token);
         }
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new Layer_Home()).commit();
 
@@ -66,6 +78,5 @@ public class BaseActivity extends AppCompatActivity {
             return true;
         });
     }
-
 
 }

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:focusableInTouchMode="true"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/layout_topbar"
+            android:paddingHorizontal="20dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_arrow_left"
+                android:id="@+id/backpress"/>
+
+            <TextView
+                android:layout_marginStart="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="23sp"
+                android:text="@string/edit_users"
+                android:textColor="@color/colorPrimary"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:id="@+id/avatar"
+            android:background="@drawable/circle_avatar"
+            android:src="@drawable/avatar_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_topbar"
+            android:layout_marginTop="30dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/avatar"
+            app:helperTextTextColor="@color/red"
+            android:layout_marginTop="20dp"
+            app:hintTextColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColorHint="@color/grey"
+            android:id="@+id/username_layout"
+            android:hint="@string/username"
+            style="@style/TextInputLayoutStyle"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/name"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/username_layout"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:helperTextTextColor="@color/red"
+            app:hintTextColor="@color/colorPrimary"
+            android:textColorHint="@color/grey"
+            android:id="@+id/fullname_layout"
+            android:hint="@string/fullname"
+            style="@style/TextInputLayoutStyle"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/fullname"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/fullname_layout"
+            android:layout_marginTop="15dp"
+            android:hint="@string/password"
+            android:textColorHint="@color/grey"
+            app:passwordToggleEnabled="true"
+            android:id="@+id/password_layout"
+            app:hintTextColor="@color/colorPrimary"
+            app:passwordToggleTint="@color/colorPrimary"
+            app:helperTextTextColor="@color/red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/TextInputLayoutStyle"
+            app:counterMaxLength="20"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/password"
+                android:inputType="textPassword"
+                android:textColor="@color/colorPrimary"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/password_layout"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:hintTextColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColorHint="@color/grey"
+            app:helperTextTextColor="@color/red"
+            app:endIconTint="@color/colorPrimary"
+            android:id="@+id/type_layout"
+            app:endIconMode="dropdown_menu"
+            android:hint="@string/type"
+            style="@style/TextInputLayoutStyleDropdown"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:id="@+id/type"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:inputType="none"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            app:layout_constraintTop_toBottomOf="@id/type_layout"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:id="@+id/btn_create_users"
+            android:text="@string/add_users"
+            android:textColor="@color/white"
+            android:textAllCaps="false"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:id="@+id/progress"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

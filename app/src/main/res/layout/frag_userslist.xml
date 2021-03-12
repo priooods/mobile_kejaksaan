@@ -25,13 +25,6 @@
         app:layout_constraintTop_toBottomOf="@id/titles"
         android:gravity="top">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/icon_users"
-            app:civ_border_width="0dp"/>
-
         <LinearLayout
             android:layout_marginHorizontal="20dp"
             android:layout_width="match_parent"
