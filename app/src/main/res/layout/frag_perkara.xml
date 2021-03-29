@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/layout_topbar"
+        android:paddingHorizontal="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="50dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:id="@+id/search1"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/gopher_bold"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/btn_search"
+                app:layout_constraintBottom_toBottomOf="@id/btn_search"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_alignParentStart="true"
+                android:textSize="23sp"
+                android:text="@string/perkara"
+                android:textColor="@color/colorPrimary"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_user_add"
+                app:layout_constraintTop_toTopOf="@id/btn_search"
+                app:layout_constraintBottom_toBottomOf="@id/btn_search"
+                app:layout_constraintEnd_toStartOf="@id/btn_search"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/btn_add_top"
+                android:contentDescription="@string/perkara" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/btn_search"
+                android:contentDescription="@string/perkara" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/search2"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                android:hint="Search Perkara Item..."
+                android:textColorHint="@color/grey"
+                android:fontFamily="@font/gopher_reguler"
+                android:id="@+id/findinput"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_cross"
+                android:id="@+id/cross"
+                android:scaleType="fitXY"/>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@id/layout_topbar"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:paddingBottom="55dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tap item to see details"
+                android:fontFamily="@font/gopher_medium"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginHorizontal="18dp"
+                android:id="@+id/desc"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:nestedScrollingEnabled="true"
+                android:layout_height="match_parent"
+                android:layout_below="@id/desc"
+                android:id="@+id/list_perkara"/>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/desc"
+                android:layout_marginTop="12dp"
+                android:id="@+id/shimer">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/model_loading"/>
+                    <include layout="@layout/model_loading"/>
+                    <include layout="@layout/model_loading"/>
+                    <include layout="@layout/model_loading"/>
+                    <include layout="@layout/model_loading"/>
+
+                </LinearLayout>
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        </RelativeLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/icon_new_doc"
+        android:contentDescription="@string/perkara"
+        android:layout_margin="25dp"
+        android:tint="@null"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:tint="@color/white"
+        android:id="@+id/btn_new_doc"/>
+
+</RelativeLayout>

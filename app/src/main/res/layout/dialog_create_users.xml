@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:fontFamily="@font/gopher_bold"
             android:textSize="23sp"
             android:text="@string/add_users"
             android:textColor="@color/colorPrimary"/>
@@ -40,6 +41,7 @@
         app:layout_constraintTop_toBottomOf="@id/layout_topbar"
         android:id="@+id/desc"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/gopher_reguler"
         android:text="@string/desc_add_users"
         android:textColor="@color/colorPrimary"/>
 
@@ -62,6 +64,7 @@
             android:layout_width="match_parent"
             android:id="@+id/name"
             android:layout_height="match_parent"
+            android:fontFamily="@font/gopher_light"
             android:textColor="@color/colorPrimary"
             android:inputType="text"/>
 
@@ -86,6 +89,7 @@
             android:layout_width="match_parent"
             android:id="@+id/fullname"
             android:layout_height="match_parent"
+            android:fontFamily="@font/gopher_light"
             android:textColor="@color/colorPrimary"
             android:inputType="text"/>
 
@@ -113,6 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/password"
+            android:fontFamily="@font/gopher_light"
             android:inputType="textPassword"
             android:textColor="@color/colorPrimary"/>
 
@@ -139,17 +144,21 @@
             android:layout_width="match_parent"
             android:id="@+id/type"
             android:layout_height="match_parent"
+            android:fontFamily="@font/gopher_light"
             android:textColor="@color/colorPrimary"
             android:inputType="none"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="45dp"
         app:layout_constraintTop_toBottomOf="@id/type_layout"
         android:layout_marginHorizontal="20dp"
+        android:background="@drawable/button_style"
         android:layout_marginTop="30dp"
+        app:backgroundTintMode="add"
+        android:fontFamily="@font/gopher_bold"
         android:id="@+id/btn_create_users"
         android:text="@string/add_users"
         android:textColor="@color/white"

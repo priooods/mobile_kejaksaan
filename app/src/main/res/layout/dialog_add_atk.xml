@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/layout_topbar"
+        android:paddingHorizontal="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_arrow_left"
+            android:id="@+id/backpress"/>
+
+        <TextView
+            android:layout_marginStart="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:id="@+id/title"
+            android:fontFamily="@font/gopher_bold"
+            android:textSize="23sp"
+            android:text="Add New ATK"
+            android:textColor="@color/colorPrimary"/>
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@id/layout_topbar"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:textSize="12sp"
+                android:id="@+id/desc"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="You must add all fields on forms"
+                android:textColor="@color/colorPrimary"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/desc"
+                android:layout_marginTop="15dp"
+                android:id="@+id/r1">
+
+                <LinearLayout
+                    android:id="@+id/l1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:helperTextTextColor="@color/red"
+                        app:hintTextColor="@color/colorPrimary"
+                        android:textColorHint="@color/grey"
+                        android:id="@+id/name_layout"
+                        android:hint="Nama Item"
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:id="@+id/name"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/gopher_light"
+                            android:textColor="@color/colorPrimary"
+                            android:inputType="text"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        app:layout_constraintTop_toBottomOf="@id/name_layout"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:helperTextTextColor="@color/red"
+                        app:hintTextColor="@color/colorPrimary"
+                        android:textColorHint="@color/grey"
+                        android:id="@+id/jumlah_layout"
+                        android:hint="Jumlah Item"
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:id="@+id/jumlah"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/gopher_light"
+                            android:textColor="@color/colorPrimary"
+                            android:inputType="number"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        app:layout_constraintTop_toBottomOf="@id/jumlah_layout"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:helperTextTextColor="@color/red"
+                        app:hintTextColor="@color/colorPrimary"
+                        android:textColorHint="@color/grey"
+                        android:id="@+id/ket_layout"
+                        android:hint="Keterangan Item"
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:id="@+id/keterangan"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/gopher_light"
+                            android:textColor="@color/colorPrimary"
+                            android:inputType="text"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/l2"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/list_atk"
+                        android:nestedScrollingEnabled="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/list_atk"
+                        android:layout_marginTop="17dp"
+                        android:layout_alignParentEnd="true"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/gopher_bold"
+                        android:text="Tambah Permintaan"
+                        android:layout_marginEnd="20dp"
+                        android:id="@+id/tambahpermintaan"/>
+
+                    <LinearLayout
+                        android:id="@+id/form_minta"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tambahpermintaan"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/gopher_light"
+                            android:text="Please add field on form"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            app:layout_constraintTop_toBottomOf="@id/password_layout"
+                            android:layout_marginTop="15dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:hintTextColor="@color/colorPrimary"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textColorHint="@color/grey"
+                            app:helperTextTextColor="@color/red"
+                            app:endIconTint="@color/colorPrimary"
+                            android:id="@+id/atkname_layout"
+                            app:endIconMode="dropdown_menu"
+                            android:hint="Pilih ATK"
+                            style="@style/TextInputLayoutStyleDropdown"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_height="wrap_content">
+
+                            <AutoCompleteTextView
+                                android:layout_width="match_parent"
+                                android:id="@+id/nameatk"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/gopher_light"
+                                android:textColor="@color/colorPrimary"
+                                android:inputType="none"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            app:layout_constraintTop_toBottomOf="@id/name_layout"
+                            android:layout_marginTop="15dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:helperTextTextColor="@color/red"
+                            app:hintTextColor="@color/colorPrimary"
+                            android:textColorHint="@color/grey"
+                            android:id="@+id/jumlahminta_layout"
+                            android:hint="Jumlah Item"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:id="@+id/jumlahminta"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/gopher_light"
+                                android:textColor="@color/colorPrimary"
+                                android:inputType="number"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="17dp">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="45dp"
+                                app:layout_constraintTop_toBottomOf="@id/r1"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="4dp"
+                                android:id="@+id/btn_add_minta"
+                                app:backgroundTintMode="add"
+                                android:fontFamily="@font/gopher_bold"
+                                android:text="Save"
+                                android:background="@drawable/button_style"
+                                android:textColor="@color/white"
+                                android:textAllCaps="false"/>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="45dp"
+                                app:layout_constraintTop_toBottomOf="@id/r1"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginEnd="20dp"
+                                android:id="@+id/btn_cancel_minta"
+                                app:backgroundTintMode="add"
+                                android:fontFamily="@font/gopher_bold"
+                                android:text="Cancel"
+                                android:background="@drawable/button_orange"
+                                android:textColor="@color/white"
+                                android:textAllCaps="false"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:layout_constraintTop_toBottomOf="@id/r1"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="30dp"
+                android:id="@+id/btn_create_users"
+                app:backgroundTintMode="add"
+                android:fontFamily="@font/gopher_bold"
+                android:text="Save Item"
+                android:background="@drawable/button_style"
+                android:textColor="@color/white"
+                android:textAllCaps="false"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

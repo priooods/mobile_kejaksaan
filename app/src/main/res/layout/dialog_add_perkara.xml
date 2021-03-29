@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:focusableInTouchMode="true"
+        android:paddingBottom="10dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/back"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/icon_arrow_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gopher_bold"
+            app:layout_constraintTop_toTopOf="@id/back"
+            app:layout_constraintStart_toEndOf="@id/back"
+            app:layout_constraintBottom_toBottomOf="@id/back"
+            android:id="@+id/top"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="23sp"
+            android:text="@string/add_perkara"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/gopher_reguler"
+            app:layout_constraintTop_toBottomOf="@id/top"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/top2"
+            android:text="@string/perkara_desc"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/top2"
+            app:helperTextTextColor="@color/red"
+            android:layout_marginTop="20dp"
+            app:hintTextColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColorHint="@color/grey"
+            android:id="@+id/name_layout"
+            android:hint="@string/nomer_dakwaan"
+            style="@style/TextInputLayoutStyle"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/nomer_dakwaan"
+                android:fontFamily="@font/gopher_light"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/name_layout"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:helperTextTextColor="@color/red"
+            app:hintTextColor="@color/colorPrimary"
+            android:textColorHint="@color/grey"
+            android:id="@+id/jenis_layout"
+            android:hint="@string/jenis_dakwaan"
+            style="@style/TextInputLayoutStyle"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/jenis"
+                android:fontFamily="@font/gopher_light"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/jenis_layout"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:helperTextTextColor="@color/red"
+            app:hintTextColor="@color/colorPrimary"
+            android:textColorHint="@color/grey"
+            android:id="@+id/tanggal_layout"
+            android:hint="@string/tanggal_dakwaan"
+            style="@style/TextInputLayoutStyle"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/tanggal"
+                android:clickable="true"
+                android:focusable="false"
+                android:fontFamily="@font/gopher_light"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/tanggal_layout"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:helperTextTextColor="@color/red"
+            app:hintTextColor="@color/colorPrimary"
+            android:textColorHint="@color/grey"
+            android:id="@+id/identitas_layout"
+            android:hint="@string/identitas_dakwaan"
+            style="@style/TextInputLayoutStyle"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/identitas"
+                android:fontFamily="@font/gopher_light"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/identitas_layout"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:helperTextTextColor="@color/red"
+            app:hintTextColor="@color/colorPrimary"
+            android:textColorHint="@color/grey"
+            android:id="@+id/dakwaan_layout"
+            android:hint="@string/dakwaan"
+            style="@style/TextInputLayoutStyle"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/dakwaan"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/gopher_light"
+                android:textColor="@color/colorPrimary"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/dakwaan_layout"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:helperTextTextColor="@color/red"
+            app:hintTextColor="@color/colorPrimary"
+            android:textColorHint="@color/grey"
+            android:id="@+id/penahanan_layout"
+            android:hint="@string/penahanan"
+            style="@style/TextInputLayoutStyle"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/penahan"
+                android:fontFamily="@font/gopher_light"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:inputType="text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/penahanan_layout"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColorHint="@color/grey"
+            app:helperTextTextColor="@color/red"
+            app:endIconTint="@color/colorPrimary"
+            android:id="@+id/pp_layout"
+            android:hint="@string/pp"
+            app:endIconMode="dropdown_menu"
+            style="@style/TextInputLayoutStyleDropdown"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:fontFamily="@font/gopher_light"
+                android:id="@+id/pp"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:inputType="none"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/pp_layout"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:hintTextColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColorHint="@color/grey"
+            app:helperTextTextColor="@color/red"
+            app:endIconTint="@color/colorPrimary"
+            android:id="@+id/type_layout"
+            app:endIconMode="dropdown_menu"
+            android:hint="@string/jurusita"
+            style="@style/TextInputLayoutStyleDropdown"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:id="@+id/jurusita"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/gopher_light"
+                android:textColor="@color/colorPrimary"
+                android:inputType="none"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            app:layout_constraintTop_toBottomOf="@id/type_layout"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:id="@+id/btn_create_perkara"
+            app:backgroundTintMode="add"
+            android:background="@drawable/button_style"
+            android:text="@string/save"
+            android:layout_marginBottom="12dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/gopher_bold"
+            android:textAllCaps="false"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -12,6 +12,7 @@ import android.view.View;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ActivityMainBinding;
 import com.prio.kejaksaan.model.BaseModel;
+import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.UserService;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,11 +35,13 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
-        sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
         binding.btnSignIn.setOnClickListener(v -> {
             model = new BaseModel(Objects.requireNonNull(binding.name.getText()).toString(), Objects.requireNonNull(binding.password.getText()).toString());
             services = model.getService();
@@ -51,12 +54,13 @@ public class Login extends AppCompatActivity {
         call.enqueue(new Callback<BaseModel>() {
             @Override
             public void onResponse(@NotNull Call<BaseModel> call, @NotNull Response<BaseModel> response) {
-                BaseModel usersModel = (BaseModel)response.body();
+                BaseModel usersModel = response.body();
                 if (BaseModel.TreatResponse(Login.this, "login", usersModel)){
                     assert usersModel != null;
-                    model.token = usersModel.token;
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    BaseModel.i = usersModel;
+                    SharedPreferences.Editor editor =  sharedPreferences.edit();
                     editor.putString("token", usersModel.token);
+                    editor.putString("name", model.name);
                     editor.apply();
                     goHome();
                 }
@@ -77,8 +81,6 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (sharedPreferences.getString("token", null) != null){
-            goHome();
-        }
+        if (sharedPreferences.getString("token", null) != null) goHome();
     }
 }

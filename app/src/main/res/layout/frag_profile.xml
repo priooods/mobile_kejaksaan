@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
+    android:id="@+id/profile_layer"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/layout_topbar"
@@ -14,17 +15,36 @@
         android:layout_height="50dp">
 
         <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/gopher_bold"
             android:textStyle="bold"
             android:textSize="23sp"
             android:layout_alignParentStart="true"
-            android:text="@string/users"
+            android:text="@string/profile"
             android:textColor="@color/colorPrimary"/>
 
         <ImageView
             android:layout_marginEnd="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/menu_dots"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/icon_user_add"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/menu_add"/>
+
+        <ImageView
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/dot_three"
@@ -32,7 +52,7 @@
             android:id="@+id/menu_dots"/>
 
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_below="@id/layout_topbar"
@@ -63,7 +83,6 @@
                     <ImageView
                         android:id="@+id/profile_image"
                         android:layout_width="80dp"
-                        android:src="@drawable/avatar_default"
                         android:layout_height="80dp"/>
 
                     <LinearLayout
@@ -75,6 +94,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_weight="1"
+                            android:visibility="gone"
+                            android:id="@+id/layout_valueUser"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:gravity="center">
@@ -84,15 +105,16 @@
                                 android:layout_height="wrap_content"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
-                                android:text="1"
+                                android:fontFamily="@font/gopher_medium"
                                 android:textColor="@color/colorPrimary"
                                 android:id="@+id/value_admin"/>
 
                             <TextView
                                 android:layout_marginTop="8dp"
                                 android:layout_width="wrap_content"
+                                android:fontFamily="@font/gopher_light"
                                 android:layout_height="wrap_content"
-                                android:text="Users"
+                                android:text="@string/users"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -102,6 +124,8 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:gravity="center"
+                            android:visibility="gone"
+                            android:id="@+id/val2"
                             android:layout_weight="1">
 
                             <TextView
@@ -109,15 +133,15 @@
                                 android:layout_height="wrap_content"
                                 android:textStyle="bold"
                                 android:textSize="18sp"
-                                android:text="1"
                                 android:textColor="@color/colorPrimary"
-                                android:id="@+id/value_document"/>
+                                android:id="@+id/value_atk"/>
 
                             <TextView
                                 android:layout_marginTop="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Document"
+                                android:text="ATK"
+                                android:fontFamily="@font/gopher_light"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -127,22 +151,25 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:gravity="center"
+                            android:visibility="gone"
+                            android:id="@+id/val3"
                             android:layout_weight="1">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textStyle="bold"
+                                android:fontFamily="@font/gopher_medium"
                                 android:textSize="18sp"
-                                android:text="0"
                                 android:textColor="@color/colorPrimary"
                                 android:id="@+id/value_info"/>
 
                             <TextView
                                 android:layout_marginTop="8dp"
+                                android:text="@string/perkara"
+                                android:fontFamily="@font/gopher_light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Info"
                                 android:textColor="@color/colorPrimary"/>
 
                         </LinearLayout>
@@ -154,8 +181,8 @@
                 <TextView
                     android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
+                    android:fontFamily="@font/gopher_medium"
                     android:layout_height="wrap_content"
-                    android:text="Prio Dwi Sembodo"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
                     android:textSize="14sp"
@@ -166,12 +193,13 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/access"
                     android:textSize="12sp"
-                    android:textColor="@color/colorPrimary"
-                    android:text="Super Admin"/>
+                    android:fontFamily="@font/gopher_light"
+                    android:textColor="@color/colorPrimary"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:layout_below="@id/layout_names"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/layout_names"
@@ -179,56 +207,44 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="25dp">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
-                    android:id="@+id/btn_create_users"
-                    android:text="Create Users"
-                    android:layout_weight="1"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@drawable/button_colors"
-                    android:layout_marginHorizontal="15dp"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:layout_height="37dp"
                     android:id="@+id/btn_edit_profile"
-                    android:text="Edit Profile"
+                    android:text="@string/edit_users"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@drawable/button_colors"
+                    app:backgroundTintMode="add"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_style"
                     android:layout_marginHorizontal="15dp"/>
 
             </LinearLayout>
 
-            <com.google.android.material.tabs.TabLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                app:layout_constraintTop_toBottomOf="@id/layout_button"
-                android:layout_marginTop="20dp"
-                app:tabTextAppearance="@style/stylesText"
-                style="@style/tabmenuprofile"
-                app:tabSelectedTextColor="@color/white"
-                app:tabTextColor="@color/colorPrimary"
-                app:tabMode="scrollable"
-                app:tabGravity="fill"
-                android:background="@android:color/transparent"
-                app:tabIndicatorGravity="center"
-                app:tabIndicatorHeight="0dp"
-                android:layout_below="@id/layout_names"
-                android:id="@+id/tab_menu"/>
+<!--            <com.google.android.material.tabs.TabLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="35dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/layout_button"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                app:tabTextAppearance="@style/stylesText"-->
+<!--                style="@style/tabmenuprofile"-->
+<!--                app:tabSelectedTextColor="@color/white"-->
+<!--                app:tabTextColor="@color/colorPrimary"-->
+<!--                app:tabMode="scrollable"-->
+<!--                app:tabGravity="fill"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                app:tabIndicatorGravity="center"-->
+<!--                app:tabIndicatorHeight="0dp"-->
+<!--                android:layout_below="@id/layout_button"-->
+<!--                android:id="@+id/tab_menu"/>-->
 
-            <androidx.viewpager.widget.ViewPager
-                android:layout_below="@id/tab_menu"
-                app:layout_constraintTop_toBottomOf="@id/tab_menu"
-                android:paddingHorizontal="15dp"
-                android:layout_width="match_parent"
-                android:nestedScrollingEnabled="true"
-                android:layout_height="wrap_content"
-                android:id="@+id/viewpager"/>
+<!--            <com.prio.kejaksaan.tools.CustomViewpager-->
+<!--                android:layout_below="@id/tab_menu"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/tab_menu"-->
+<!--                android:paddingHorizontal="15dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/viewpager"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

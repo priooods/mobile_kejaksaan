@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:focusableInTouchMode="true"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dp">
+
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/back"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/icon_arrow_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gopher_bold"
+            app:layout_constraintTop_toTopOf="@id/back"
+            app:layout_constraintStart_toEndOf="@id/back"
+            app:layout_constraintBottom_toBottomOf="@id/back"
+            android:id="@+id/top"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="23sp"
+            android:text="@string/add_surat"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/gopher_reguler"
+            app:layout_constraintTop_toBottomOf="@id/top"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/top2"
+            android:text="@string/surat_desc"/>
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/top2"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/a"
+            android:text="Data Perkara"
+            android:textSize="13sp"
+            android:fontFamily="@font/gopher_bold"
+            android:textColor="@color/colorPrimary"/>
+
+        <LinearLayout
+            android:layout_marginStart="20dp"
+            android:id="@+id/l0"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/a"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="Nama Terdakwa"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/gopher_bold"
+                android:id="@+id/nama"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginStart="20dp"
+            android:id="@+id/l2"
+            app:layout_constraintTop_toBottomOf="@id/l0"
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="Dakwaan"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/dakwaan"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginStart="20dp"
+            android:id="@+id/l3"
+            app:layout_constraintTop_toBottomOf="@id/l2"
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="Nomer Perkara"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/nomor"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginStart="20dp"
+            android:id="@+id/l4"
+            app:layout_constraintTop_toBottomOf="@id/l3"
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="Jenis Perkara"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/gopher_bold"
+                android:id="@+id/jenis_perkara"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginStart="20dp"
+            android:id="@+id/l5"
+            app:layout_constraintTop_toBottomOf="@id/l4"
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="Tanggal Penerimaan"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/gopher_bold"
+                android:id="@+id/tanggal"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginStart="20dp"
+            android:id="@+id/l6"
+            app:layout_constraintTop_toBottomOf="@id/l5"
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="Lama Penahanan"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/gopher_bold"
+                android:id="@+id/penahanan"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginStart="20dp"
+            android:id="@+id/l7"
+            app:layout_constraintTop_toBottomOf="@id/l6"
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="Indentias PP"
+                android:id="@+id/identitas1"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_bold"
+                android:id="@+id/pp_name"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginStart="20dp"
+            android:id="@+id/l8"
+            app:layout_constraintTop_toBottomOf="@id/l7"
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="Identitas Jurusita"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/jurusita_name"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginStart="20dp"
+            android:id="@+id/l9"
+            app:layout_constraintTop_toBottomOf="@id/l8"
+            android:layout_marginTop="17dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="Letter files"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/letter"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginStart="20dp"
+            android:id="@+id/l10"
+            app:layout_constraintTop_toBottomOf="@id/l9"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text="Pengantar Files"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_reguler"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:id="@+id/pengantar_files"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:id="@+id/l1"
+            app:layout_constraintTop_toBottomOf="@id/l10"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColorHint="@color/grey"
+                app:helperTextTextColor="@color/red"
+                app:endIconTint="@color/colorPrimary"
+                android:id="@+id/title_layout"
+                android:hint="Type Perkara"
+                app:endIconMode="dropdown_menu"
+                style="@style/TextInputLayoutStyleDropdown"
+                android:layout_marginHorizontal="20dp"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/gopher_light"
+                    android:id="@+id/title"
+                    android:textSize="14sp"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorPrimary"
+                    android:inputType="none"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                app:layout_constraintTop_toBottomOf="@id/title_layout"
+                android:layout_width="match_parent"
+                android:layout_marginTop="18dp"
+                android:id="@+id/layout_namefile"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:layout_marginHorizontal="12dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/name_file"
+                    android:layout_marginEnd="20dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/gopher_light"/>
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_cross"
+                    android:scaleType="fitXY"
+                    android:id="@+id/delete_file"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gopher_bold"
+                app:layout_constraintTop_toBottomOf="@id/title_layout"
+                android:layout_marginTop="25dp"
+                android:id="@+id/upload_file"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="15sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:text="Upload Files"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@id/l1"
+            android:background="@drawable/button_style"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/colorPrimaryDark"
+            android:fontFamily="@font/gopher_bold"
+            android:textAllCaps="false"
+            android:text="Create Letter"
+            android:id="@+id/btn_createletter"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:indeterminateTint="@color/orange"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/progress"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

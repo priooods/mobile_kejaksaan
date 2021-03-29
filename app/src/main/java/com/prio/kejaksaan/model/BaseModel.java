@@ -13,24 +13,19 @@ public class BaseModel extends Calling {
         return BaseModel.i != null;
     }
 
-    public String token;
     private UserService service;
     public String name;
     public String password;
-
-    public UserModel data;
+    public String message;
+    public String token;
 
     public BaseModel(String name, String password){
         this.name = name;
         this.password = password;
     }
 
-    public BaseModel(String token){
-        this.token = token;
-    }
-
-    public void setToken(String token){
-        this.token = token;
+    public BaseModel(String tokens){
+        this.token = tokens;
     }
 
     public UserService getService(){
@@ -39,4 +34,10 @@ public class BaseModel extends Calling {
         }
         return service;
     }
+
+    //Bantuan
+
+    //for User Add Page
+    public static int CheckType;
+    public static int StatusPerkara;
 }

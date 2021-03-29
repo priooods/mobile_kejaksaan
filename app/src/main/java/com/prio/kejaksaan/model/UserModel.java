@@ -1,6 +1,9 @@
 package com.prio.kejaksaan.model;
 
-public class UserModel {
+import com.prio.kejaksaan.service.Calling;
+import java.util.List;
+
+public class UserModel extends Calling {
 
     public static UserModel i;
     public static boolean isExist(){
@@ -8,10 +11,24 @@ public class UserModel {
     }
 
     public String avatar;
+    public String token;
     public String fullname;
     public String name;
     public String type;
     public String log;
-    public String id;
-    public String password;
+    public int id;
+    public String message;
+    public String password_verified;
+    public String created_at;
+
+    public UserModel(String tokens){
+        this.token = tokens;
+    }
+
+    public static int TypeCreateUser;
+
+
+
+
+    public UserModel data;
 }

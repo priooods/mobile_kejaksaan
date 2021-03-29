@@ -22,14 +22,13 @@ import com.prio.kejaksaan.databinding.FragProfileBinding;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
-import com.prio.kejaksaan.tools.PagerAdapter;
-import com.prio.kejaksaan.views.UsersList;
 import com.prio.kejaksaan.views.profile.CreateUsers;
 import com.prio.kejaksaan.views.profile.EditProfile;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,36 +39,26 @@ import static android.content.ContentValues.TAG;
 public class Layer_Profile extends Fragment {
 
     FragProfileBinding binding;
-    PagerAdapter adapter;
     SharedPreferences sharedPreferences;
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragProfileBinding.inflate(inflater, container, false);
+        sharedPreferences = requireActivity().getSharedPreferences("session", Context.MODE_PRIVATE);
+
 
         binding.username.setText(UserModel.i.fullname);
         binding.access.setText(UserModel.i.type);
         if (UserModel.i.avatar != null){
-            Glide.with(this).load("https://digitalsystemindo.com/jaksa/public/images/" + UserModel.i.avatar)
+            Glide.with(requireContext()).load("https://digitalsystemindo.com/jaksa/public/images/" + UserModel.i.avatar)
                     .circleCrop().into(binding.profileImage);
+        } else {
+            Glide.with(requireContext()).load(R.drawable.avatar_default).into(binding.profileImage);
         }
-        sharedPreferences = requireActivity().getSharedPreferences("session", Context.MODE_PRIVATE);
-        binding.tabMenu.setupWithViewPager(binding.viewpager);
-        adapter = new PagerAdapter(getChildFragmentManager());
-        adapter.AddFragment(new UsersList(), "User Access");
-        adapter.AddFragment(new UsersList(), "Information");
-        adapter.AddFragment(new UsersList(), "My Document");
-        adapter.AddFragment(new UsersList(), "History");
-        binding.viewpager.setAdapter(adapter);
-        for(int i=0; i < binding.tabMenu.getTabCount(); i++) {
-            View tab = ((ViewGroup) binding.tabMenu.getChildAt(0)).getChildAt(i);
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-            p.setMargins(30, 0, 10, 0);
-            tab.requestLayout();
-        }
-        binding.btnCreateUsers.setOnClickListener(V -> {
+
+        binding.menuAdd.setOnClickListener(V -> {
+            UserModel.TypeCreateUser = 1;
             DialogFragment dialogFragment = new CreateUsers();
             dialogFragment.show(requireActivity().getSupportFragmentManager(),"Create User");
         });
@@ -106,11 +95,12 @@ public class Layer_Profile extends Fragment {
         call.enqueue(new Callback<BaseModel>() {
             @Override
             public void onResponse(@NotNull Call<BaseModel> call, @NotNull Response<BaseModel> response) {
-                BaseModel data = (BaseModel) response.body();
+                BaseModel data = response.body();
                 if (Calling.TreatResponse(requireContext(), "logout", data)) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.clear();
                     editor.apply();
+                    BaseModel.i.token = "";
                     startActivity(new Intent(requireActivity(), Login.class));
                     requireActivity().finish();
                 }
@@ -121,5 +111,46 @@ public class Layer_Profile extends Fragment {
                 Log.e(TAG, "onFailure: ", t );
             }
         });
+    }
+
+    public void GettingAllUsers(){
+        Call<List<UserModel>> call = BaseModel.i.getService().AllUsers(BaseModel.i.token);
+        call.enqueue(new Callback<List<UserModel>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<UserModel>> call, @NotNull Response<List<UserModel>> response) {
+                List<UserModel> baseModel = response.body();
+                assert baseModel != null;
+                binding.valueAdmin.setText(String.valueOf(baseModel.size()));
+//                    binding.valueAtk.setText(String.valueOf(UserModel.gettingDataAllATK.size()));
+//                    binding.valueInfo.setText(String.valueOf(UserModel.gettingDataAllPerkara.size()));
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<UserModel>> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        switch (UserModel.i.type){
+            case "SuperUser":
+            case "KPA":
+                binding.menuAdd.setVisibility(View.VISIBLE);
+                binding.layoutValueUser.setVisibility(View.VISIBLE);
+                binding.val3.setVisibility(View.VISIBLE);
+                binding.val2.setVisibility(View.VISIBLE);
+                GettingAllUsers();
+                break;
+            case "Panitera":
+                binding.val2.setVisibility(View.VISIBLE);
+                binding.val3.setVisibility(View.VISIBLE);
+                break;
+            case "PP":
+                binding.val3.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 }
