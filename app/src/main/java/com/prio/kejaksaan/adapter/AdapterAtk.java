@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.prio.kejaksaan.databinding.ModelAtkBinding;
 import com.prio.kejaksaan.model.AtkModel;
+import com.prio.kejaksaan.model.UserModel;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class AdapterAtk extends RecyclerView.Adapter<AdapterAtk.vHolder> {
     @Override
     public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new vHolder(ModelAtkBinding.inflate(LayoutInflater.from(parent.getContext()),parent, false));
+
     }
 
     @Override

@@ -38,6 +38,7 @@ import static android.content.ContentValues.TAG;
 
 public class Layer_Profile extends Fragment {
 
+
     FragProfileBinding binding;
     SharedPreferences sharedPreferences;
 

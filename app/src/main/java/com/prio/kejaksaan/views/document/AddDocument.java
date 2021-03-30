@@ -27,8 +27,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.DialogAddSuratBinding;
+import com.prio.kejaksaan.layer.Layer_Anggaran;
 import com.prio.kejaksaan.layer.Layer_Document;
 import com.prio.kejaksaan.layer.Layer_Perkara;
+import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.PerkaraModel;
@@ -198,6 +200,52 @@ public class AddDocument extends DialogFragment {
                 binding.pengantarFiles.setOnClickListener(v -> {
                     Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+DocumentModel.i.daftar_pengantar));
                     startActivity(web);
+                });
+                break;
+            case 6: //ini untuk PPK upload pembayaran
+                binding.a.setVisibility(View.GONE);
+                binding.l0.setVisibility(View.GONE);
+                binding.l2.setVisibility(View.GONE);
+                binding.l3.setVisibility(View.GONE);
+                binding.l4.setVisibility(View.GONE);
+                binding.l5.setVisibility(View.GONE);
+                binding.l6.setVisibility(View.GONE);
+                binding.l7.setVisibility(View.GONE);
+                binding.l8.setVisibility(View.GONE);
+                binding.l10.setVisibility(View.GONE);
+                binding.l9.setVisibility(View.GONE);
+                binding.top2.setText("Upload files PDF untuk pemintaan pembiayaan kepada bendahara");
+                binding.titleLayout.setVisibility(View.GONE);
+                binding.btnCreateletter.setOnClickListener(v -> {
+                    if (files == null){
+                        MDToast.makeText(requireContext(), "Please Completely all forms", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
+                    } else {
+                        binding.progress.setVisibility(View.VISIBLE);
+                        MintaBayar();
+                    }
+                });
+                break;
+            case 7: // ini untuk bendahara verified permintaan
+                binding.a.setVisibility(View.GONE);
+                binding.l0.setVisibility(View.GONE);
+                binding.l2.setVisibility(View.GONE);
+                binding.l3.setVisibility(View.GONE);
+                binding.l4.setVisibility(View.GONE);
+                binding.l5.setVisibility(View.GONE);
+                binding.l6.setVisibility(View.GONE);
+                binding.l7.setVisibility(View.GONE);
+                binding.l8.setVisibility(View.GONE);
+                binding.l10.setVisibility(View.GONE);
+                binding.l9.setVisibility(View.GONE);
+                binding.top2.setText("Upload files PDF untuk verifikasi permintaan pembiayaan !");
+                binding.titleLayout.setVisibility(View.GONE);
+                binding.btnCreateletter.setOnClickListener(v -> {
+                    if (files == null){
+                        MDToast.makeText(requireContext(), "Please Completely all forms", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
+                    } else {
+                        binding.progress.setVisibility(View.VISIBLE);
+                        VerifikasiBendahara();
+                    }
                 });
                 break;
         }
@@ -384,6 +432,75 @@ public class AddDocument extends DialogFragment {
                     assert data != null;
                     binding.progress.setVisibility(View.VISIBLE);
                     MDToast.makeText(requireContext(), "Successfully Veriry Perkara ! Please Refresh Pages", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    assert getFragmentManager() != null;
+                    Layer_Document document = (Layer_Document) getFragmentManager().findFragmentByTag("document");
+                    FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+                    assert document != null;
+                    transaction.detach(document);
+                    transaction.attach(document);
+                    transaction.commit();
+                    dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+    }
+
+    public void MintaBayar(){
+        MultipartBody.Part fileToUpload = null;
+        if (files != null){
+            fileToUpload = MultipartBody.Part.createFormData("bayar", files.getPath(), File_form(files));
+        }
+        Call<PerkaraModel> call = BaseModel.i.getService().BayarCreate(BaseModel.i.token,fileToUpload);
+        call.enqueue(new Callback<PerkaraModel>() {
+            @Override
+            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
+                PerkaraModel data = response.body();
+                if (Calling.TreatResponse(requireContext(),"Bayar Create", data)){
+                    assert data != null;
+                    MDToast.makeText(requireContext(),"\"Successfuly Verifikasi Pembayaran\"", Toast.LENGTH_LONG,MDToast.TYPE_SUCCESS).show();
+                    assert getFragmentManager() != null;
+                    Layer_Anggaran anggaran = (Layer_Anggaran) getFragmentManager().findFragmentByTag("anggaran");
+                    FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+                    assert anggaran != null;
+                    transaction.detach(anggaran);
+                    transaction.attach(anggaran);
+                    transaction.commit();
+                    dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+    }
+
+    public void VerifikasiBendahara(){
+        MultipartBody.Part fileToUpload = null;
+        if (files != null){
+            fileToUpload = MultipartBody.Part.createFormData("bukti", files.getPath(), File_form(files));
+        }
+        Call<PerkaraModel> call = BaseModel.i.getService().BendaharaVerif(BaseModel.i.token,AtkModel.i.id,fileToUpload);
+        call.enqueue(new Callback<PerkaraModel>() {
+            @Override
+            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
+                PerkaraModel perkaraModel = response.body();
+                if (Calling.TreatResponse(requireContext(),"Bayar Create", perkaraModel)){
+                    assert perkaraModel != null;
+                    MDToast.makeText(requireContext(),"Successfuly Verifikasi Pembayaran", Toast.LENGTH_LONG,MDToast.TYPE_SUCCESS).show();
+                    assert getFragmentManager() != null;
+                    Layer_Anggaran anggaran = (Layer_Anggaran) getFragmentManager().findFragmentByTag("anggaran");
+                    FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+                    assert anggaran != null;
+                    transaction.detach(anggaran);
+                    transaction.attach(anggaran);
+                    transaction.commit();
                     dismiss();
                 }
             }

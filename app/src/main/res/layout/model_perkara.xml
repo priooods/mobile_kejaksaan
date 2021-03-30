@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
+        android:id="@+id/card"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/item"
         android:backgroundTint="@color/white"
@@ -97,6 +98,7 @@
                             android:layout_marginEnd="3dp"
                             android:fontFamily="@font/gopher_bold"
                             android:ellipsize="end"
+                            android:maxLines="1"
                             android:layout_height="wrap_content"
                             android:id="@+id/v1"
                             android:textSize="10sp"
@@ -128,6 +130,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/v2"
                             android:textSize="10sp"
+                            android:maxLines="1"
                             android:textColor="@color/colorPrimary"/>
 
                     </LinearLayout>
@@ -203,6 +206,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/r2"
                     android:layout_marginTop="4dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -267,6 +271,13 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/list_onmodel"/>
 
             </LinearLayout>
 

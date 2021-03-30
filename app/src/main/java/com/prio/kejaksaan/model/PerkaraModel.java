@@ -25,6 +25,7 @@ public class PerkaraModel extends Calling {
     public String daftar_pengantar;
     public String fullname_jurusita;
     public String fullname_pp;
+    public String message;
     public int pp;
     public int id;
     public int perkara_id;

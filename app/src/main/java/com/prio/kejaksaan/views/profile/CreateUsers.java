@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.DialogCreateUsersBinding;
+import com.prio.kejaksaan.layer.Layer_Home;
 import com.prio.kejaksaan.layer.Layer_Perkara;
 import com.prio.kejaksaan.layer.Layer_Profile;
 import com.prio.kejaksaan.model.BaseModel;
@@ -55,7 +56,7 @@ public class CreateUsers extends DialogFragment {
 
         binding.type.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
 
-        if (BaseModel.CheckType == 1){
+        if (UserModel.TypeCreateUser == 1){
             if (UserModel.i.type.equals("SuperUser")){
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, listType);
                 binding.type.setAdapter(adapter);
@@ -94,11 +95,11 @@ public class CreateUsers extends DialogFragment {
                     MDToast.makeText(requireContext(),"Successfully Create New Users", Toast.LENGTH_SHORT, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
                     if (UserModel.TypeCreateUser == 1){
-                        Layer_Profile profile = (Layer_Profile) getFragmentManager().findFragmentByTag("profile");
+                        Layer_Home home = (Layer_Home) getFragmentManager().findFragmentByTag("profile");
                         FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                        assert profile != null;
-                        transaction.detach(profile);
-                        transaction.attach(profile);
+                        assert home != null;
+                        transaction.detach(home);
+                        transaction.attach(home);
                         transaction.commit();
                     } else {
                         Layer_Perkara perkara = (Layer_Perkara) getFragmentManager().findFragmentByTag("perkara");

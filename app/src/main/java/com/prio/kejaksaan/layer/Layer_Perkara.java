@@ -198,7 +198,7 @@ public class Layer_Perkara extends Fragment {
                 binding.btnNewDoc.setVisibility(View.GONE);
                 break;
             case "Panitera":
-            case "SuperUser":
+            case "Ketua":
                 GetPerkaraSudahDiProsess();
                 GettAllPerkara();
                 break;

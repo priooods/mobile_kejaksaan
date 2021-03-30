@@ -17,8 +17,8 @@
         android:icon="@drawable/icon_perkara"
         android:title="@string/perkara"
         app:showAsAction="ifRoom"/>
-    <item android:id="@+id/profile"
-        android:icon="@drawable/icon_users"
-        android:title="@string/users"
+    <item android:id="@+id/anggaran"
+        android:icon="@drawable/icon_coin"
+        android:title="Anggaran"
         app:showAsAction="ifRoom"/>
 </menu>

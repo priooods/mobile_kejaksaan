@@ -25,6 +25,13 @@
             android:text="@string/home"
             android:textColor="@color/colorPrimary"/>
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_users"
+            android:id="@+id/usericon"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
 
     </RelativeLayout>
 

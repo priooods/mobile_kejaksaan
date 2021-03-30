@@ -21,6 +21,8 @@
         app:itemIconTint="@color/navigation_style"
         app:menu="@menu/menu_bottom_navigation"
         android:layout_alignParentBottom="true"
-        android:id="@+id/bottom_navigation"/>
+        android:id="@+id/bottom_navigation">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>

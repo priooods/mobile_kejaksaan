@@ -194,6 +194,75 @@ public interface UserService {
     @POST("atk/req")
     Call<AtkModel> ReqATK(
             @Query("token") String token
-            ,@PartMap Map<Integer, RequestBody> form
+            ,@PartMap Map<String, RequestBody> form
+    );
+
+    @FormUrlEncoded
+    @POST("atk/pp")
+    Call<AtkModel> ATkverifPP(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("atk/req/my")
+    Call<AtkModel> ATkreqPP(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("atk/ppk")
+    Call<AtkModel> ATkreqPPK(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("atk/ppk/acc")
+    Call<PerkaraModel> ReqATKPPK(
+            @Field("token") String token
+            , @Field("id") int id
+    );
+
+    @Multipart
+    @POST("atk/log/acc")
+    Call<AtkModel> VerifyATKLog(
+            @Query("token") String token,
+            @Query("id") int id
+            ,@Part MultipartBody.Part penyerahan
+    );
+
+    @FormUrlEncoded
+    @POST("atk/log")
+    Call<AtkModel> ATkreqLog(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("atk/log/show")
+    Call<AtkModel> ATkverifLog(
+            @Field("token") String token
+    );
+
+    @GET("bayar/show")
+    Call<AtkModel> PembyaranALLPPK();
+
+    @FormUrlEncoded
+    @POST("bayar/notif")
+    Call<AtkModel> PembayaranAllBendahara(
+            @Field("token") String token
+    );
+
+    @Multipart
+    @POST("bayar/create")
+    Call<PerkaraModel> BayarCreate(
+            @Query("token") String token
+            ,@Part MultipartBody.Part bayar
+    );
+
+    @Multipart
+    @POST("bayar/acc")
+    Call<PerkaraModel> BendaharaVerif(
+            @Query("token") String token
+            ,@Query("id") int id
+            ,@Part MultipartBody.Part bayar
     );
 }

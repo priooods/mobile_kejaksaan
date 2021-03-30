@@ -519,7 +519,6 @@
                 android:text="Upload Files"/>
 
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -541,6 +540,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             android:indeterminate="true"
+            app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"
             android:indeterminateTint="@color/orange"
             app:layout_constraintStart_toStartOf="parent"
