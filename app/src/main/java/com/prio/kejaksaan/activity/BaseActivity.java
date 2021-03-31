@@ -54,6 +54,9 @@ public class BaseActivity extends AppCompatActivity {
         setContentView(view);
         Permission();
 
+        binding.progress.setVisibility(View.VISIBLE);
+        binding.bottomNavigation.setVisibility(View.GONE);
+
         sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
 
         if (!BaseModel.isExist()) {
@@ -99,6 +102,8 @@ public class BaseActivity extends AppCompatActivity {
                 UserModel data = response.body();
                 if (Calling.TreatResponse(BaseActivity.this, "profile", data)) {
                     assert data != null;
+                    binding.progress.setVisibility(View.GONE);
+                    binding.bottomNavigation.setVisibility(View.VISIBLE);
                     UserModel.i = data.data;
                     switch (UserModel.i .type){
                         case "PP":

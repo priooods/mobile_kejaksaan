@@ -60,25 +60,49 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="true"
                 android:id="@+id/list_notification"
                 app:layout_constraintTop_toBottomOf="@id/text_ucapan"
                 android:layout_marginTop="15dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/list_notification"
-                android:layout_marginTop="10dp"
-                android:id="@+id/show_all_notification"
-                android:layout_marginHorizontal="20dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                android:text="@string/show_notif"
-                android:textSize="12sp"/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/list_notification"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:id="@+id/show_all_notification"-->
+<!--                android:layout_marginHorizontal="20dp"-->
+<!--                android:textColor="@color/colorPrimaryDark"-->
+<!--                android:textStyle="bold"-->
+<!--                android:text="@string/show_notif"-->
+<!--                android:textSize="12sp"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_topbar"
+        android:layout_marginTop="12dp"
+        android:id="@+id/shimer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/model_loading"/>
+            <include layout="@layout/model_loading"/>
+            <include layout="@layout/model_loading"/>
+            <include layout="@layout/model_loading"/>
+            <include layout="@layout/model_loading"/>
+
+        </LinearLayout>
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </RelativeLayout>

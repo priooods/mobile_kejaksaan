@@ -5,6 +5,7 @@
     android:background="@color/white"
     android:layout_height="match_parent">
 
+
     <FrameLayout
         android:paddingTop="10dp"
         android:layout_above="@id/bottom_navigation"
@@ -24,5 +25,20 @@
         android:id="@+id/bottom_navigation">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/progress"
+        android:visibility="gone"
+        android:background="@color/white">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:id="@+id/cir"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

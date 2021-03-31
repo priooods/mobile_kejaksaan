@@ -45,4 +45,10 @@ public class PerkaraModel extends Calling {
     public static int statusPerkara;
     public static int buatPerkaraShow;
     public static int updatePerkaraStatus;
+
+    public PerkaraModel(String ns, String nd, String xd){
+        this.fullname_pp = ns;
+        this.penahanan = nd;
+        this.dakwaan = xd;
+    }
 }
