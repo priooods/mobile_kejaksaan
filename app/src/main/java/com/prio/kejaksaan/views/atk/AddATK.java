@@ -59,7 +59,8 @@ public class AddATK extends DialogFragment {
     ArrayList<AtkModel> atkModels;
     DialogAddAtkBinding binding;
     String[] atkname;
-    int idatk;
+    String[] prosessname;
+    int idatk, prosesid;
     AdapterListPermintaan adapters;
     Intent openFileManager;
     public static int PRIVATE_CODE = 1;
@@ -115,11 +116,28 @@ public class AddATK extends DialogFragment {
             atkname[i] = AtkModel.atklist.get(i).name;
         }
 
+        //TODO: Bisa pake ini untuk call prosess id atau lainnya bebas bikin lagi
+//        int i;
+//        for (i=0; i<AtkModel.atklist.size();i++){
+//            atkname[i] = AtkModel.atklist.get(i).name;
+//        }
+
         binding.nameatk.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         ArrayAdapter<String> adapternama = new ArrayAdapter<>(requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, atkname);
         binding.nameatk.setAdapter(adapternama);
         binding.nameatk.setOnItemClickListener((parent, view, position, id) -> {
             idatk = AtkModel.atklist.get(position).id;
+        });
+
+
+        //TODO: Ini untuk permintaan prosess_id Atk barusan tadi
+        //TODO: value dari text proses id itu (binding.prosesid)
+        binding.prosesid.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        ArrayAdapter<String> adapterprosesid = new ArrayAdapter<>(requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, prosessname);
+        binding.nameatk.setAdapter(adapterprosesid);
+        binding.nameatk.setOnItemClickListener((parent, view, position, id) -> {
+            //TODO: ini nanti di set proses id nya dan AtkMode.atklist diganti berdasarkan response
+            prosesid = AtkModel.atklist.get(position).id;
         });
 
         binding.btnAddMinta.setOnClickListener(v -> {

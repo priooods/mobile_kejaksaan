@@ -153,8 +153,36 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:orientation="vertical">
 
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:hintTextColor="@color/colorPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textColorHint="@color/grey"
+                        app:helperTextTextColor="@color/red"
+                        app:endIconTint="@color/colorPrimary"
+                        android:id="@+id/atkprosesid_layout"
+                        app:endIconMode="dropdown_menu"
+                        android:hint="Proses data"
+                        style="@style/TextInputLayoutStyleDropdown"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_height="wrap_content">
+
+                        <AutoCompleteTextView
+                            android:layout_width="match_parent"
+                            android:id="@+id/prosesid"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/gopher_light"
+                            android:textColor="@color/colorPrimary"
+                            android:inputType="none"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
+                        android:layout_marginTop="12dp"
                         android:layout_marginHorizontal="20dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/list_atk"
