@@ -73,6 +73,7 @@
             app:layout_constraintTop_toBottomOf="@id/a">
 
             <TextView
+                android:id="@+id/namat"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gopher_reguler"
@@ -110,6 +111,7 @@
             app:layout_constraintTop_toBottomOf="@id/l0">
 
             <TextView
+                android:id="@+id/dakwaant"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gopher_reguler"
@@ -147,10 +149,11 @@
             app:layout_constraintTop_toBottomOf="@id/l2">
 
             <TextView
+                android:id="@+id/nomort"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gopher_reguler"
-                android:text="Nomer Perkara"
+                android:text="No. Perkara"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
 
@@ -184,6 +187,7 @@
             app:layout_constraintTop_toBottomOf="@id/l3">
 
             <TextView
+                android:id="@+id/jenis_perkarat"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gopher_reguler"
@@ -221,6 +225,7 @@
             app:layout_constraintTop_toBottomOf="@id/l4">
 
             <TextView
+                android:id="@+id/tanggalt"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gopher_reguler"
@@ -258,6 +263,7 @@
             app:layout_constraintTop_toBottomOf="@id/l5">
 
             <TextView
+                android:id="@+id/penahanant"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gopher_reguler"
@@ -493,7 +499,7 @@
                 android:layout_marginTop="15dp"
                 android:hint="Type Perkara"
                 android:textColorHint="@color/grey"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:endIconMode="dropdown_menu"
                 app:endIconTint="@color/colorPrimary"
                 app:helperTextTextColor="@color/red"

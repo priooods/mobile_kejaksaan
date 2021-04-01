@@ -56,7 +56,7 @@ public class Layer_Anggaran extends Fragment {
         binding = FragAnggaranBinding.inflate(inflater,container,false);
         binding.shimer.startShimmer();
         binding.btnAddNew.setVisibility(View.GONE);
-//        ListPembayaran();
+        ListPembayaran();
 //        switch (UserModel.i.type){
 //            case "PPK":
 //            case "Ketua":
@@ -77,26 +77,29 @@ public class Layer_Anggaran extends Fragment {
     }
 
 
-//    public void ListPembayaran(){
-//        Call<List<PembayaranModel.Item>> call = BaseModel.i.getService().PembyaranALLPPK();
-//        call.enqueue(new Callback<List<PembayaranModel.Item>>() {
-//            @Override
-//            public void onResponse(@NotNull Call<List<PembayaranModel.Item>> call, @NotNull Response<List<PembayaranModel.Item>> response) {
-//                List<PembayaranModel.Item> data = response.body();
-//                adapterAnggaran = new AdapterAnggaran(requireContext(), data);
-//                binding.listanggaran.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
-//                binding.listanggaran.setHasFixedSize(true);
-//                binding.listanggaran.setAdapter(adapterAnggaran);
-//                binding.shimer.stopShimmer();
-//                binding.shimer.setVisibility(View.GONE);
-//            }
-//
-//            @Override
-//            public void onFailure(@NotNull Call<List<PembayaranModel.Item>> call, @NotNull Throwable t) {
-//                Log.e(TAG, "onFailure: ", t);
-//            }
-//        });
-//    }
+    public void ListPembayaran(){
+        Call<PembayaranModel> call = BaseModel.i.getService().PembyaranALLPPK();
+        call.enqueue(new Callback<PembayaranModel>() {
+            @Override
+            public void onResponse(@NotNull Call<PembayaranModel> call, @NotNull Response<PembayaranModel> response) {
+                PembayaranModel data = response.body();
+                if (Calling.TreatResponse(getContext(),"Calling Pembayaran", data)){
+                    assert data != null;
+                    adapterAnggaran = new AdapterAnggaran(requireContext(), data.data);
+                    binding.listanggaran.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+                    binding.listanggaran.setHasFixedSize(true);
+                    binding.listanggaran.setAdapter(adapterAnggaran);
+                    binding.shimer.stopShimmer();
+                    binding.shimer.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PembayaranModel> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+    }
 
 //    public void ListforBendahara(){
 //        Call<AtkModel> call = BaseModel.i.getService().PembayaranAllBendahara(BaseModel.i.token);

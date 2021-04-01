@@ -72,7 +72,7 @@ public class Layer_Home extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            //TODO: Dicheck kalau typenya not KPA.kalau ga berhasil kabarin lgi
             if (!UserModel.i.type.equals("KPA")){
                 popupMenu.getMenu().findItem(R.id.add).setVisible(false);
             }

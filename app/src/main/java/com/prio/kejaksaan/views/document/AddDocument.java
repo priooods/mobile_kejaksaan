@@ -35,6 +35,7 @@ import com.prio.kejaksaan.layer.Layer_Perkara;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
+import com.prio.kejaksaan.model.PembayaranModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.SuratModel;
@@ -99,6 +100,7 @@ public class AddDocument extends DialogFragment {
     public int mode;
     SuratModel.Item surat;
     PerkaraListModel.Item perkara;
+    PembayaranModel.Item bayar;
     Intent openFileManager;
     File files;
 
@@ -112,6 +114,10 @@ public class AddDocument extends DialogFragment {
     public AddDocument(int mode, PerkaraListModel.Item model){
         this.mode = mode;
         this.perkara = model;
+    }
+    public AddDocument(int mode, PembayaranModel.Item model){
+        this.mode = mode;
+        this.bayar = model;
     }
     @Nullable
     @Override
@@ -295,19 +301,32 @@ public class AddDocument extends DialogFragment {
                 });
                 break;
             case 7: // ini untuk bendahara verified permintaan
-                binding.a.setVisibility(View.GONE);
-                binding.l0.setVisibility(View.GONE);
-                binding.l2.setVisibility(View.GONE);
-                binding.l3.setVisibility(View.GONE);
-                binding.l4.setVisibility(View.GONE);
-                binding.l5.setVisibility(View.GONE);
-                binding.l6.setVisibility(View.GONE);
-                binding.l7.setVisibility(View.GONE);
-                binding.l8.setVisibility(View.GONE);
-                binding.l10.setVisibility(View.GONE);
-                binding.surat.setVisibility(View.GONE);
-                binding.top2.setText("Upload files PDF untuk verifikasi permintaan pembiayaan !");
-                binding.titleLayout.setVisibility(View.GONE);
+
+                binding.top.setText("Permintaan Pembayaran");
+                binding.top2.setText("Upload files PDF Kuitansi untuk verifikasi permintaan pembiayaan!");
+
+                binding.namat.setText("Tipe Surat");
+                binding.nama.setText(bayar.surat_tugas.tipe);
+                binding.dakwaant.setText("Waktu Input Pengantar");
+                binding.dakwaan.setText(bayar.surat_tugas.daftar_time);
+
+                binding.nomor.setText(bayar.surat_tugas.perkara.nomor);
+                binding.jenisPerkarat.setText("Jenis Perkara");
+                binding.jenisPerkara.setText(bayar.surat_tugas.perkara.jenis);
+                binding.tanggalt.setText("Tgl. Proses Perkara");
+                binding.tanggal.setText(bayar.surat_tugas.perkara.proses.tanggal);
+                binding.penahanant.setText("Agenda");
+                binding.penahanan.setText(bayar.surat_tugas.perkara.proses.agenda);
+
+
+//                binding.ppName.setText(bayar.surat_tugas.perkara.fullname_jurusita);
+                binding.jurusitaName.setText(bayar.surat_tugas.perkara.fullname_jurusita);
+                binding.pemverifikasi.setText(bayar.surat_tugas.fullname_ppk);
+                binding.uploadFile.setVisibility(View.VISIBLE);
+                if (bayar.kuitansi == null){
+                    binding.l11.setVisibility(View.VISIBLE);
+                binding.surat.setVisibility(View.VISIBLE);
+                binding.btnCreateletter.setText("Kirim Kwitansi");
                 binding.btnCreateletter.setOnClickListener(v -> {
                     if (files == null){
                         MDToast.makeText(requireContext(), "Please Completely all forms", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
@@ -316,26 +335,27 @@ public class AddDocument extends DialogFragment {
                         VerifikasiBendahara();
                     }
                 });
+                }
                 break;
         }
 
-        binding.title.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, listType);
-        binding.title.setAdapter(adapter);
-        binding.uploadFile.setOnClickListener(v -> Permission());
-        binding.deleteFile.setOnClickListener(v -> {
-            binding.uploadFile.setVisibility(View.VISIBLE);
-            files = null;
-            binding.nameFile.setText(null);
-            binding.layoutNamefile.setVisibility(View.GONE);
-        });
-
-        binding.deleteFile.setOnClickListener(v -> {
-            binding.uploadFile.setVisibility(View.VISIBLE);
-            files = null;
-            binding.nameFile.setText(null);
-            binding.layoutNamefile.setVisibility(View.GONE);
-        });
+//        binding.title.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, listType);
+//        binding.title.setAdapter(adapter);
+//        binding.uploadFile.setOnClickListener(v -> Permission());
+//        binding.deleteFile.setOnClickListener(v -> {
+//            binding.uploadFile.setVisibility(View.VISIBLE);
+//            files = null;
+//            binding.nameFile.setText(null);
+//            binding.layoutNamefile.setVisibility(View.GONE);
+//        });
+//
+//        binding.deleteFile.setOnClickListener(v -> {
+//            binding.uploadFile.setVisibility(View.VISIBLE);
+//            files = null;
+//            binding.nameFile.setText(null);
+//            binding.layoutNamefile.setVisibility(View.GONE);
+//        });
 
 
         return binding.getRoot();

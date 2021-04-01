@@ -265,7 +265,7 @@ public interface UserService {
     );
 
     @GET("bayar/show")
-    Call<List<PembayaranModel.Item>> PembyaranALLPPK();
+    Call<PembayaranModel> PembyaranALLPPK();
 
     @FormUrlEncoded
     @POST("bayar/notif")
