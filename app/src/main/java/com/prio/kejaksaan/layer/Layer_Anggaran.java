@@ -85,6 +85,7 @@ public class Layer_Anggaran extends Fragment {
                 PembayaranModel data = response.body();
                 if (Calling.TreatResponse(getContext(),"Calling Pembayaran", data)){
                     assert data != null;
+                    model = data.data;
                     adapterAnggaran = new AdapterAnggaran(requireContext(), data.data);
                     binding.listanggaran.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
                     binding.listanggaran.setHasFixedSize(true);
@@ -143,8 +144,9 @@ public class Layer_Anggaran extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
-            holder.binding.dakwaan.setVisibility(View.GONE);
+//            holder.binding.dakwaan.setVisibility(View.GONE);
             holder.binding.namaTerdakwa.setText(models.get(position).surat_tugas.tipe);
+            holder.binding.dakwaan.setText(models.get(position).surat_tugas.perkara.getIdentity());
             holder.binding.t1.setText("Dibuat");
             holder.binding.t2.setText("Dibayar");
             holder.binding.v1.setText(models.get(position).created);
@@ -155,31 +157,30 @@ public class Layer_Anggaran extends Fragment {
                 holder.binding.v2.setTextColor(context.getColor(R.color.green));
                 holder.binding.v2.setText("Sudah");
             }
-//            if (models.get(position).kuitansi != null){
-//                holder.binding.v2.setText(models.get(position).holder.binding.v2.setText("Belum"););
-//                holder.binding.v2.setTextColor(context.getColor(R.color.colorPrimary));
-//            }else{
-//
-//            }
+            holder.binding.t3.setText("Terlaksana");
+            holder.binding.v3.setText(models.get(position).surat_tugas.daftar_time);
+            holder.binding.t5.setText("Pelaksana");
+            holder.binding.v5.setText(models.get(position).surat_tugas.perkara.fullname_jurusita);
 
-            holder.binding.l3.setVisibility(View.GONE);
+
+//            holder.binding.l3.setVisibility(View.GONE);
             holder.binding.l4.setVisibility(View.GONE);
             holder.binding.l5.setVisibility(View.GONE);
             holder.binding.l6.setVisibility(View.GONE);
 
-            if (UserModel.i.type.equals("Bendahara")){
                 holder.binding.card.setOnClickListener(v -> {
 //                    DocumentModel.ShowDetailDocument = 7;
 //                    AtkModel.i = models.get(position);
                     FragmentActivity frg = (FragmentActivity)(context);
                     FragmentManager mrg = frg.getSupportFragmentManager();
-                    DialogFragment fragment = new AddDocument(7);
+                    DialogFragment fragment;
+                    if (UserModel.i.type.equals("Bendahara")){
+                        fragment = new AddDocument(7,models.get(position));
+                    }else{
+                        fragment = new AddDocument(6,models.get(position));
+                    }
                     fragment.show(mrg,"Add Document");
                 });
-            } else {
-                Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+models.get(position).kuitansi));
-                context.startActivity(web);
-            }
         }
 
         @Override

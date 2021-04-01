@@ -159,7 +159,7 @@ public class Layer_Perkara extends Fragment {
             @Override
             public void onResponse(@NotNull Call<PerkaraListModel> call, @NotNull Response<PerkaraListModel> response) {
                 PerkaraListModel baseModel = response.body();
-                if (Calling.TreatResponse(requireContext(), "All Perkara by Jurusita", baseModel)) {
+                if (Calling.TreatResponse(getContext(), "All Perkara by Jurusita", baseModel)) {
                     assert baseModel != null;
                     PerkaraModel.listperkara = baseModel.data;
                     binding.shimer.stopShimmer();

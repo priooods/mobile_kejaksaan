@@ -18,4 +18,7 @@ public class PembayaranModel extends Calling {
         public String created,updated;
         public String kuitansi, surat;
     }
+    public class Alone extends Calling{
+        public Item data;
+    }
 }

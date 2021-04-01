@@ -97,10 +97,14 @@ public class Layer_Home extends Fragment {
             popupMenu.show();
         });
 
-        //TODO: Satu Recycler untuk banyak access. dicheck typenya dulu. di atas itu diturunin ke bawah
+        //TODO: Nunggu API Notif
+        binding.shimer.setVisibility(View.GONE);
+        binding.layoutKosong.setVisibility(View.VISIBLE);
+
         switch (Objects.requireNonNull(sharedPreferences.getString("type", null))) {
             case "KPA":
             case "Ketua":
+                binding.layoutKosong.setVisibility(View.GONE);
                 binding.listNotification.setVisibility(View.GONE);
                 binding.titleKpa.setVisibility(View.VISIBLE);
                 binding.listUserss.setVisibility(View.VISIBLE);
@@ -184,8 +188,10 @@ public class Layer_Home extends Fragment {
     }
 
     public void ListUsers(List<UserModel> md){
+        if (getContext() == null)
+            return;
         adapterAllUsers = new AdapterAllUsers(md,requireContext());
-        binding.listUserss.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+        binding.listUserss.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.listUserss.setAdapter(adapterAllUsers);
         adapterAllUsers.notifyDataSetChanged();
         binding.shimer.stopShimmer();
@@ -193,7 +199,7 @@ public class Layer_Home extends Fragment {
     }
 
     public void GettingUserAll(){
-        Call<List<UserModel>> call = BaseModel.i.getService().AllUsers(BaseModel.i.token);
+        Call<List<UserModel>> call = BaseModel.i.getService().FilterUser(BaseModel.i.token,"type");
         call.enqueue(new Callback<List<UserModel>>() {
             @Override
             public void onResponse(@NotNull Call<List<UserModel>> call, @NotNull Response<List<UserModel>> response) {

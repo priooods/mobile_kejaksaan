@@ -186,6 +186,8 @@ public class Layer_Persediaan extends Fragment {
             @Override
             public void onResponse(@NotNull Call<List<ModelLaporanATK>> call, @NotNull Response<List<ModelLaporanATK>> response) {
                 List<ModelLaporanATK> data = response.body();
+                if (getContext() == null)
+                    return;
                 adapterLaporanAtk = new AdapterLaporanAtk(requireContext(), data);
                 binding.listPersediaan.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
                 binding.listPersediaan.setAdapter(adapterLaporanAtk);
@@ -255,6 +257,9 @@ public class Layer_Persediaan extends Fragment {
 
         @Override
         public int getItemCount() {
+            if (models == null){
+                return 0;
+            }
             return models.size();
         }
 

@@ -277,31 +277,43 @@ public class AddDocument extends DialogFragment {
                     startActivity(web);
                 });
                 break;
-            case 6: //ini untuk PPK upload pembayaran
-                binding.a.setVisibility(View.GONE);
-                binding.l0.setVisibility(View.GONE);
-                binding.l2.setVisibility(View.GONE);
-                binding.l3.setVisibility(View.GONE);
-                binding.l4.setVisibility(View.GONE);
-                binding.l5.setVisibility(View.GONE);
-                binding.l6.setVisibility(View.GONE);
-                binding.l7.setVisibility(View.GONE);
-                binding.l8.setVisibility(View.GONE);
-                binding.l10.setVisibility(View.GONE);
-                binding.surat.setVisibility(View.GONE);
-                binding.top2.setText("Upload files PDF untuk pemintaan pembiayaan kepada bendahara");
-                binding.titleLayout.setVisibility(View.GONE);
-                binding.btnCreateletter.setOnClickListener(v -> {
-                    if (files == null){
-                        MDToast.makeText(requireContext(), "Please Completely all forms", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
-                    } else {
-                        binding.progress.setVisibility(View.VISIBLE);
-                        MintaBayar();
-                    }
+            case 7:
+                if (bayar.kuitansi == null) {
+                    binding.uploadFile.setVisibility(View.VISIBLE);
+                    binding.btnCreateletter.setText("Kirim Kwitansi");
+                    binding.btnCreateletter.setOnClickListener(v -> {
+                        if (files == null) {
+                            MDToast.makeText(requireContext(), "Please Completely all forms", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
+                        } else {
+                            binding.progress.setVisibility(View.VISIBLE);
+                            VerifikasiBendahara();
+                        }
+                    });
+                }else{
+                    binding.btnCreateletter.setVisibility(View.GONE);
+                }
+            case 6:
+                if (mode == 6) {
+                    binding.btnCreateletter.setVisibility(View.GONE);
+                }
+                //surat kwitansi ada
+//                binding.btnUpreq.setVisibility(View.GONE);
+                binding.surat.setVisibility(View.VISIBLE);
+                if (bayar.kuitansi == null)
+                    binding.btnUpkwit.setVisibility(View.GONE);
+                else{
+                    binding.btnUpkwit.setOnClickListener(v -> {
+                        Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+bayar.kuitansi));
+                        startActivity(web);
+                    });
+                }
+                binding.btnUpreq.setOnClickListener(v -> {
+                    Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+bayar.surat));
+                    startActivity(web);
                 });
-                break;
-            case 7: // ini untuk bendahara verified permintaan
 
+                binding.ppkuploadsurat.setVisibility(View.VISIBLE);
+                binding.titleLayout.setVisibility(View.GONE);
                 binding.top.setText("Permintaan Pembayaran");
                 binding.top2.setText("Upload files PDF Kuitansi untuk verifikasi permintaan pembiayaan!");
 
@@ -322,40 +334,19 @@ public class AddDocument extends DialogFragment {
 //                binding.ppName.setText(bayar.surat_tugas.perkara.fullname_jurusita);
                 binding.jurusitaName.setText(bayar.surat_tugas.perkara.fullname_jurusita);
                 binding.pemverifikasi.setText(bayar.surat_tugas.fullname_ppk);
-                binding.uploadFile.setVisibility(View.VISIBLE);
-                if (bayar.kuitansi == null){
-                    binding.l11.setVisibility(View.VISIBLE);
-                binding.surat.setVisibility(View.VISIBLE);
-                binding.btnCreateletter.setText("Kirim Kwitansi");
-                binding.btnCreateletter.setOnClickListener(v -> {
-                    if (files == null){
-                        MDToast.makeText(requireContext(), "Please Completely all forms", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
-                    } else {
-                        binding.progress.setVisibility(View.VISIBLE);
-                        VerifikasiBendahara();
-                    }
-                });
-                }
                 break;
         }
 
-//        binding.title.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, listType);
-//        binding.title.setAdapter(adapter);
-//        binding.uploadFile.setOnClickListener(v -> Permission());
-//        binding.deleteFile.setOnClickListener(v -> {
-//            binding.uploadFile.setVisibility(View.VISIBLE);
-//            files = null;
-//            binding.nameFile.setText(null);
-//            binding.layoutNamefile.setVisibility(View.GONE);
-//        });
-//
-//        binding.deleteFile.setOnClickListener(v -> {
-//            binding.uploadFile.setVisibility(View.VISIBLE);
-//            files = null;
-//            binding.nameFile.setText(null);
-//            binding.layoutNamefile.setVisibility(View.GONE);
-//        });
+        binding.title.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, listType);
+        binding.title.setAdapter(adapter);
+        binding.uploadFile.setOnClickListener(v -> Permission());
+        binding.deleteFile.setOnClickListener(v -> {
+            binding.uploadFile.setVisibility(View.VISIBLE);
+            files = null;
+            binding.nameFile.setText(null);
+            binding.layoutNamefile.setVisibility(View.GONE);
+        });
 
 
         return binding.getRoot();
@@ -455,16 +446,16 @@ public class AddDocument extends DialogFragment {
             fileToUpload = MultipartBody.Part.createFormData("surat", files.getPath(), File_form(files));
         }
 
-        Call<DocumentModel> call = BaseModel.i.getService().AddPanmudSurat(BaseModel.i.token,
+        Call<SuratModel.Alone> call = BaseModel.i.getService().AddPanmudSurat(BaseModel.i.token,
                 Objects.requireNonNull(binding.title.getText()).toString(),perkara.id, fileToUpload);
-        call.enqueue(new Callback<DocumentModel>() {
+        call.enqueue(new Callback<SuratModel.Alone>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onResponse(@NotNull Call<DocumentModel> call, @NotNull Response<DocumentModel> response) {
-                DocumentModel data = response.body();
+            public void onResponse(@NotNull Call<SuratModel.Alone> call, @NotNull Response<SuratModel.Alone> response) {
+                SuratModel.Alone data = response.body();
                 if (Calling.TreatResponse(requireContext(), "Upload Surat", data)){
                     assert data != null;
-                    PerkaraModel.perkaradiproses.removeIf(ise -> ise.perkara_id == data.surat.perkara_id);
+//                    PerkaraModel.perkaradiproses.removeIf(ise -> ise.perkara_id == data.surat.perkara_id);
                     binding.progress.setVisibility(View.VISIBLE);
                     MDToast.makeText(requireContext(), "Successfully add letter !", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
@@ -479,7 +470,7 @@ public class AddDocument extends DialogFragment {
             }
 
             @Override
-            public void onFailure(@NotNull Call<DocumentModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<SuratModel.Alone> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });
@@ -589,18 +580,19 @@ public class AddDocument extends DialogFragment {
         if (files != null){
             fileToUpload = MultipartBody.Part.createFormData("bukti", files.getPath(), File_form(files));
         }
-        Call<PerkaraModel> call = BaseModel.i.getService().BendaharaVerif(BaseModel.i.token,AtkModel.i.id,fileToUpload);
-        call.enqueue(new Callback<PerkaraModel>() {
+        Call<PembayaranModel.Alone> call = BaseModel.i.getService().BendaharaVerif(BaseModel.i.token,bayar.id,fileToUpload);
+        call.enqueue(new Callback<PembayaranModel.Alone>() {
             @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel perkaraModel = response.body();
-                if (Calling.TreatResponse(requireContext(),"Bayar Create", perkaraModel)){
-                    assert perkaraModel != null;
+            public void onResponse(@NotNull Call<PembayaranModel.Alone> call, @NotNull Response<PembayaranModel.Alone> response) {
+                PembayaranModel.Alone model = response.body();
+                if (Calling.TreatResponse(requireContext(),"Bayar Create", model)){
+                    assert model != null;
                     MDToast.makeText(requireContext(),"Successfuly Verifikasi Pembayaran", Toast.LENGTH_LONG,MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
                     Layer_Anggaran anggaran = (Layer_Anggaran) getFragmentManager().findFragmentByTag("anggaran");
                     FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                     assert anggaran != null;
+                    anggaran.model.get(bayar.id).kuitansi = bayar.kuitansi;
                     transaction.detach(anggaran);
                     transaction.attach(anggaran);
                     transaction.commit();
@@ -609,7 +601,7 @@ public class AddDocument extends DialogFragment {
             }
 
             @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<PembayaranModel.Alone> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });

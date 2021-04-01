@@ -80,7 +80,7 @@ public class AddATK extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogAddAtkBinding.inflate(inflater,container,false);
-
+        binding.backpress.setOnClickListener(v -> dismiss());
         atkModels = new ArrayList<>();
         switch (AtkModel.StatusAddATK){
             case 0:
@@ -150,9 +150,15 @@ public class AddATK extends DialogFragment {
 //                Toast.makeText(requireContext(),"a",1,"Masukan besar jumlah ATK!");
                 Toast.makeText(requireContext(),"Masukan besar jumlah ATK!",Toast.LENGTH_SHORT).show();
                 return;
+            }else
+                if (atkItem == null){
+                    Toast.makeText(requireContext(),"Masukan Nama ATK dengan benar!",Toast.LENGTH_SHORT).show();
+                    return;
             }
             atkModels.add(atkItem.updateJumlah(Integer.parseInt(Objects.requireNonNull(binding.jumlahminta.getText()).toString())));
             atkid.remove(atkItem);
+            atkItem = null;
+            prosesId = -1;
             setListPermintaan(atkModels);
             binding.btnCreateUsers.setVisibility(View.VISIBLE);
             binding.formMinta.setVisibility(View.GONE);
@@ -166,7 +172,7 @@ public class AddATK extends DialogFragment {
     public void setListPermintaan(ArrayList<AtkItemModel.Item> mod){
         if (atkModels != null && atkModels.size() != 0){
             adapters = new AdapterListPermintaan(requireContext(), mod);
-            binding.listAtk.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+            binding.listAtk.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
             binding.listAtk.setAdapter(adapters);
             adapters.notifyDataSetChanged();
         }
@@ -233,6 +239,7 @@ public class AddATK extends DialogFragment {
                     Log.e("Proses Perkara","Proses Data is null!"+response);
                     return;
                 }
+                Log.e("Proses Perkara","Proses Perkara "+data.size()+" aquired!");
                 prosessname = new String[data.size()];
                 prosesid = new int[data.size()];
                 for (int i=0; i<data.size();i++){

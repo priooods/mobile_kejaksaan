@@ -54,6 +54,13 @@ public interface UserService {
     );
 
     @FormUrlEncoded
+    @POST("show")
+    Call<List<UserModel>> FilterUser(
+            @Field("token") String token,
+            @Field("filter") String filter
+    );
+
+    @FormUrlEncoded
     @POST("register")
     Call<UserModel> CreateUser(
             @Field("name") String name,
@@ -186,7 +193,7 @@ public interface UserService {
 
     @Multipart
     @POST("tugas/create")
-    Call<DocumentModel> AddPanmudSurat(
+    Call<SuratModel.Alone> AddPanmudSurat(
             @Query("token") String token
             ,@Query("tipe") String tipe
             ,@Query("perkara_id") int perkara_id
@@ -283,7 +290,7 @@ public interface UserService {
 
     @Multipart
     @POST("bayar/acc")
-    Call<PerkaraModel> BendaharaVerif(
+    Call<PembayaranModel.Alone> BendaharaVerif(
             @Query("token") String token
             ,@Query("id") int id
             ,@Part MultipartBody.Part bayar

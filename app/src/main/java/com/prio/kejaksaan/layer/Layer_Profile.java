@@ -114,24 +114,24 @@ public class Layer_Profile extends Fragment {
         });
     }
 
-    public void GettingAllUsers(){
-        Call<List<UserModel>> call = BaseModel.i.getService().AllUsers(BaseModel.i.token);
-        call.enqueue(new Callback<List<UserModel>>() {
-            @Override
-            public void onResponse(@NotNull Call<List<UserModel>> call, @NotNull Response<List<UserModel>> response) {
-                List<UserModel> baseModel = response.body();
-                assert baseModel != null;
-                binding.valueAdmin.setText(String.valueOf(baseModel.size()));
-//                    binding.valueAtk.setText(String.valueOf(UserModel.gettingDataAllATK.size()));
-//                    binding.valueInfo.setText(String.valueOf(UserModel.gettingDataAllPerkara.size()));
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<List<UserModel>> call, @NotNull Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
-    }
+//    public void GettingAllUsers(){
+//        Call<List<UserModel>> call = BaseModel.i.getService().AllUsers(BaseModel.i.token);
+//        call.enqueue(new Callback<List<UserModel>>() {
+//            @Override
+//            public void onResponse(@NotNull Call<List<UserModel>> call, @NotNull Response<List<UserModel>> response) {
+//                List<UserModel> baseModel = response.body();
+//                assert baseModel != null;
+//                binding.valueAdmin.setText(String.valueOf(baseModel.size()));
+////                    binding.valueAtk.setText(String.valueOf(UserModel.gettingDataAllATK.size()));
+////                    binding.valueInfo.setText(String.valueOf(UserModel.gettingDataAllPerkara.size()));
+//            }
+//
+//            @Override
+//            public void onFailure(@NotNull Call<List<UserModel>> call, @NotNull Throwable t) {
+//                Log.e(TAG, "onFailure: ", t);
+//            }
+//        });
+//    }
 
     @Override
     public void onStart() {
@@ -143,7 +143,7 @@ public class Layer_Profile extends Fragment {
                 binding.layoutValueUser.setVisibility(View.VISIBLE);
                 binding.val3.setVisibility(View.VISIBLE);
                 binding.val2.setVisibility(View.VISIBLE);
-                GettingAllUsers();
+//                GettingAllUsers();
                 break;
             case "Panitera":
                 binding.val2.setVisibility(View.VISIBLE);
