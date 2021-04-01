@@ -117,6 +117,7 @@ public class AddDocument extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogAddSuratBinding.inflate(inflater, container, false);
+        binding.back.setOnClickListener(v -> dismiss());
 //        PerkaraListModel.Item perkara;
         switch (mode){
             case 1: //ini untuk panmud upload files
@@ -130,6 +131,7 @@ public class AddDocument extends DialogFragment {
                 binding.jurusitaName.setText(perkara.fullname_jurusita);
                 binding.surat.setVisibility(View.GONE);
                 binding.l10.setVisibility(View.GONE);
+                binding.uploadFile.setVisibility(View.VISIBLE);
                 binding.titleLayout.setVisibility(View.VISIBLE);
                 binding.btnCreateletter.setOnClickListener(v -> {
                     if (Objects.requireNonNull(binding.title.getText()).toString().isEmpty() || files == null){
@@ -185,6 +187,7 @@ public class AddDocument extends DialogFragment {
 //                binding.l1.setVisibility(View.VISIBLE);
 //                binding.
                 binding.l7.setVisibility(View.GONE);
+                binding.uploadFile.setVisibility(View.VISIBLE);
                 binding.l8.setVisibility(View.GONE);
                 binding.btnCreateletter.setOnClickListener(v -> {
                     if (files == null){
@@ -200,7 +203,21 @@ public class AddDocument extends DialogFragment {
                     Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+surat.surat_tugas));
                     startActivity(web);
                 });
-                binding.btnShowb.setVisibility(View.GONE);
+                if (surat.daftar_pengantar == null) {
+                    binding.btnShowb.setVisibility(View.GONE);
+                }else{
+                    binding.btnShowb.setOnClickListener(v -> {
+                        Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+surat.daftar_pengantar));
+                        startActivity(web);
+                    });
+
+                    binding.uploadFile.setVisibility(View.GONE);
+                    binding.btnCreateletter.setVisibility(View.GONE);
+                }
+                if (surat.verifier_id !=null){
+                    binding.l11.setVisibility(View.VISIBLE);
+                    binding.pemverifikasi.setText(surat.fullname_ppk);
+                }
                 break;
             case 5:
                 binding.l11.setVisibility(View.VISIBLE);
@@ -237,15 +254,20 @@ public class AddDocument extends DialogFragment {
                 binding.titleLayout.setVisibility(View.GONE);
                 binding.ppName.setText(perkara.fullname_pp);
                 binding.jurusitaName.setText(perkara.fullname_jurusita);
-                binding.btnCreateletter.setOnClickListener(v -> VerifyPPK());
-                binding.btnCreateletter.setText("Verifikasi!");
                 binding.surat.setVisibility(View.VISIBLE);
+                if (surat.daftar_pengantar == null){
+                    binding.btnShowb.setVisibility(View.GONE);
+                    binding.btnCreateletter.setVisibility(View.GONE);
+                }else{
+                    binding.btnShowb.setOnClickListener(v -> {
+                        Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+surat.daftar_pengantar));
+                        startActivity(web);
+                    });
+                    binding.btnCreateletter.setOnClickListener(v -> VerifyPPK());
+                    binding.btnCreateletter.setText("Verifikasi!");
+                }
                 binding.btnShowa.setOnClickListener(v -> {
                     Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+surat.surat_tugas));
-                    startActivity(web);
-                });
-                binding.btnShowb.setOnClickListener(v -> {
-                    Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+surat.daftar_pengantar));
                     startActivity(web);
                 });
                 break;
