@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.Glide;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.activity.Login;
+import com.prio.kejaksaan.adapter.AdapterAllUsers;
 import com.prio.kejaksaan.adapter.AdapterNotif;
 import com.prio.kejaksaan.adapter.AdapterPerkara;
 import com.prio.kejaksaan.databinding.FragHomeBinding;
@@ -48,6 +49,7 @@ public class Layer_Home extends Fragment {
     FragHomeBinding binding;
     SharedPreferences sharedPreferences;
     AdapterNotif adapterNotif;
+    AdapterAllUsers adapterAllUsers;
     List<PerkaraModel> modelList;
     @Nullable
     @Override
@@ -66,7 +68,10 @@ public class Layer_Home extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            //TODO: Dicheck kalau typenya not KPA.kalau ga berhasil kabarin lgi
+            if (!UserModel.i.type.equals("KPA")){
+                popupMenu.getMenu().findItem(R.id.add).setVisible(false);
+            }
 
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()){
@@ -91,8 +96,19 @@ public class Layer_Home extends Fragment {
 
         //TODO: Sebagai sample gua buat pake model PerkaraModel. kalau mau buat model baru silahkan atau rubah pake model lain bebas
         //TODO: liat di folder adapter - AdapterNotif. disini ada penjelasan detail soal adapternya
-        ListNotif(modelList);
+//        ListNotif(modelList); /// dipindah ke bawah
 
+        //TODO: Satu Recycler untuk banyak access. dicheck typenya dulu. di atas itu diturunin ke bawah
+        switch (UserModel.i.type){
+            case "KPA":
+                //TODO: Getting Model list User ini di check dlu APInya. disitu pake findall.
+                // bisa diganti sesuai api asli
+                GettingUserAll();
+                break;
+            case "PPK":
+                ListNotif(modelList);
+                break;
+        }
 
 
         return binding.getRoot();
@@ -132,6 +148,31 @@ public class Layer_Home extends Fragment {
             @Override
             public void onFailure(@NotNull Call<BaseModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t );
+            }
+        });
+    }
+
+    public void ListUsers(List<UserModel> md){
+        adapterAllUsers = new AdapterAllUsers(md,requireContext());
+        binding.listNotification.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+        binding.listNotification.setAdapter(adapterAllUsers);
+        adapterNotif.notifyDataSetChanged();
+        binding.shimer.stopShimmer();
+        binding.shimer.setVisibility(View.GONE);
+    }
+
+    public void GettingUserAll(){
+        Call<List<UserModel>> call = BaseModel.i.getService().AllUsers(BaseModel.i.token);
+        call.enqueue(new Callback<List<UserModel>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<UserModel>> call, @NotNull Response<List<UserModel>> response) {
+                List<UserModel> mode = response.body();
+                ListUsers(mode);
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<UserModel>> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
             }
         });
     }
