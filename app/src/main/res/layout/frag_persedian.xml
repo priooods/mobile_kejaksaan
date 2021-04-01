@@ -83,6 +83,28 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_topbar"
+        android:id="@+id/kosong_list">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:id="@+id/title_kosong"
+            android:fontFamily="@font/gopher_bold"
+            android:textSize="13sp"
+            android:textColor="@color/colorPrimary"
+            android:text="Oops.. Saat ini tidak ada data apapun untuk kamu"
+            android:gravity="center"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         android:layout_below="@id/layout_topbar"

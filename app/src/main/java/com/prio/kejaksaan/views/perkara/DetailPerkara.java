@@ -60,7 +60,7 @@ public class DetailPerkara extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogDetailPerkaraBinding.inflate(inflater,container,false);
-
+        binding.backpress.setOnClickListener(v -> dismiss());
         model = PerkaraListModel.i;
         switch (UserModel.i.type){
             case "SuperUser":
@@ -119,12 +119,6 @@ public class DetailPerkara extends DialogFragment {
 //            }
         }
 
-//        try {
-//            c.setTime(Objects.requireNonNull(fr.parse(model.tanggal)));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        binding.tanggal.setText(tex.format(c.getTime()));
         binding.nama.setText(model.identitas);
         binding.dakwaan.setText(model.dakwaan);
         binding.jenisPerkara.setText(model.jenis);
@@ -149,6 +143,7 @@ public class DetailPerkara extends DialogFragment {
                 AddProsesPerkara();
             } else {
                 binding.r3.setVisibility(View.VISIBLE);
+                binding.r2.setVisibility(View.GONE);
                 binding.btnCancelprosesPerkara.setVisibility(View.VISIBLE);
             }
         });
@@ -224,6 +219,7 @@ public class DetailPerkara extends DialogFragment {
                     transaction.attach(perkara);
                     transaction.commit();
                     MDToast.makeText(requireContext(), "Proses Perkara berhasil di buat", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    dismiss();
                 }
             }
 

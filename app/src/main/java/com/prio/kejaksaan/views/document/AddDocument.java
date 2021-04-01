@@ -524,12 +524,12 @@ public class AddDocument extends DialogFragment {
                     assert data != null;
                     MDToast.makeText(requireContext(),"\"Successfuly Verifikasi Pembayaran\"", Toast.LENGTH_LONG,MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
-                    Layer_Anggaran anggaran = (Layer_Anggaran) getFragmentManager().findFragmentByTag("anggaran");
+                    Layer_Document document = (Layer_Document) getFragmentManager().findFragmentByTag("document");
                     FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                    assert anggaran != null;
+                    assert document != null;
 //                    anggaran.model.add()
-                    transaction.detach(anggaran);
-                    transaction.attach(anggaran);
+                    transaction.detach(document);
+                    transaction.attach(document);
                     transaction.commit();
                     dismiss();
                 }

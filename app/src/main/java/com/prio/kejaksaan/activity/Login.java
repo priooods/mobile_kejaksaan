@@ -68,6 +68,7 @@ public class Login extends AppCompatActivity {
                     SharedPreferences.Editor editor =  sharedPreferences.edit();
                     editor.putString("token", usersModel.token);
                     editor.putString("name", usersModel.fullname);
+                    editor.putString("type", usersModel.type);
                     editor.apply();
                     goHome();
                 }

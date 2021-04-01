@@ -41,7 +41,7 @@
         android:layout_below="@id/layout_topbar"
         android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -62,47 +62,85 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="true"
                 android:id="@+id/list_notification"
+                android:layout_below="@id/text_ucapan"
                 app:layout_constraintTop_toBottomOf="@id/text_ucapan"
                 android:layout_marginTop="15dp"/>
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/list_notification"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:id="@+id/show_all_notification"-->
-<!--                android:layout_marginHorizontal="20dp"-->
-<!--                android:textColor="@color/colorPrimaryDark"-->
-<!--                android:textStyle="bold"-->
-<!--                android:text="@string/show_notif"-->
-<!--                android:textSize="12sp"/>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/title_kpa"
+                android:text="Showing All Users"
+                android:visibility="gone"
+                android:fontFamily="@font/gopher_medium"
+                android:layout_marginHorizontal="15dp"
+                android:textSize="15dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_below="@id/text_ucapan"
+                android:layout_marginTop="20dp"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:visibility="gone"
+                android:nestedScrollingEnabled="true"
+                android:id="@+id/list_userss"
+                android:layout_below="@id/title_kpa"
+                app:layout_constraintTop_toBottomOf="@id/text_ucapan"
+                android:layout_marginTop="8dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:id="@+id/layout_kosong"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:background="@color/white"
+                android:layout_below="@id/text_ucapan"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="13sp"
+                    android:layout_height="match_parent"
+                    android:text="Opps Tidak ada Notifikasi baru untuk anda !"
+                    android:textColor="@color/colorPrimary"
+                    android:gravity="center"
+                    android:fontFamily="@font/gopher_bold"
+                    android:layout_gravity="center"
+                    android:id="@+id/title_kosong"/>
+
+
+            </RelativeLayout>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/text_ucapan"
+                android:layout_marginTop="12dp"
+                android:id="@+id/shimer">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/model_loading"/>
+                    <include layout="@layout/model_loading"/>
+                    <include layout="@layout/model_loading"/>
+                    <include layout="@layout/model_loading"/>
+                    <include layout="@layout/model_loading"/>
+
+                </LinearLayout>
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layout_topbar"
-        android:layout_marginTop="12dp"
-        android:id="@+id/shimer">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include layout="@layout/model_loading"/>
-            <include layout="@layout/model_loading"/>
-            <include layout="@layout/model_loading"/>
-            <include layout="@layout/model_loading"/>
-            <include layout="@layout/model_loading"/>
-
-        </LinearLayout>
-
-
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </RelativeLayout>

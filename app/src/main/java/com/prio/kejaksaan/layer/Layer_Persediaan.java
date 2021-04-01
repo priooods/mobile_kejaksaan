@@ -162,6 +162,9 @@ public class Layer_Persediaan extends Fragment {
                 AtkModel atkModel = response.body();
                 if(Calling.TreatResponse(getContext(),"req atk pp", atkModel)){
                     assert atkModel != null;
+                    if (atkModel.data.size() == 0){
+                        binding.kosongList.setVisibility(View.VISIBLE);
+                    }
                     adapterSelainLogistik = new AdapterSelainLogistik(requireContext(), atkModel.data);
                     binding.listPersediaan.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
                     binding.listPersediaan.setAdapter(adapterSelainLogistik);
@@ -284,10 +287,14 @@ public class Layer_Persediaan extends Fragment {
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
             switch (UserModel.i.type){
                 case "PPK":
-                    holder.binding.namaTerdakwa.setText("Verifikasi");
-                    holder.binding.namaTerdakwa.setGravity(Gravity.END);
-                    holder.binding.namaTerdakwa.setTextColor(context.getColor(R.color.colorPrimaryDark));
-                    holder.binding.namaTerdakwa.setOnClickListener(v -> GetATkPPKVerify(models.get(position).id));
+                    if (models.get(position).ppk_id != 0){
+                        holder.binding.namaTerdakwa.setVisibility(View.GONE);
+                    } else {
+                        holder.binding.namaTerdakwa.setText("Verifikasi");
+                        holder.binding.namaTerdakwa.setGravity(Gravity.END);
+                        holder.binding.namaTerdakwa.setTextColor(context.getColor(R.color.colorPrimaryDark));
+                        holder.binding.namaTerdakwa.setOnClickListener(v -> GetATkPPKVerify(models.get(position).id));
+                    }
                     break;
             }
 

@@ -5,6 +5,7 @@ import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.ModelLaporanATK;
+import com.prio.kejaksaan.model.PembayaranModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.SuratModel;
@@ -166,7 +167,7 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("tugas/ppk")
-    Call<PerkaraModel> TugasPPK(
+    Call<SuratModel> TugasPPK(
             @Field("token") String token
     );
 
@@ -225,8 +226,14 @@ public interface UserService {
 
 
     @FormUrlEncoded
-    @POST("atk/ppk")
+    @POST("atk/ppk/show")
     Call<AtkModel> ATkreqPPK(
+            @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("atk/ppk")
+    Call<AtkModel> AtkNotifUntukPPK(
             @Field("token") String token
     );
 
@@ -258,7 +265,7 @@ public interface UserService {
     );
 
     @GET("bayar/show")
-    Call<AtkModel> PembyaranALLPPK();
+    Call<List<PembayaranModel.Item>> PembyaranALLPPK();
 
     @FormUrlEncoded
     @POST("bayar/notif")

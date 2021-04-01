@@ -33,17 +33,6 @@
                 android:text="@string/docs"
                 android:textColor="@color/colorPrimary"/>
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_search"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:id="@+id/btn_search"
-                android:contentDescription="@string/docs" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

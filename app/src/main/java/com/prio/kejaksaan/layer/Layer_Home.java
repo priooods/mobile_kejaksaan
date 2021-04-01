@@ -22,7 +22,9 @@ import com.prio.kejaksaan.activity.Login;
 import com.prio.kejaksaan.adapter.AdapterAllUsers;
 import com.prio.kejaksaan.adapter.AdapterNotif;
 import com.prio.kejaksaan.adapter.AdapterPerkara;
+import com.prio.kejaksaan.adapter.AdapterPerkaraVerif;
 import com.prio.kejaksaan.databinding.FragHomeBinding;
+import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.UserModel;
@@ -37,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -95,22 +98,51 @@ public class Layer_Home extends Fragment {
         });
 
         //TODO: Satu Recycler untuk banyak access. dicheck typenya dulu. di atas itu diturunin ke bawah
-
+        switch (Objects.requireNonNull(sharedPreferences.getString("type", null))) {
+            case "KPA":
+            case "Ketua":
+                binding.listNotification.setVisibility(View.GONE);
+                binding.titleKpa.setVisibility(View.VISIBLE);
+                binding.listUserss.setVisibility(View.VISIBLE);
+                GettingUserAll();
+                break;
+            case "PPK":
+                GettingNotifPPK();
+                break;
+        }
         return binding.getRoot();
     }
 
-    public void WhenUserLoaded(){
-        if (UserModel.i.type != null) {
-            switch (UserModel.i.type) {
-                case "KPA":
-                    GettingUserAll();
-                    break;
-                case "PPK":
-                    ListNotif(modelList);
-                    break;
+    public void GettingNotifPPK(){
+        Call<AtkModel> call = BaseModel.i.getService().AtkNotifUntukPPK(BaseModel.i.token);
+        call.enqueue(new Callback<AtkModel>() {
+            @Override
+            public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
+                AtkModel atkModel = response.body();
+                if(Calling.TreatResponse(getContext(),"req atk pp", atkModel)){
+                    assert atkModel != null;
+                    if (atkModel.data.size() == 0){
+                        binding.layoutKosong.setVisibility(View.VISIBLE);
+                    }
+                    NotifikasiPPK(atkModel.data);
+                }
             }
-        }
+
+            @Override
+            public void onFailure(@NotNull Call<AtkModel> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
     }
+
+    public void NotifikasiPPK(List<AtkModel> md){
+        AdapterPerkaraVerif adapterPerkaraVerif = new AdapterPerkaraVerif(requireContext(),md);
+        binding.listNotification.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+        binding.listNotification.setAdapter(adapterPerkaraVerif);
+        binding.shimer.stopShimmer();
+        binding.shimer.setVisibility(View.GONE);
+    }
+
 
     public void ListNotif(List<PerkaraModel> md){
         md = new ArrayList<>();
@@ -135,6 +167,7 @@ public class Layer_Home extends Fragment {
                 BaseModel data = response.body();
                 if (Calling.TreatResponse(requireContext(), "logout", data)) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("token");
                     editor.clear();
                     editor.apply();
                     BaseModel.i.token = "";
@@ -152,8 +185,8 @@ public class Layer_Home extends Fragment {
 
     public void ListUsers(List<UserModel> md){
         adapterAllUsers = new AdapterAllUsers(md,requireContext());
-        binding.listNotification.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
-        binding.listNotification.setAdapter(adapterAllUsers);
+        binding.listUserss.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+        binding.listUserss.setAdapter(adapterAllUsers);
         adapterAllUsers.notifyDataSetChanged();
         binding.shimer.stopShimmer();
         binding.shimer.setVisibility(View.GONE);

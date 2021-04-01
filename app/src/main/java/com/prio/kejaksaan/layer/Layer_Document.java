@@ -117,25 +117,25 @@ public class Layer_Document extends Fragment {
         });
     }
 
-    public void GetTugasJurusita(){
-        Call<PerkaraModel> call = BaseModel.i.getService().TugasJurusita(BaseModel.i.token);
-        call.enqueue(new Callback<PerkaraModel>() {
-            @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel baseModel = response.body();
-                if (Calling.TreatResponse(requireContext(),"Notify Jurusita", baseModel)){
-                    assert baseModel != null;
-                    PerkaraModel.notifyJurusita = baseModel.data.perkara;
-                    showTabs(true);
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
-    }
+//    public void GetTugasJurusita(){
+//        Call<PerkaraModel> call = BaseModel.i.getService().TugasJurusita(BaseModel.i.token);
+//        call.enqueue(new Callback<PerkaraModel>() {
+//            @Override
+//            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
+//                PerkaraModel baseModel = response.body();
+//                if (Calling.TreatResponse(requireContext(),"Notify Jurusita", baseModel)){
+//                    assert baseModel != null;
+//                    PerkaraModel.notifyJurusita = baseModel.data.perkara;
+//                    showTabs(true);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+//                Log.e(TAG, "onFailure: ", t);
+//            }
+//        });
+//    }
 
     public void JurusitaSurat(){
         Call<SuratModel> call = BaseModel.i.getService().AllJurusitaTugas(BaseModel.i.token);
@@ -158,21 +158,21 @@ public class Layer_Document extends Fragment {
     }
 
 //    public void GetTugasPPK(){
-//        Call<PerkaraModel> call = BaseModel.i.getService().TugasPPK(BaseModel.i.token);
-//        call.enqueue(new Callback<PerkaraModel>() {
+//        Call<SuratModel> call = BaseModel.i.getService().TugasPPK(BaseModel.i.token);
+//        call.enqueue(new Callback<SuratModel>() {
 //            @Override
-//            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-//                PerkaraModel baseModel = response.body();
+//            public void onResponse(@NotNull Call<SuratModel> call, @NotNull Response<SuratModel> response) {
+//                SuratModel baseModel = response.body();
 //                if (Calling.TreatResponse(requireContext(),"Notify PPK", baseModel)){
-//                    assert baseModel != null;
-//                    PerkaraModel.notifyPPK = baseModel.data.perkara;
-//                    Log.i(TAG, "onResponse: " + baseModel.data.perkara);
-//                    showTabs();
+//                    surat_list = baseModel;
+//                    showTabs(true);
+////                    PerkaraModel.notifyPPK = baseModel.data.perkara;
+////                    Log.i(TAG, "onResponse: " + baseModel.data.perkara);
 //                }
 //            }
 //
 //            @Override
-//            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+//            public void onFailure(@NotNull Call<SuratModel> call, @NotNull Throwable t) {
 //                Log.e(TAG, "onFailure: ", t);
 //            }
 //        });

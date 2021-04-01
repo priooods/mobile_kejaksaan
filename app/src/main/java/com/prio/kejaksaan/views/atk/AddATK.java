@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -131,14 +132,12 @@ public class AddATK extends DialogFragment {
             });
         });
 
-        binding.prosesid.setOnFocusChangeListener((view, b) -> {
-            //TODO: Ini untuk permintaan prosess_id Atk barusan tadi
-            //TODO: value dari text proses id itu (binding.prosesid)
+        binding.prosesid.setOnItemClickListener((parent, view, eposition, id) -> {
             if (prosessname !=null) {
-                binding.prosesid.setDropDownBackgroundDrawable(new ColorDrawable(this.getResources().getColor(R.color.colorPrimary)));
-                ArrayAdapter<String> adapterprosesid = new ArrayAdapter<>(this.requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, prosessname);
+                binding.prosesid.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+                ArrayAdapter<String> adapterprosesid = new ArrayAdapter<>(requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, prosessname);
                 binding.prosesid.setAdapter(adapterprosesid);
-                binding.prosesid.setOnItemClickListener((parent, eview, position, id) -> {
+                binding.prosesid.setOnItemClickListener((eparent, eview, position, eid) -> {
                     //TODO: ini nanti di set proses id nya dan AtkMode.atklist diganti berdasarkan response
                     prosesId = prosesid[position];
                     binding.prosesid.clearFocus();
