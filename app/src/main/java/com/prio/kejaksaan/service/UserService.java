@@ -1,9 +1,12 @@
 package com.prio.kejaksaan.service;
 
+import com.prio.kejaksaan.model.AtkItemModel;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
+import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
+import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 
 import java.util.List;
@@ -25,7 +28,7 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("login")
-    Call<BaseModel> Login(
+    Call<UserModel> Login(
             @Field("name") String name,
             @Field("password") String password
     );
@@ -66,7 +69,7 @@ public interface UserService {
     );
 
     @GET("perkara/all")
-    Call<List<PerkaraModel>> AllPerkara();
+    Call<PerkaraListModel> AllPerkara();
 
     @FormUrlEncoded
     @POST("perkara/create")
@@ -103,21 +106,21 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("atk/add")
-    Call<AtkModel> AddATK(
+    Call<AtkItemModel> AddATK(
             @Field("name") String name,
-            @Field("keterangan") String keterangan,
-            @Field("jumlah") int jumlah
+            @Query("keterangan") String keterangan,
+            @Field("jumlah") Integer jumlah
     );
 //tugas/jurusita
     @GET("atk/show")
-    Call<List<AtkModel>> AllAtk();
+    Call<AtkItemModel> AllAtk();
 
     @GET("perkara/proses/show")
-    Call<PerkaraModel> PerkaraSudahDiProsess();
+    Call<PerkaraListModel> PerkaraSudahDiProsess();
 
     @FormUrlEncoded
     @POST("perkara/pp")
-    Call<PerkaraModel> PerkaraPP(
+    Call<PerkaraListModel> PerkaraPP(
             @Field("token") String token
     );
 
@@ -132,8 +135,14 @@ public interface UserService {
     );
 
     @FormUrlEncoded
-    @POST("perkara/jurusita")
-    Call<PerkaraModel> AllJurusitaPerkara(
+    @POST("perkara/proses/request")
+    Call<List<PerkaraListModel.Proses>> PerkaraProsesPP(
+            @Field("token") String token
+    );
+
+//    @FormUrlEncoded
+    @GET("perkara/jurusita")
+    Call<PerkaraListModel> AllJurusitaPerkara(
             @Field("token") String token
     );
 
@@ -145,12 +154,12 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("tugas/jurusita/all")
-    Call<DocumentModel> AllJurusitaTugas(
+    Call<SuratModel> AllJurusitaTugas(
             @Field("token") String token
     );
     @FormUrlEncoded
     @POST("tugas/all")
-    Call<DocumentModel> AllPanmudSurat(
+    Call<SuratModel> AllPanmudSurat(
             @Field("token") String token
     );
 
@@ -161,8 +170,8 @@ public interface UserService {
     );
 
     @FormUrlEncoded
-    @POST("tugas/ppk/all")
-    Call<DocumentModel> AllPPkTugas(
+    @POST("tugas/ppk/show")
+    Call<SuratModel> AllPPkTugas(
             @Field("token") String token
     );
 
@@ -184,7 +193,7 @@ public interface UserService {
 
     @Multipart
     @POST("tugas/bukti")
-    Call<DocumentModel> AddJurusitaSurat(
+    Call<SuratModel.Alone> AddJurusitaSurat(
             @Query("token") String token
             ,@Query("id") int id
             ,@Part MultipartBody.Part surat
@@ -194,6 +203,7 @@ public interface UserService {
     @POST("atk/req")
     Call<AtkModel> ReqATK(
             @Query("token") String token
+            ,@Query("proses_id") int proses_id
             ,@PartMap Map<String, RequestBody> form
     );
 
@@ -208,6 +218,10 @@ public interface UserService {
     Call<AtkModel> ATkreqPP(
             @Field("token") String token
     );
+
+    @GET("atk/all")
+    Call<List<AtkItemModel.Item>> AtkList();
+
 
     @FormUrlEncoded
     @POST("atk/ppk")
@@ -255,6 +269,7 @@ public interface UserService {
     @POST("bayar/create")
     Call<PerkaraModel> BayarCreate(
             @Query("token") String token
+            ,@Query("surat_id") Integer surat_id
             ,@Part MultipartBody.Part bayar
     );
 

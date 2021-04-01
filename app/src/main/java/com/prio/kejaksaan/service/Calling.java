@@ -15,7 +15,9 @@ public class Calling {
     @SerializedName("error_message")
     public String desc;
 
-    public static boolean TreatResponse(Context context, String tag, @Nullable Calling data) {
+    public static boolean TreatResponse(@Nullable Context context, String tag, @Nullable Calling data) {
+        if (context == null)
+            return false;
         if (data != null)
             return data.TreatResponse(context, tag);
         else

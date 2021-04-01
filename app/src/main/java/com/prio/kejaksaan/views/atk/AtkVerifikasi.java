@@ -86,7 +86,9 @@ public class AtkVerifikasi extends Fragment {
             @Override
             public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
                 AtkModel atkModel = response.body();
-                if(Calling.TreatResponse(requireContext(),"req atk Log", atkModel)){
+                if (getContext() == null)
+                    return;
+                if(Calling.TreatResponse(getContext(),"req atk Log", atkModel)){
                     assert atkModel != null;
                     adapterSelainLogistik = new AdapterSelainLogistik(requireContext(), atkModel.data);
                     binding.listAtkReq.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));

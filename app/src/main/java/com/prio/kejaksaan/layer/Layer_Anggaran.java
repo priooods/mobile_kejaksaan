@@ -25,6 +25,7 @@ import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
+import com.prio.kejaksaan.model.PembayaranModel;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
@@ -47,33 +48,35 @@ public class Layer_Anggaran extends Fragment {
 
     FragAnggaranBinding binding;
     AdapterAnggaran adapterAnggaran;
+    public List<PembayaranModel.Item> model;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragAnggaranBinding.inflate(inflater,container,false);
         binding.shimer.startShimmer();
-        switch (UserModel.i.type){
-            case "PPK":
-            case "Ketua":
-                ListforPPK();
-                binding.btnAddNew.setOnClickListener(v -> {
-                    DocumentModel.ShowDetailDocument = 6;
-                    DialogFragment dialogFragment = new AddDocument();
-                    dialogFragment.show(requireActivity().getSupportFragmentManager(),"Add Document");
-                });
-                break;
-            case "Bendahara":
-                binding.btnAddNew.setVisibility(View.GONE);
-                ListforBendahara();
-                break;
-        }
-
+        binding.btnAddNew.setVisibility(View.GONE);
+        ListPembayaran();
+//        switch (UserModel.i.type){
+//            case "PPK":
+//            case "Ketua":
+//                ListPembayaran();
+////                binding.btnAddNew.setOnClickListener(v -> {
+//////                    DocumentModel.ShowDetailDocument = 6;
+////                    DialogFragment dialogFragment = new AddDocument(6);
+////                    dialogFragment.show(requireActivity().getSupportFragmentManager(),"Add Document");
+////                });
+//                break;
+//            case "Bendahara":
+////                binding.btnAddNew.setVisibility(View.GONE);
+//                ListPembayaran();
+//                break;
+//        }
 
         return binding.getRoot();
     }
 
-    public void ListforPPK(){
+    public void ListPembayaran(){
         Call<AtkModel> call = BaseModel.i.getService().PembyaranALLPPK();
         call.enqueue(new Callback<AtkModel>() {
             @Override
@@ -81,7 +84,7 @@ public class Layer_Anggaran extends Fragment {
                 AtkModel data = response.body();
                 if (Calling.TreatResponse(requireContext(),"Calling Pembayaran", data)){
                     assert data != null;
-                    adapterAnggaran = new AdapterAnggaran(requireContext(), data.data);
+//                    adapterAnggaran = new AdapterAnggaran(requireContext(), data.data);
                     binding.listanggaran.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
                     binding.listanggaran.setHasFixedSize(true);
                     binding.listanggaran.setAdapter(adapterAnggaran);
@@ -97,36 +100,36 @@ public class Layer_Anggaran extends Fragment {
         });
     }
 
-    public void ListforBendahara(){
-        Call<AtkModel> call = BaseModel.i.getService().PembayaranAllBendahara(BaseModel.i.token);
-        call.enqueue(new Callback<AtkModel>() {
-            @Override
-            public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
-                AtkModel data = response.body();
-                if (Calling.TreatResponse(requireContext(),"Calling Pembayaran", data)){
-                    assert data != null;
-                    adapterAnggaran = new AdapterAnggaran(requireContext(), data.data);
-                    binding.listanggaran.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
-                    binding.listanggaran.setHasFixedSize(true);
-                    binding.listanggaran.setAdapter(adapterAnggaran);
-                    binding.shimer.stopShimmer();
-                    binding.shimer.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<AtkModel> call, @NotNull Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
-    }
+//    public void ListforBendahara(){
+//        Call<AtkModel> call = BaseModel.i.getService().PembayaranAllBendahara(BaseModel.i.token);
+//        call.enqueue(new Callback<AtkModel>() {
+//            @Override
+//            public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
+//                AtkModel data = response.body();
+//                if (Calling.TreatResponse(requireContext(),"Calling Pembayaran", data)){
+//                    assert data != null;
+//                    adapterAnggaran = new AdapterAnggaran(requireContext(), data.data);
+//                    binding.listanggaran.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+//                    binding.listanggaran.setHasFixedSize(true);
+//                    binding.listanggaran.setAdapter(adapterAnggaran);
+//                    binding.shimer.stopShimmer();
+//                    binding.shimer.setVisibility(View.GONE);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NotNull Call<AtkModel> call, @NotNull Throwable t) {
+//                Log.e(TAG, "onFailure: ", t);
+//            }
+//        });
+//    }
 
     public static class AdapterAnggaran extends RecyclerView.Adapter<AdapterAnggaran.vHolder>{
 
         Context context;
-        List<AtkModel> models;
+        List<PembayaranModel.Item> models;
 
-        public AdapterAnggaran(Context context, List<AtkModel> models) {
+        public AdapterAnggaran(Context context, List<PembayaranModel.Item> models) {
             this.context = context;
             this.models = models;
         }
@@ -140,16 +143,23 @@ public class Layer_Anggaran extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
             holder.binding.dakwaan.setVisibility(View.GONE);
-            holder.binding.namaTerdakwa.setText(models.get(position).fullname);
-            holder.binding.t1.setText("Surat");
-            holder.binding.t2.setText("Kwitansi");
-            holder.binding.v1.setText(models.get(position).surat);
-            holder.binding.v2.setTextColor(context.getColor(R.color.red));
-            holder.binding.v2.setText("Unverified");
-            if (models.get(position).kuitansi != null){
-                holder.binding.v2.setText(models.get(position).kuitansi);
-                holder.binding.v2.setTextColor(context.getColor(R.color.colorPrimary));
+            holder.binding.namaTerdakwa.setText(models.get(position).surat_tugas.tipe);
+            holder.binding.t1.setText("Dibuat");
+            holder.binding.t2.setText("Dibayar");
+            holder.binding.v1.setText(models.get(position).created);
+            if (models.get(position).kuitansi ==null){
+                holder.binding.v2.setTextColor(context.getColor(R.color.red));
+                holder.binding.v2.setText("Belum");
+            }else{
+                holder.binding.v2.setTextColor(context.getColor(R.color.green));
+                holder.binding.v2.setText("Sudah");
             }
+//            if (models.get(position).kuitansi != null){
+//                holder.binding.v2.setText(models.get(position).holder.binding.v2.setText("Belum"););
+//                holder.binding.v2.setTextColor(context.getColor(R.color.colorPrimary));
+//            }else{
+//
+//            }
 
             holder.binding.l3.setVisibility(View.GONE);
             holder.binding.l4.setVisibility(View.GONE);
@@ -158,11 +168,11 @@ public class Layer_Anggaran extends Fragment {
 
             if (UserModel.i.type.equals("Bendahara")){
                 holder.binding.card.setOnClickListener(v -> {
-                    DocumentModel.ShowDetailDocument = 7;
-                    AtkModel.i = models.get(position);
+//                    DocumentModel.ShowDetailDocument = 7;
+//                    AtkModel.i = models.get(position);
                     FragmentActivity frg = (FragmentActivity)(context);
                     FragmentManager mrg = frg.getSupportFragmentManager();
-                    DialogFragment fragment = new AddDocument();
+                    DialogFragment fragment = new AddDocument(7);
                     fragment.show(mrg,"Add Document");
                 });
             } else {

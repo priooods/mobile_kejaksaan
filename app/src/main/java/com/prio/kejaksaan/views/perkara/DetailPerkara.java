@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,9 +21,12 @@ import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.DialogDetailPerkaraBinding;
 import com.prio.kejaksaan.layer.Layer_Perkara;
 import com.prio.kejaksaan.model.BaseModel;
+import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
+import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
+import com.prio.kejaksaan.views.document.AddDocument;
 import com.valdesekamdem.library.mdtoast.MDToast;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -49,15 +54,17 @@ public class DetailPerkara extends DialogFragment {
 
     DialogDetailPerkaraBinding binding;
     String days, tanggals;
+    PerkaraListModel.Item model;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogDetailPerkaraBinding.inflate(inflater,container,false);
 
+        model = PerkaraListModel.i;
         switch (UserModel.i.type){
             case "SuperUser":
-            case "KPA":
+//            case "KPA":
             case "Panitera":
                 if (PerkaraModel.statusPerkara != 2){
                     binding.btnupdatePerkara.setVisibility(View.VISIBLE);
@@ -70,6 +77,18 @@ public class DetailPerkara extends DialogFragment {
                     });
                 }
                 break;
+            case "Panmud":
+                    binding.btnsuratCreate.setVisibility(View.VISIBLE);
+                    binding.btnsuratCreate.setOnClickListener(v -> {
+//                    SuratModel.i = models.get(position);
+                        FragmentActivity frg = (FragmentActivity) (getContext());
+                        FragmentManager mrg = frg.getSupportFragmentManager();
+                        DialogFragment fragment = null;
+
+                        fragment = new AddDocument(1, model);
+                        fragment.show(mrg, "Detail Surat");
+                    });
+                break;
             case "PP":
                 if (PerkaraModel.statusPerkara == 1){
                     binding.btnprosesPerkara.setVisibility(View.VISIBLE);
@@ -77,9 +96,9 @@ public class DetailPerkara extends DialogFragment {
                 break;
         }
 
-        SimpleDateFormat fr = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
+//        SimpleDateFormat fr = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
         SimpleDateFormat tex = new SimpleDateFormat("dd MMMM YYYY", Locale.ENGLISH);
-        Calendar c = Calendar.getInstance();
+//        Calendar c = Calendar.getInstance();
         Calendar d = Calendar.getInstance();
 
 
@@ -87,31 +106,31 @@ public class DetailPerkara extends DialogFragment {
             binding.status.setText("Sudah");
             binding.status.setTextColor(getResources().getColor(R.color.green));
             binding.r2.setVisibility(View.VISIBLE);
-            for (PerkaraModel md : PerkaraModel.perkaradiproses){
-                if (md.perkara_id == PerkaraModel.i.id){
-                    try {
-                        d.setTime(Objects.requireNonNull(fr.parse(md.tanggal)));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    binding.agenda.setText(md.agenda);
-                    binding.tanggalProsess.setText(md.hari+", "+tex.format(d.getTime()));
-                }
-            }
+//            for (PerkaraListModel md : PerkaraListModel.i){
+//                if (md.perkara_id == model.id){
+//                    try {
+//                        d.setTime(Objects.requireNonNull(fr.parse(md.tanggal)));
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+                    binding.agenda.setText(model.proses.agenda);
+                    binding.tanggalProsess.setText(model.proses.hari+", "+tex.format(d.getTime()));
+//                }
+//            }
         }
 
-        try {
-            c.setTime(Objects.requireNonNull(fr.parse(PerkaraModel.i.tanggal)));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        binding.tanggal.setText(tex.format(c.getTime()));
-        binding.nama.setText(PerkaraModel.i.identitas);
-        binding.dakwaan.setText(PerkaraModel.i.dakwaan);
-        binding.jenisPerkara.setText(PerkaraModel.i.jenis);
+//        try {
+//            c.setTime(Objects.requireNonNull(fr.parse(model.tanggal)));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        binding.tanggal.setText(tex.format(c.getTime()));
+        binding.nama.setText(model.identitas);
+        binding.dakwaan.setText(model.dakwaan);
+        binding.jenisPerkara.setText(model.jenis);
         binding.backpress.setOnClickListener(v->dismiss());
-        binding.nomor.setText(PerkaraModel.i.nomor);
-        binding.penahanan.setText(PerkaraModel.i.penahanan);
+        binding.nomor.setText(model.nomor);
+        binding.penahanan.setText(model.penahanan);
         switch (UserModel.i.type){
             case "PP":
             case "Jurusita":
@@ -119,8 +138,8 @@ public class DetailPerkara extends DialogFragment {
                 binding.l8.setVisibility(View.GONE);
                 break;
         }
-        binding.ppName.setText(PerkaraModel.i.fullname_pp);
-        binding.jurusitaName.setText(PerkaraModel.i.fullname_jurusita);
+        binding.ppName.setText(model.fullname_pp);
+        binding.jurusitaName.setText(model.fullname_jurusita);
 
         binding.addTanggalProsess.setOnClickListener(v -> ShowDateTime(binding.addTanggalProsess));
 
@@ -142,14 +161,14 @@ public class DetailPerkara extends DialogFragment {
     }
 
     public void DeletePerkara(){
-        Call<BaseModel> call = BaseModel.i.getService().DeletePerkara(PerkaraModel.i.id);
+        Call<BaseModel> call = BaseModel.i.getService().DeletePerkara(model.id);
         call.enqueue(new Callback<BaseModel>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(@NotNull Call<BaseModel> call, @NotNull Response<BaseModel> response) {
                 BaseModel data = response.body();
                 if (Calling.TreatResponse(requireContext(),"Delete Perkara", data)){
-                    PerkaraModel.listperkara.removeIf(ise -> ise.id == PerkaraModel.i.id);
+                    PerkaraModel.listperkara.removeIf(ise -> ise.id == model.id);
                     assert data != null;
                     MDToast.makeText(requireContext(), "Successfuly Deleted Perkara", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
@@ -172,32 +191,32 @@ public class DetailPerkara extends DialogFragment {
 
     public void AddProsesPerkara(){
         Call<PerkaraModel> call = BaseModel.i.getService().PerkaraAddProses(BaseModel.i.token,tanggals,
-                String.valueOf(PerkaraModel.i.id),
+                String.valueOf(model.id),
                 days, Objects.requireNonNull(binding.addAgenda.getText()).toString());
         call.enqueue(new Callback<PerkaraModel>() {
             @Override
             public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
                 PerkaraModel data = response.body();
                 if (Calling.TreatResponse(requireContext(),"Add Proses", data)){
-                    SimpleDateFormat fr = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
-                    SimpleDateFormat tex = new SimpleDateFormat("dd MMMM YYYY", Locale.ENGLISH);
-                    Calendar d = Calendar.getInstance();
-                    assert data != null;
-                    try {
-                        d.setTime(Objects.requireNonNull(fr.parse(data.data.tanggal)));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    PerkaraModel.perkaradiproses.add(data.data);
-                    binding.agenda.setText(data.data.agenda);
-                    binding.tanggalProsess.setText(data.data.hari+", "+tex.format(d.getTime()));
-                    binding.status.setText("Sudah");
-                    binding.status.setTextColor(getResources().getColor(R.color.green));
-                    binding.btnCancelprosesPerkara.setVisibility(View.GONE);
-                    binding.btnprosesPerkara.setVisibility(View.GONE);
-                    binding.r3.setVisibility(View.GONE);
-                    binding.r2.setVisibility(View.VISIBLE);
-                    assert getFragmentManager() != null;
+//                    SimpleDateFormat fr = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
+//                    SimpleDateFormat tex = new SimpleDateFormat("dd MMMM YYYY", Locale.ENGLISH);
+//                    Calendar d = Calendar.getInstance();
+//                    assert data != null;
+//                    try {
+//                        d.setTime(Objects.requireNonNull(fr.parse(data.data.tanggal)));
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//                    PerkaraModel.perkaradiproses.add(data.data);
+//                    binding.agenda.setText(data.data.agenda);
+//                    binding.tanggalProsess.setText(data.data.hari+", "+tex.format(d.getTime()));
+//                    binding.status.setText("Sudah");
+//                    binding.status.setTextColor(getResources().getColor(R.color.green));
+//                    binding.btnCancelprosesPerkara.setVisibility(View.GONE);
+//                    binding.btnprosesPerkara.setVisibility(View.GONE);
+//                    binding.r3.setVisibility(View.GONE);
+//                    binding.r2.setVisibility(View.VISIBLE);
+//                    assert getFragmentManager() != null;
                     Layer_Perkara perkara = (Layer_Perkara) getFragmentManager().findFragmentByTag("perkara");
                     FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                     assert perkara != null;

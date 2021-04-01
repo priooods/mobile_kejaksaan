@@ -37,7 +37,7 @@ public class PerkaraModel extends Calling {
 
 
     public static List<PerkaraModel> perkaradiproses;
-    public static List<PerkaraModel> listperkara;
+    public static List<PerkaraListModel.Item> listperkara;
     public static List<PerkaraModel> notifyJurusita;
     public static List<PerkaraModel> notifyPPK;
 

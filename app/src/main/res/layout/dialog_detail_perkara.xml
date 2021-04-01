@@ -366,7 +366,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="15dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/l9"
                 android:id="@+id/r2">
@@ -542,72 +542,87 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/r3"
+                app:layout_constraintTop_toBottomOf="@id/r2"
                 android:layout_marginTop="35dp">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btndeletePerkara"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:visibility="gone"
                     android:layout_height="40dp"
                     android:layout_marginEnd="4dp"
-                    app:layout_constraintTop_toBottomOf="@id/l7"
+                    android:layout_weight="1"
                     android:background="@drawable/button_colors"
+                    android:fontFamily="@font/gopher_bold"
                     android:text="Delete Perkara"
-                    android:textColor="@color/colorPrimary"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/gopher_bold"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="12sp"
-                    android:id="@+id/btndeletePerkara"/>
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/l7" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnupdatePerkara"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:visibility="gone"
                     android:layout_height="40dp"
                     android:layout_marginStart="4dp"
-                    app:layout_constraintTop_toBottomOf="@id/l7"
+                    android:layout_weight="1"
                     android:background="@drawable/button_colors"
+                    android:fontFamily="@font/gopher_bold"
                     android:text="Update Perkara"
+                    android:textAllCaps="false"
                     android:textColor="@color/colorPrimary"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/gopher_bold"
                     android:textSize="12sp"
-                    android:id="@+id/btnupdatePerkara"/>
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/l7" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCancelprosesPerkara"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:visibility="gone"
+                    android:layout_height="40dp"
                     android:layout_marginEnd="4dp"
-                    android:layout_height="40dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/l7"
+                    android:layout_weight="1"
                     android:background="@drawable/button_orange"
-                    app:backgroundTint="@color/orange"
-                    android:text="Cancel"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
                     android:fontFamily="@font/gopher_bold"
+                    android:text="Cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:id="@+id/btnCancelprosesPerkara"/>
+                    android:visibility="gone"
+                    app:backgroundTint="@color/orange"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/l7" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnprosesPerkara"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:layout_marginStart="4dp"
                     android:layout_height="40dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/l7"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
                     android:background="@drawable/button_style"
-                    app:backgroundTint="@color/colorPrimaryDark"
-                    android:text="Prosess Perkara"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
                     android:fontFamily="@font/gopher_bold"
+                    android:text="Prosess Perkara"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
                     android:textSize="12sp"
-                    android:id="@+id/btnprosesPerkara"/>
+                    android:visibility="gone"
+                    app:backgroundTint="@color/colorPrimaryDark"
+                    app:layout_constraintTop_toBottomOf="@id/l7" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnsuratCreate"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_style"
+                    android:fontFamily="@font/gopher_bold"
+                    android:text="Buat Surat"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:backgroundTint="@color/colorPrimaryDark"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
             </LinearLayout>
 

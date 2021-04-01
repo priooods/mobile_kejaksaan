@@ -14,16 +14,8 @@ public class BaseModel extends Calling {
     }
 
     private UserService service;
-    public String name;
-    public String password;
-    public String message;
     public String token;
-
-    public BaseModel(String name, String password){
-        this.name = name;
-        this.password = password;
-    }
-
+    public BaseModel(){}
     public BaseModel(String tokens){
         this.token = tokens;
     }
@@ -34,10 +26,6 @@ public class BaseModel extends Calling {
         }
         return service;
     }
-
-    //Bantuan
-
-    //for User Add Page
     public static int CheckType;
     public static int StatusPerkara;
 }

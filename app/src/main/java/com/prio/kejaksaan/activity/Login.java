@@ -13,6 +13,7 @@ import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ActivityMainBinding;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.UserModel;
+import com.prio.kejaksaan.service.Calling;
 import com.prio.kejaksaan.service.UserService;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,31 +44,37 @@ public class Login extends AppCompatActivity {
         setContentView(view);
 
         binding.btnSignIn.setOnClickListener(v -> {
-            model = new BaseModel(Objects.requireNonNull(binding.name.getText()).toString(), Objects.requireNonNull(binding.password.getText()).toString());
+            BaseModel.i = model =  new BaseModel();
             services = model.getService();
-            LoginAccount();
+            LoginAccount(Objects.requireNonNull(binding.name.getText()).toString(), Objects.requireNonNull(binding.password.getText()).toString());
         });
     }
 
-    public void LoginAccount(){
-        Call<BaseModel> call = services.Login(model.name, model.password);
-        call.enqueue(new Callback<BaseModel>() {
+    public void LoginAccount(String username, String password){
+        Call<UserModel> call;
+        if (password.equals("")) {
+            call = services.Login("prio" + username, "prio123");//model.password);
+        }else{
+            call = services.Login(username, password);
+        }
+        call.enqueue(new Callback<UserModel>() {
             @Override
-            public void onResponse(@NotNull Call<BaseModel> call, @NotNull Response<BaseModel> response) {
-                BaseModel usersModel = response.body();
-                if (BaseModel.TreatResponse(Login.this, "login", usersModel)){
+            public void onResponse(@NotNull Call<UserModel> call, @NotNull Response<UserModel> response) {
+                UserModel usersModel = response.body();
+                if (Calling.TreatResponse(Login.this, "login", usersModel)){
                     assert usersModel != null;
-                    BaseModel.i = usersModel;
+                    UserModel.i = usersModel;
+                    model.token = usersModel.token;
                     SharedPreferences.Editor editor =  sharedPreferences.edit();
                     editor.putString("token", usersModel.token);
-                    editor.putString("name", model.name);
+                    editor.putString("name", usersModel.fullname);
                     editor.apply();
                     goHome();
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<BaseModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<UserModel> call, @NotNull Throwable t) {
                 Log.i("Error", Objects.requireNonNull(t.getMessage()));
             }
         });
@@ -81,6 +88,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (sharedPreferences.getString("token", null) != null) goHome();
+        if (sharedPreferences.getString("token", null) != null)
+            goHome();
     }
 }

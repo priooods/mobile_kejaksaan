@@ -2,6 +2,7 @@ package com.prio.kejaksaan.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -59,10 +60,12 @@ public class BaseActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("session", Context.MODE_PRIVATE);
 
-        if (!BaseModel.isExist()) {
+        if (!BaseModel.isExist() || UserModel.i == null) {
             BaseModel.i = new BaseModel(sharedPreferences.getString("token", null));
+            GettingDetail();
+        }else{
+            Dashboard();
         }
-        GettingDetail();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new Layer_Home(),"home").commit();
 
@@ -102,42 +105,12 @@ public class BaseActivity extends AppCompatActivity {
                 UserModel data = response.body();
                 if (Calling.TreatResponse(BaseActivity.this, "profile", data)) {
                     assert data != null;
+                    UserModel.i = data.data;
+                    Dashboard();
+                }else{
                     binding.progress.setVisibility(View.GONE);
                     binding.bottomNavigation.setVisibility(View.VISIBLE);
-                    UserModel.i = data.data;
-                    switch (UserModel.i .type){
-                        case "PP":
-                            binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
-                            binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
-                            break;
-                        case "Jurusita":
-                            binding.bottomNavigation.getMenu().findItem(R.id.persediaan).setVisible(false);
-                            binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
-                            break;
-                        case "Panitera":
-                            binding.bottomNavigation.getMenu().findItem(R.id.persediaan).setVisible(false);
-                            binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
-                            binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
-                            break;
-                        case "Panmud":
-                            binding.bottomNavigation.getMenu().findItem(R.id.perkara).setVisible(false);
-                            binding.bottomNavigation.getMenu().findItem(R.id.persediaan).setVisible(false);
-                            binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
-                            break;
-                        case "PPK":
-                            binding.bottomNavigation.getMenu().findItem(R.id.perkara).setVisible(false);
-                            break;
-                        case "Pengelola Persediaan":
-                            binding.bottomNavigation.getMenu().findItem(R.id.perkara).setVisible(false);
-                            binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
-                            binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
-                            break;
-                        case "Bendahara":
-                            binding.bottomNavigation.getMenu().findItem(R.id.perkara).setVisible(false);
-                            binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
-                            binding.bottomNavigation.getMenu().findItem(R.id.persediaan).setVisible(false);
-                            break;
-                    }
+                    goLogin();
                 }
             }
 
@@ -146,6 +119,51 @@ public class BaseActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: ", t);
             }
         });
+    }
+    private void goLogin(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        startActivity(new Intent(BaseActivity.this,Login.class));
+        finish();
+    }
+    public void Dashboard(){
+        binding.progress.setVisibility(View.GONE);
+        binding.bottomNavigation.setVisibility(View.VISIBLE);
+        switch (UserModel.i.type){
+            case "PP":
+                binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
+                break;
+            case "Jurusita":
+                binding.bottomNavigation.getMenu().findItem(R.id.persediaan).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.perkara).setVisible(false);
+                break;
+            case "Panitera":
+                binding.bottomNavigation.getMenu().findItem(R.id.persediaan).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
+                break;
+            case "Panmud":
+                binding.bottomNavigation.getMenu().findItem(R.id.perkara).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.persediaan).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
+                break;
+            case "PPK":
+                binding.bottomNavigation.getMenu().findItem(R.id.perkara).setVisible(false);
+                break;
+            case "Pengelola Persediaan":
+                binding.bottomNavigation.getMenu().findItem(R.id.perkara).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
+                break;
+            case "Bendahara":
+                binding.bottomNavigation.getMenu().findItem(R.id.perkara).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
+                binding.bottomNavigation.getMenu().findItem(R.id.persediaan).setVisible(false);
+                break;
+        }
     }
 
     public void Permission(){

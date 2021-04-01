@@ -18,7 +18,9 @@ import com.prio.kejaksaan.adapter.AdapterPerkara;
 import com.prio.kejaksaan.adapter.AdapterSurat;
 import com.prio.kejaksaan.databinding.FragPerkaraBinding;
 import com.prio.kejaksaan.model.BaseModel;
+import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
+import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
 import com.prio.kejaksaan.views.perkara.AddPerkara;
@@ -90,15 +92,14 @@ public class Layer_Perkara extends Fragment {
         return binding.getRoot();
     }
 
-    public void storeAdapter(List<PerkaraModel> md){
+    public void storeAdapter(List<PerkaraListModel.Item> md){
         adapterPerkara = new AdapterPerkara(md, requireContext());
         binding.listPerkara.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
         binding.listPerkara.setHasFixedSize(true);
         binding.listPerkara.setAdapter(adapterPerkara);
     }
 
-
-    public void storeAdapterPanMud(List<PerkaraModel> md){
+    public void storeAdapterPanMud(List<SuratModel.Item> md){
         adapterSurat = new AdapterSurat(requireContext(),md);
         binding.listPerkara.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
         binding.listPerkara.setHasFixedSize(true);
@@ -107,36 +108,38 @@ public class Layer_Perkara extends Fragment {
 
 
     public void GettAllPerkaraPP(){
-        Call<PerkaraModel> call = BaseModel.i.getService().PerkaraPP(BaseModel.i.token);
-        call.enqueue(new Callback<PerkaraModel>() {
+        Call<PerkaraListModel> call = BaseModel.i.getService().PerkaraPP(BaseModel.i.token);
+        call.enqueue(new Callback<PerkaraListModel>() {
             @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel baseModel = response.body();
+            public void onResponse(@NotNull Call<PerkaraListModel> call, @NotNull Response<PerkaraListModel> response) {
+                PerkaraListModel baseModel = response.body();
+                if (getContext()==null)
+                    return;
                 if (Calling.TreatResponse(requireContext(), "All Perkara by PP", baseModel)){
                     assert baseModel != null;
-                    PerkaraModel.listperkara = baseModel.data.perkara;
-                    storeAdapter(PerkaraModel.listperkara);
+                    PerkaraModel.listperkara = baseModel.data;
+                    storeAdapter(baseModel.data);
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<PerkaraListModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t );
             }
         });
     }
 
     public void GettAllPerkaraJurusita(){
-        Call<PerkaraModel> call = BaseModel.i.getService().AllJurusitaPerkara(BaseModel.i.token);
-        call.enqueue(new Callback<PerkaraModel>() {
+        Call<PerkaraListModel> call = BaseModel.i.getService().AllJurusitaPerkara(BaseModel.i.token);
+        call.enqueue(new Callback<PerkaraListModel>() {
             @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel baseModel = response.body();
+            public void onResponse(@NotNull Call<PerkaraListModel> call, @NotNull Response<PerkaraListModel> response) {
+                PerkaraListModel baseModel = response.body();
                 if (Calling.TreatResponse(requireContext(), "All Perkara by Jurusita", baseModel)){
                     assert baseModel != null;
-                    PerkaraModel.listperkara = baseModel.data.perkara;
+                    PerkaraModel.listperkara = baseModel.data;
                     storeAdapter(PerkaraModel.listperkara);
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
@@ -144,44 +147,47 @@ public class Layer_Perkara extends Fragment {
             }
 
             @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<PerkaraListModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t );
             }
         });
     }
 
     public void GettAllPerkara(){
-        Call<List<PerkaraModel>> call = BaseModel.i.getService().AllPerkara();
-        call.enqueue(new Callback<List<PerkaraModel>>() {
+        Call<PerkaraListModel> call = BaseModel.i.getService().AllPerkara();
+        call.enqueue(new Callback<PerkaraListModel>() {
             @Override
-            public void onResponse(@NotNull Call<List<PerkaraModel>> call, @NotNull Response<List<PerkaraModel>> response) {
-                PerkaraModel.listperkara = response.body();
-                binding.shimer.stopShimmer();
-                binding.shimer.setVisibility(View.GONE);
-                storeAdapter(PerkaraModel.listperkara);
+            public void onResponse(@NotNull Call<PerkaraListModel> call, @NotNull Response<PerkaraListModel> response) {
+                PerkaraListModel baseModel = response.body();
+                if (Calling.TreatResponse(requireContext(), "All Perkara by Jurusita", baseModel)) {
+                    PerkaraModel.listperkara = baseModel.data;
+                    binding.shimer.stopShimmer();
+                    binding.shimer.setVisibility(View.GONE);
+                    storeAdapter(PerkaraModel.listperkara);
+                }
             }
 
             @Override
-            public void onFailure(@NotNull Call<List<PerkaraModel>> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<PerkaraListModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t );
             }
         });
     }
 
     public void GetPerkaraSudahDiProsess(){
-        Call<PerkaraModel> call = BaseModel.i.getService().PerkaraSudahDiProsess();
-        call.enqueue(new Callback<PerkaraModel>() {
+        Call<PerkaraListModel> call = BaseModel.i.getService().PerkaraSudahDiProsess();
+        call.enqueue(new Callback<PerkaraListModel>() {
             @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel baseModel = response.body();
-                if (Calling.TreatResponse(requireContext(),"Perkara Sudah Di Prosess", baseModel)){
+            public void onResponse(@NotNull Call<PerkaraListModel> call, @NotNull Response<PerkaraListModel> response) {
+                PerkaraListModel baseModel = response.body();
+                if (Calling.TreatResponse(getContext(),"Perkara Sudah Di Prosess", baseModel)){
                     assert baseModel != null;
-                    PerkaraModel.perkaradiproses = baseModel.data.perkara;
+                    PerkaraModel.listperkara = baseModel.data;
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<PerkaraListModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });

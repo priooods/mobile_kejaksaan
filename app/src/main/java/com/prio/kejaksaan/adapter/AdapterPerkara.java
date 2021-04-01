@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
 import com.prio.kejaksaan.model.BaseModel;
+import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.views.perkara.DetailPerkara;
@@ -33,11 +34,11 @@ import static android.content.ContentValues.TAG;
 
 public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder> implements Filterable {
 
-    List<PerkaraModel> models;
-    List<PerkaraModel> modelsfilter;
+    List<PerkaraListModel.Item> models;
+    List<PerkaraListModel.Item> modelsfilter;
     Context context;
 
-    public AdapterPerkara(List<PerkaraModel> models, Context context) {
+    public AdapterPerkara(List<PerkaraListModel.Item> models, Context context) {
         this.models = models;
         this.context = context;
         this.modelsfilter = models;
@@ -63,23 +64,23 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
         holder.binding.v5.setText(": " + "Belum");
         holder.binding.v5.setTextColor(context.getColor(R.color.red));
 
-        if (PerkaraModel.perkaradiproses != null){
-            int i;
-            for (i=0; i < PerkaraModel.perkaradiproses.size(); i++){
-                if (models.get(position).id == PerkaraModel.perkaradiproses.get(i).perkara_id) {
-                    if (models.get(position).id != 0) {
+        if (models.get(position).proses != null){
+//            int i;
+//            for (i=0; i < PerkaraModel.perkaradiproses.size(); i++){
+//                if (models.get(position).id == PerkaraModel.perkaradiproses.get(i).perkara_id) {
+//                    if (models.get(position).id != 0) {
                         holder.binding.v5.setText(": Sudah");
                         holder.binding.v5.setTextColor(context.getColor(R.color.green));
                         holder.binding.garis.setBackground(context.getResources().getDrawable(R.color.green));
-                    }
-                }
-            }
+//                    }
+//                }
+//            }
         }
 
         holder.binding.namaTerdakwa.setText(models.get(position).identitas);
         holder.binding.dakwaan.setText(models.get(position).dakwaan);
         holder.binding.l6.setVisibility(View.GONE);
-        holder.binding.t1.setText("Nomer");
+        holder.binding.t1.setText("Nomor");
         holder.binding.t2.setText("Jenis");
         holder.binding.t3.setText("Ditahan");
         holder.binding.t4.setText("Tanggal");
@@ -95,7 +96,7 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
             } else {
                 PerkaraModel.statusPerkara = 1;
             }
-            PerkaraModel.i = models.get(position);
+            PerkaraListModel.i = models.get(position);
             FragmentActivity frg = (FragmentActivity)(context);
             FragmentManager mrg = frg.getSupportFragmentManager();
             DialogFragment fragment = new DetailPerkara();
@@ -118,8 +119,8 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
                 if (key.isEmpty()){
                     models = modelsfilter;
                 } else {
-                    List<PerkaraModel> modelss = new ArrayList<>();
-                    for (PerkaraModel model : modelsfilter){
+                    List<PerkaraListModel.Item> modelss = new ArrayList<>();
+                    for (PerkaraListModel.Item model : modelsfilter){
                         if (model.identitas.toLowerCase().contains(key.toLowerCase()) ||
                                 model.jenis.toLowerCase().contains(key.toLowerCase()) ||
                                 model.penahanan.toLowerCase().contains(key.toLowerCase()) ||
@@ -139,7 +140,7 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                models = (List<PerkaraModel>) results.values;
+                models = (List<PerkaraListModel.Item>) results.values;
                 notifyDataSetChanged();
             }
         };

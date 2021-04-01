@@ -66,80 +66,81 @@
                     android:id="@+id/l1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:helperTextTextColor="@color/red"
-                        app:hintTextColor="@color/colorPrimary"
-                        android:textColorHint="@color/grey"
                         android:id="@+id/name_layout"
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
                         android:hint="Nama Item"
-                        style="@style/TextInputLayoutStyle"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_height="wrap_content">
+                        android:textColorHint="@color/grey"
+                        app:helperTextTextColor="@color/red"
+                        app:hintTextColor="@color/colorPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
                             android:id="@+id/name"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/gopher_light"
-                            android:textColor="@color/colorPrimary"
-                            android:inputType="text"/>
+                            android:inputType="text"
+                            android:textColor="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        app:layout_constraintTop_toBottomOf="@id/name_layout"
-                        android:layout_marginTop="15dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:helperTextTextColor="@color/red"
-                        app:hintTextColor="@color/colorPrimary"
-                        android:textColorHint="@color/grey"
                         android:id="@+id/jumlah_layout"
-                        android:hint="Jumlah Item"
                         style="@style/TextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
-                        android:layout_height="wrap_content">
+                        android:layout_marginTop="15dp"
+                        android:hint="Jumlah Item"
+                        android:textColorHint="@color/grey"
+                        app:helperTextTextColor="@color/red"
+                        app:hintTextColor="@color/colorPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/name_layout">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
                             android:id="@+id/jumlah"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/gopher_light"
-                            android:textColor="@color/colorPrimary"
-                            android:inputType="number"/>
+                            android:inputType="number"
+                            android:textColor="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ket_layout"
+                        style="@style/TextInputLayoutStyle"
                         android:layout_width="match_parent"
-                        app:layout_constraintTop_toBottomOf="@id/jumlah_layout"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="15dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:hint="Keterangan Item"
+                        android:textColorHint="@color/grey"
                         app:helperTextTextColor="@color/red"
                         app:hintTextColor="@color/colorPrimary"
-                        android:textColorHint="@color/grey"
-                        android:id="@+id/ket_layout"
-                        android:hint="Keterangan Item"
-                        style="@style/TextInputLayoutStyle"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_height="wrap_content">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/jumlah_layout">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
                             android:id="@+id/keterangan"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/gopher_light"
-                            android:textColor="@color/colorPrimary"
-                            android:inputType="text"/>
+                            android:inputType="text"
+                            android:textColor="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,165 +148,165 @@
 
                 <RelativeLayout
                     android:id="@+id/l2"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent">
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/atkprosesid_layout"
+                        style="@style/TextInputLayoutStyleDropdown"
                         android:layout_width="match_parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:hint="Proses data"
+                        android:textColorHint="@color/grey"
+                        app:endIconMode="dropdown_menu"
+                        app:endIconTint="@color/colorPrimary"
+                        app:helperTextTextColor="@color/red"
                         app:hintTextColor="@color/colorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:textColorHint="@color/grey"
-                        app:helperTextTextColor="@color/red"
-                        app:endIconTint="@color/colorPrimary"
-                        android:id="@+id/atkprosesid_layout"
-                        app:endIconMode="dropdown_menu"
-                        android:hint="Proses data"
-                        style="@style/TextInputLayoutStyleDropdown"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_height="wrap_content">
+                        app:layout_constraintStart_toStartOf="parent">
 
                         <AutoCompleteTextView
-                            android:layout_width="match_parent"
                             android:id="@+id/prosesid"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/gopher_light"
-                            android:textColor="@color/colorPrimary"
-                            android:inputType="none"/>
+                            android:inputType="none"
+                            android:textColor="@color/colorPrimary" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_height="wrap_content"
                         android:id="@+id/list_atk"
-                        android:nestedScrollingEnabled="true"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="60dp"
+                        android:nestedScrollingEnabled="true" />
 
                     <TextView
+                        android:id="@+id/tambahpermintaan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/list_atk"
-                        android:layout_marginTop="17dp"
                         android:layout_alignParentEnd="true"
-                        android:textSize="13sp"
-                        android:textColor="@color/colorPrimary"
+                        android:layout_marginTop="17dp"
+                        android:layout_marginEnd="20dp"
                         android:fontFamily="@font/gopher_bold"
                         android:text="Tambah Permintaan"
-                        android:layout_marginEnd="20dp"
-                        android:id="@+id/tambahpermintaan"/>
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="13sp" />
 
                     <LinearLayout
                         android:id="@+id/form_minta"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tambahpermintaan"
                         android:layout_marginTop="20dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="12sp"
                             android:layout_marginStart="20dp"
                             android:fontFamily="@font/gopher_light"
-                            android:text="Please add field on form"/>
+                            android:text="Please add field on form"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/atkname_layout"
+                            style="@style/TextInputLayoutStyleDropdown"
                             android:layout_width="match_parent"
-                            app:layout_constraintTop_toBottomOf="@id/password_layout"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
                             android:layout_marginTop="15dp"
-                            app:layout_constraintStart_toStartOf="parent"
+                            android:hint="Pilih ATK"
+                            android:textColorHint="@color/grey"
+                            app:endIconMode="dropdown_menu"
+                            app:endIconTint="@color/colorPrimary"
+                            app:helperTextTextColor="@color/red"
                             app:hintTextColor="@color/colorPrimary"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:textColorHint="@color/grey"
-                            app:helperTextTextColor="@color/red"
-                            app:endIconTint="@color/colorPrimary"
-                            android:id="@+id/atkname_layout"
-                            app:endIconMode="dropdown_menu"
-                            android:hint="Pilih ATK"
-                            style="@style/TextInputLayoutStyleDropdown"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_height="wrap_content">
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/password_layout">
 
                             <AutoCompleteTextView
-                                android:layout_width="match_parent"
                                 android:id="@+id/nameatk"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/gopher_light"
-                                android:textColor="@color/colorPrimary"
-                                android:inputType="none"/>
+                                android:inputType="none"
+                                android:textColor="@color/colorPrimary" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/jumlahminta_layout"
+                            style="@style/TextInputLayoutStyle"
                             android:layout_width="match_parent"
-                            app:layout_constraintTop_toBottomOf="@id/name_layout"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
                             android:layout_marginTop="15dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            android:hint="Jumlah Item"
+                            android:textColorHint="@color/grey"
                             app:helperTextTextColor="@color/red"
                             app:hintTextColor="@color/colorPrimary"
-                            android:textColorHint="@color/grey"
-                            android:id="@+id/jumlahminta_layout"
-                            android:hint="Jumlah Item"
-                            style="@style/TextInputLayoutStyle"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_height="wrap_content">
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/name_layout">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:layout_width="match_parent"
                                 android:id="@+id/jumlahminta"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/gopher_light"
-                                android:textColor="@color/colorPrimary"
-                                android:inputType="number"/>
+                                android:inputType="number"
+                                android:textColor="@color/colorPrimary" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="17dp">
+                            android:layout_marginTop="17dp"
+                            android:orientation="horizontal">
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_add_minta"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="45dp"
-                                app:layout_constraintTop_toBottomOf="@id/r1"
                                 android:layout_marginStart="20dp"
                                 android:layout_marginEnd="4dp"
-                                android:id="@+id/btn_add_minta"
-                                app:backgroundTintMode="add"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_style"
                                 android:fontFamily="@font/gopher_bold"
                                 android:text="Save"
-                                android:background="@drawable/button_style"
+                                android:textAllCaps="false"
                                 android:textColor="@color/white"
-                                android:textAllCaps="false"/>
+                                app:backgroundTintMode="add"
+                                app:layout_constraintTop_toBottomOf="@id/r1" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_cancel_minta"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="45dp"
-                                app:layout_constraintTop_toBottomOf="@id/r1"
                                 android:layout_marginStart="4dp"
                                 android:layout_marginEnd="20dp"
-                                android:id="@+id/btn_cancel_minta"
-                                app:backgroundTintMode="add"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_orange"
                                 android:fontFamily="@font/gopher_bold"
                                 android:text="Cancel"
-                                android:background="@drawable/button_orange"
+                                android:textAllCaps="false"
                                 android:textColor="@color/white"
-                                android:textAllCaps="false"/>
+                                app:backgroundTintMode="add"
+                                app:layout_constraintTop_toBottomOf="@id/r1" />
 
                         </LinearLayout>
 

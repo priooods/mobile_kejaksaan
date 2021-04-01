@@ -127,6 +127,7 @@ public class AddPerkara extends DialogFragment {
     }
 
     public void UpdatePerkara(){
+        Log.e("Perkara","Update Perkara!");
         Call<PerkaraModel> call = BaseModel.i.getService().UpdatePerkara(datesValue,
                 Objects.requireNonNull(binding.nomerDakwaan.getText()).toString(),
                 Objects.requireNonNull(binding.jenis.getText()).toString(), Objects.requireNonNull(binding.identitas.getText()).toString(),
@@ -152,6 +153,7 @@ public class AddPerkara extends DialogFragment {
     }
 
     public void TambahPerkara(){
+        Log.e("Perkara","Tambah Perkara!");
         Call<PerkaraModel> call = BaseModel.i.getService().AddPerkara(datesValue,
                 Objects.requireNonNull(binding.nomerDakwaan.getText()).toString(),
                 Objects.requireNonNull(binding.jenis.getText()).toString(), Objects.requireNonNull(binding.identitas.getText()).toString(),
@@ -164,7 +166,7 @@ public class AddPerkara extends DialogFragment {
                 PerkaraModel data = response.body();
                 if (Calling.TreatResponse(requireContext(), "Create Perkara", data)){
                     assert data != null;
-                    PerkaraModel.listperkara.add(data.data);
+//                    PerkaraModel.listperkara.add(data.data);
                     MDToast.makeText(requireContext(), "Perkara Baru berhasil di buat", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
                     Layer_Perkara perkara = (Layer_Perkara) getFragmentManager().findFragmentByTag("perkara");

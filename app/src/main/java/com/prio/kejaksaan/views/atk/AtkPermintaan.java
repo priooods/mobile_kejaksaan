@@ -63,9 +63,9 @@ public class AtkPermintaan extends Fragment {
             @Override
             public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
                 AtkModel atkModel = response.body();
-                if(Calling.TreatResponse(requireContext(),"req atk Log", atkModel)){
+                if(Calling.TreatResponse(getContext(),"req atk Log", atkModel)){
                     assert atkModel != null;
-                    adapterSelainLogistik = new AdapterSelainLogistik(requireContext(), atkModel.data);
+                    adapterSelainLogistik = new AdapterSelainLogistik(getContext(), atkModel.data);
                     binding.listAtkReq.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
                     binding.listAtkReq.setAdapter(adapterSelainLogistik);
                     binding.shimer.stopShimmer();
@@ -82,11 +82,14 @@ public class AtkPermintaan extends Fragment {
 
     public void GetATkPP(){
         Call<AtkModel> call = BaseModel.i.getService().ATkreqPP(BaseModel.i.token);
+//        Context current = requireContext();
         call.enqueue(new Callback<AtkModel>() {
             @Override
             public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
                 AtkModel atkModel = response.body();
-                if(Calling.TreatResponse(requireContext(),"req atk pp", atkModel)){
+                if (getContext() == null)
+                    return;
+                if(Calling.TreatResponse(getContext(),"req atk pp", atkModel)){
                     assert atkModel != null;
                     adapterSelainLogistik = new AdapterSelainLogistik(requireContext(), atkModel.data);
                     binding.listAtkReq.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));

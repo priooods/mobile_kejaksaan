@@ -14,7 +14,9 @@ import androidx.fragment.app.Fragment;
 import com.prio.kejaksaan.databinding.FragDocumentBinding;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
+import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
+import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
 import com.prio.kejaksaan.tools.PagerAdapter;
@@ -35,6 +37,8 @@ public class Layer_Document extends Fragment {
 
     FragDocumentBinding binding;
     PagerAdapter adapter;
+    PerkaraListModel perkara_list;
+    SuratModel surat_list;
 
     @Nullable
     @Override
@@ -48,12 +52,18 @@ public class Layer_Document extends Fragment {
         return binding.getRoot();
     }
 
-    public void showTabs(){
+    public void showTabs(boolean perkara){
+        if ((perkara && perkara_list == null) || surat_list == null)
+            return;
+
+        binding.shimer.stopShimmer();
+        binding.shimer.setVisibility(View.GONE);
         binding.tabMenu.setupWithViewPager(binding.viewpager);
         adapter = new PagerAdapter(getChildFragmentManager());
-
-        adapter.AddFragment(new SemuaPerkara(), "All Perkara");
-        adapter.AddFragment(new SemuaSurat(), "History Surat");
+        if (perkara) {
+            adapter.AddFragment(new SemuaPerkara(perkara_list), "All Perkara");
+        }
+        adapter.AddFragment(new SemuaSurat(surat_list), "History Surat");
         binding.viewpager.setAdapter(adapter);
 
         for(int i=0; i < binding.tabMenu.getTabCount(); i++) {
@@ -64,43 +74,44 @@ public class Layer_Document extends Fragment {
         }
     }
 
-    public void GetPerkaraSudahDiProsess(){
-        Call<PerkaraModel> call = BaseModel.i.getService().PerkaraSudahDiProsess();
-        call.enqueue(new Callback<PerkaraModel>() {
+    public void PanmudPerkara(){
+        Call<PerkaraListModel> call = BaseModel.i.getService().PerkaraSudahDiProsess();
+        call.enqueue(new Callback<PerkaraListModel>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel baseModel = response.body();
-                if (Calling.TreatResponse(requireContext(),"Perkara Sudah Di Prosess", baseModel)){
+            public void onResponse(@NotNull Call<PerkaraListModel> call, @NotNull Response<PerkaraListModel> response) {
+                PerkaraListModel baseModel = response.body();
+                if (Calling.TreatResponse(getContext(),"Perkara Sudah Di Prosess", baseModel)){
                     assert baseModel != null;
-                    PerkaraModel.perkaradiproses = baseModel.data.perkara;
-                    showTabs();
-                    binding.shimer.stopShimmer();
-                    binding.shimer.setVisibility(View.GONE);
+                    perkara_list = baseModel;
+                    showTabs(true);
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<PerkaraListModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });
     }
 
-    public void GetAllSuratPanmud(){
-        Call<DocumentModel> call = BaseModel.i.getService().AllPanmudSurat(BaseModel.i.token);
-        call.enqueue(new Callback<DocumentModel>() {
+    public void PanmudSurat(){
+        Call<SuratModel> call = BaseModel.i.getService().AllPanmudSurat(BaseModel.i.token);
+        call.enqueue(new Callback<SuratModel>() {
             @Override
-            public void onResponse(@NotNull Call<DocumentModel> call, @NotNull Response<DocumentModel> response) {
-                DocumentModel baseModel = response.body();
+            public void onResponse(@NotNull Call<SuratModel> call, @NotNull Response<SuratModel> response) {
+                SuratModel baseModel = response.body();
+                if (getContext() == null)
+                    return;
                 if (Calling.TreatResponse(requireContext(),"Perkara Sudah Di Prosess", baseModel)){
                     assert baseModel != null;
-                    DocumentModel.semuasuratPanmud = baseModel.data;
+                    surat_list = baseModel;
+                    showTabs(true);
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<DocumentModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<SuratModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });
@@ -115,9 +126,7 @@ public class Layer_Document extends Fragment {
                 if (Calling.TreatResponse(requireContext(),"Notify Jurusita", baseModel)){
                     assert baseModel != null;
                     PerkaraModel.notifyJurusita = baseModel.data.perkara;
-                    showTabs();
-                    binding.shimer.stopShimmer();
-                    binding.shimer.setVisibility(View.GONE);
+                    showTabs(true);
                 }
             }
 
@@ -128,62 +137,62 @@ public class Layer_Document extends Fragment {
         });
     }
 
-    public void GetAllTugasJurusita(){
-        Call<DocumentModel> call = BaseModel.i.getService().AllJurusitaTugas(BaseModel.i.token);
-        call.enqueue(new Callback<DocumentModel>() {
+    public void JurusitaSurat(){
+        Call<SuratModel> call = BaseModel.i.getService().AllJurusitaTugas(BaseModel.i.token);
+        call.enqueue(new Callback<SuratModel>() {
             @Override
-            public void onResponse(@NotNull Call<DocumentModel> call, @NotNull Response<DocumentModel> response) {
-                DocumentModel baseModel = response.body();
-                if (Calling.TreatResponse(requireContext(),"Semua Tugas Jurusita", baseModel)){
+            public void onResponse(@NotNull Call<SuratModel> call, @NotNull Response<SuratModel> response) {
+                SuratModel baseModel = response.body();
+                if (Calling.TreatResponse(getContext(),"Semua Tugas Jurusita", baseModel)){
                     assert baseModel != null;
-                    DocumentModel.semuaTugasJurusita = baseModel.data;
+                    surat_list = baseModel;
+                    showTabs(false);
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<DocumentModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<SuratModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });
     }
 
-    public void GetTugasPPK(){
-        Call<PerkaraModel> call = BaseModel.i.getService().TugasPPK(BaseModel.i.token);
-        call.enqueue(new Callback<PerkaraModel>() {
+//    public void GetTugasPPK(){
+//        Call<PerkaraModel> call = BaseModel.i.getService().TugasPPK(BaseModel.i.token);
+//        call.enqueue(new Callback<PerkaraModel>() {
+//            @Override
+//            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
+//                PerkaraModel baseModel = response.body();
+//                if (Calling.TreatResponse(requireContext(),"Notify PPK", baseModel)){
+//                    assert baseModel != null;
+//                    PerkaraModel.notifyPPK = baseModel.data.perkara;
+//                    Log.i(TAG, "onResponse: " + baseModel.data.perkara);
+//                    showTabs();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+//                Log.e(TAG, "onFailure: ", t);
+//            }
+//        });
+//    }
+
+    public void PPKSurat(){
+        Call<SuratModel> call = BaseModel.i.getService().AllPPkTugas(BaseModel.i.token);
+        call.enqueue(new Callback<SuratModel>() {
             @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel baseModel = response.body();
-                if (Calling.TreatResponse(requireContext(),"Notify PPK", baseModel)){
+            public void onResponse(@NotNull Call<SuratModel> call, @NotNull Response<SuratModel> response) {
+                SuratModel baseModel = response.body();
+                if (Calling.TreatResponse(getContext(),"PPK Surat", baseModel)){
                     assert baseModel != null;
-                    PerkaraModel.notifyPPK = baseModel.data.perkara;
-                    Log.i(TAG, "onResponse: " + baseModel.data.perkara);
-                    showTabs();
-                    binding.shimer.stopShimmer();
-                    binding.shimer.setVisibility(View.GONE);
+                    surat_list = baseModel;
+                    showTabs(false);
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
-    }
-
-    public void GetAllTugasPPK(){
-        Call<DocumentModel> call = BaseModel.i.getService().AllPPkTugas(BaseModel.i.token);
-        call.enqueue(new Callback<DocumentModel>() {
-            @Override
-            public void onResponse(@NotNull Call<DocumentModel> call, @NotNull Response<DocumentModel> response) {
-                DocumentModel baseModel = response.body();
-                if (Calling.TreatResponse(requireContext(),"Semua Tugas Jurusita", baseModel)){
-                    assert baseModel != null;
-                    DocumentModel.semuaTugasPPK = baseModel.data;
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<DocumentModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<SuratModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });
@@ -194,16 +203,16 @@ public class Layer_Document extends Fragment {
         super.onStart();
         switch (UserModel.i.type){
             case "Panmud":
-                GetPerkaraSudahDiProsess();
-                GetAllSuratPanmud();
+                PanmudPerkara();
+                PanmudSurat();
                 break;
             case "Jurusita":
-                GetTugasJurusita();
-                GetAllTugasJurusita();
+//                GetTugasJurusita();
+                JurusitaSurat();
                 break;
             case "PPK":
-                GetTugasPPK();
-                GetAllTugasPPK();
+//                PPKPerkara();
+                PPKSurat();
                 break;
         }
     }

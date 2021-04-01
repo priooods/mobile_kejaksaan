@@ -1,6 +1,8 @@
 package com.prio.kejaksaan.layer;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,10 +20,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prio.kejaksaan.R;
+import com.prio.kejaksaan.activity.Login;
 import com.prio.kejaksaan.adapter.AdapterAtk;
 import com.prio.kejaksaan.databinding.FragPersedianBinding;
 import com.prio.kejaksaan.databinding.ModelAtkReqBinding;
 import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
+import com.prio.kejaksaan.model.AtkItemModel;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.PerkaraModel;
@@ -57,8 +61,6 @@ public class Layer_Persediaan extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragPersedianBinding.inflate(inflater,container,false);
 
-        GetAllAtk();
-
         switch (UserModel.i.type){
             case "PP":
                 showTabsPP();
@@ -85,7 +87,6 @@ public class Layer_Persediaan extends Fragment {
                 binding.btnAddTop.setVisibility(View.GONE);
                 break;
         }
-
         return binding.getRoot();
     }
 
@@ -122,20 +123,26 @@ public class Layer_Persediaan extends Fragment {
         }
     }
 
-    public void GetAllAtk(){
-        Call<List<AtkModel>> call = BaseModel.i.getService().AllAtk();
-        call.enqueue(new Callback<List<AtkModel>>() {
-            @Override
-            public void onResponse(@NotNull Call<List<AtkModel>> call, @NotNull Response<List<AtkModel>> response) {
-                AtkModel.atklist = response.body();
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<List<AtkModel>> call, @NotNull Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
-    }
+//    public void GetAllAtk(){
+//        Call<AtkItemModel> call = BaseModel.i.getService().AllAtk();
+//        call.enqueue(new Callback<AtkItemModel>() {
+//            @Override
+//            public void onResponse(@NotNull Call<AtkItemModel> call, @NotNull Response<AtkItemModel> response) {
+//                AtkItemModel data = response.body();
+//                if (Calling.TreatResponse(requireContext(), "list_atk", data)) {
+//
+////                    for(AtkItemModel.Item a : data.data){
+//////                        a.toString();
+////                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NotNull Call<AtkItemModel> call, @NotNull Throwable t) {
+//                Log.e(TAG, "onFailure: ", t);
+//            }
+//        });
+//    }
 
     public void GetATkPPK(){
         Call<AtkModel> call = BaseModel.i.getService().ATkreqPPK(BaseModel.i.token);
@@ -143,7 +150,7 @@ public class Layer_Persediaan extends Fragment {
             @Override
             public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
                 AtkModel atkModel = response.body();
-                if(Calling.TreatResponse(requireContext(),"req atk pp", atkModel)){
+                if(Calling.TreatResponse(getContext(),"req atk pp", atkModel)){
                     assert atkModel != null;
                     adapterSelainLogistik = new AdapterSelainLogistik(requireContext(), atkModel.data);
                     binding.listPersediaan.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));

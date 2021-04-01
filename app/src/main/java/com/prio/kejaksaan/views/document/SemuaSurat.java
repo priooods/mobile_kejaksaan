@@ -15,6 +15,7 @@ import com.prio.kejaksaan.adapter.AdapterSuratList;
 import com.prio.kejaksaan.databinding.FragDocumentListBinding;
 import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.PerkaraModel;
+import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 
 import java.util.List;
@@ -23,28 +24,31 @@ public class SemuaSurat extends Fragment {
 
     FragDocumentListBinding binding;
     AdapterSuratList adapterSurat;
-
+    List<SuratModel.Item> list;
+    public SemuaSurat(SuratModel surat){
+        list = surat.data;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragDocumentListBinding.inflate(inflater, container, false);
 
         binding.desc.setText("Tap item to show documents");
-        switch (UserModel.i.type){
-            case "Jurusita":
-                storeAdapterJurusita(DocumentModel.semuaTugasJurusita);
-                break;
-            case "Panmud":
-                storeAdapterPanmud(DocumentModel.semuasuratPanmud);
-                break;
-            case "PPK":
-                storeAdapterJPPK(DocumentModel.semuaTugasPPK);
-                break;
-        }
+//        switch (UserModel.i.type){
+//            case "Jurusita":
+//                break;
+//            case "Panmud":
+//                storeAdapter(list);
+//                break;
+//            case "PPK":
+//                storeAdapterJPPK(DocumentModel.semuaTugasPPK);
+//                break;
+//        }
+                storeAdapter(list);
         return binding.getRoot();
     }
 
-    public void storeAdapterPanmud(List<DocumentModel> md){
+    public void storeAdapter(List<SuratModel.Item> md){
         adapterSurat = new AdapterSuratList(requireContext(), md);
         binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
         binding.listDocument.setHasFixedSize(true);
@@ -52,16 +56,16 @@ public class SemuaSurat extends Fragment {
     }
 
     public void storeAdapterJurusita(List<DocumentModel> md){
-        adapterSurat = new AdapterSuratList(requireContext(), md);
-        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
-        binding.listDocument.setHasFixedSize(true);
-        binding.listDocument.setAdapter(adapterSurat);
+//        adapterSurat = new AdapterSuratList(requireContext(), md);
+//        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+//        binding.listDocument.setHasFixedSize(true);
+//        binding.listDocument.setAdapter(adapterSurat);
     }
 
     public void storeAdapterJPPK(List<DocumentModel> md){
-        adapterSurat = new AdapterSuratList(requireContext(), md);
-        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
-        binding.listDocument.setHasFixedSize(true);
-        binding.listDocument.setAdapter(adapterSurat);
+//        adapterSurat = new AdapterSuratList(requireContext(), md);
+//        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+//        binding.listDocument.setHasFixedSize(true);
+//        binding.listDocument.setAdapter(adapterSurat);
     }
 }
