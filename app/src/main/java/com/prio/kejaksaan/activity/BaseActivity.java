@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ActivityBaseBinding;
@@ -32,6 +33,8 @@ import com.prio.kejaksaan.service.Calling;
 import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,7 +76,7 @@ public class BaseActivity extends AppCompatActivity {
             Fragment select;
             switch (item.getItemId()){
                 case R.id.home:
-                    select = new Layer_Home();
+                    select =  new Layer_Home();
                     getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, select, "home").commit();
                     break;
                 case R.id.persediaan:
@@ -162,6 +165,9 @@ public class BaseActivity extends AppCompatActivity {
                 binding.bottomNavigation.getMenu().findItem(R.id.perkara).setVisible(false);
                 binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
                 binding.bottomNavigation.getMenu().findItem(R.id.persediaan).setVisible(false);
+                break;
+            case "KPA":
+                binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
                 break;
         }
     }

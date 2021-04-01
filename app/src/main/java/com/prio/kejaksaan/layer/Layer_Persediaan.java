@@ -28,6 +28,7 @@ import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
 import com.prio.kejaksaan.model.AtkItemModel;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
+import com.prio.kejaksaan.model.ModelLaporanATK;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
@@ -55,6 +56,7 @@ public class Layer_Persediaan extends Fragment {
     FragPersedianBinding binding;
     PagerAdapter adapter;
     AdapterSelainLogistik adapterSelainLogistik;
+    AdapterLaporanAtk adapterLaporanAtk;
 
     @Nullable
     @Override
@@ -82,6 +84,14 @@ public class Layer_Persediaan extends Fragment {
                 binding.shimer.setVisibility(View.VISIBLE);
                 binding.shimer.startShimmer();
                 GetATkPPK();
+                binding.layoutTabs.setVisibility(View.GONE);
+                binding.layoutList.setVisibility(View.VISIBLE);
+                binding.btnAddTop.setVisibility(View.GONE);
+                break;
+            case "KPA":
+                binding.shimer.setVisibility(View.VISIBLE);
+                binding.shimer.startShimmer();
+                GetLaporanATKPPK();
                 binding.layoutTabs.setVisibility(View.GONE);
                 binding.layoutList.setVisibility(View.VISIBLE);
                 binding.btnAddTop.setVisibility(View.GONE);
@@ -167,6 +177,26 @@ public class Layer_Persediaan extends Fragment {
         });
     }
 
+    public void GetLaporanATKPPK(){
+        Call<List<ModelLaporanATK>> call = BaseModel.i.getService().LaporanAtkPPK();
+        call.enqueue(new Callback<List<ModelLaporanATK>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<ModelLaporanATK>> call, @NotNull Response<List<ModelLaporanATK>> response) {
+                List<ModelLaporanATK> data = response.body();
+                adapterLaporanAtk = new AdapterLaporanAtk(requireContext(), data);
+                binding.listPersediaan.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+                binding.listPersediaan.setAdapter(adapterLaporanAtk);
+                binding.shimer.stopShimmer();
+                binding.shimer.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<ModelLaporanATK>> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+    }
+
     public void GetATkPPKVerify(int ids){
         Call<PerkaraModel> call = BaseModel.i.getService().ReqATKPPK(BaseModel.i.token, ids);
         call.enqueue(new Callback<PerkaraModel>() {
@@ -186,6 +216,52 @@ public class Layer_Persediaan extends Fragment {
                 Log.e(TAG, "onFailure: ", t);
             }
         });
+    }
+
+    public static class AdapterLaporanAtk extends RecyclerView.Adapter<AdapterLaporanAtk.vHolder>{
+
+        Context context;
+        List<ModelLaporanATK> models;
+
+        public AdapterLaporanAtk(Context context, List<ModelLaporanATK> models) {
+            this.context = context;
+            this.models = models;
+        }
+
+        @NonNull
+        @Override
+        public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new vHolder(ModelPerkaraBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull vHolder holder, int position) {
+
+            holder.binding.dakwaan.setText(models.get(position).keterangan);
+            holder.binding.namaTerdakwa.setText(models.get(position).name);
+            holder.binding.t1.setText("Masuk");
+            holder.binding.t2.setText("Keluar");
+            holder.binding.v1.setText(String.valueOf(models.get(position).sisa_masuk));
+            holder.binding.v2.setText(String.valueOf(models.get(position).keluar));
+            holder.binding.l3.setVisibility(View.GONE);
+            holder.binding.l4.setVisibility(View.GONE);
+            holder.binding.l5.setVisibility(View.GONE);
+            holder.binding.l6.setVisibility(View.GONE);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return models.size();
+        }
+
+        public static class vHolder extends RecyclerView.ViewHolder{
+            ModelPerkaraBinding binding;
+            public vHolder(ModelPerkaraBinding itemView) {
+                super(itemView.getRoot());
+                this.binding = itemView;
+            }
+        }
     }
 
     public class AdapterSelainLogistik extends RecyclerView.Adapter<AdapterSelainLogistik.vHolder>{

@@ -4,6 +4,7 @@ import com.prio.kejaksaan.model.AtkItemModel;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
+import com.prio.kejaksaan.model.ModelLaporanATK;
 import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.SuratModel;
@@ -280,4 +281,7 @@ public interface UserService {
             ,@Query("id") int id
             ,@Part MultipartBody.Part bayar
     );
+
+    @GET("laporan/atk")
+    Call<List<ModelLaporanATK>> LaporanAtkPPK();
 }

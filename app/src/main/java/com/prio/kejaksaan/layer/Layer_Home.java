@@ -51,6 +51,7 @@ public class Layer_Home extends Fragment {
     AdapterNotif adapterNotif;
     AdapterAllUsers adapterAllUsers;
     List<PerkaraModel> modelList;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class Layer_Home extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //TODO: Dicheck kalau typenya not KPA.kalau ga berhasil kabarin lgi
+
             if (!UserModel.i.type.equals("KPA")){
                 popupMenu.getMenu().findItem(R.id.add).setVisible(false);
             }
@@ -93,25 +94,22 @@ public class Layer_Home extends Fragment {
             popupMenu.show();
         });
 
-
-        //TODO: Sebagai sample gua buat pake model PerkaraModel. kalau mau buat model baru silahkan atau rubah pake model lain bebas
-        //TODO: liat di folder adapter - AdapterNotif. disini ada penjelasan detail soal adapternya
-//        ListNotif(modelList); /// dipindah ke bawah
-
         //TODO: Satu Recycler untuk banyak access. dicheck typenya dulu. di atas itu diturunin ke bawah
-        switch (UserModel.i.type){
-            case "KPA":
-                //TODO: Getting Model list User ini di check dlu APInya. disitu pake findall.
-                // bisa diganti sesuai api asli
-                GettingUserAll();
-                break;
-            case "PPK":
-                ListNotif(modelList);
-                break;
-        }
-
 
         return binding.getRoot();
+    }
+
+    public void WhenUserLoaded(){
+        if (UserModel.i.type != null) {
+            switch (UserModel.i.type) {
+                case "KPA":
+                    GettingUserAll();
+                    break;
+                case "PPK":
+                    ListNotif(modelList);
+                    break;
+            }
+        }
     }
 
     public void ListNotif(List<PerkaraModel> md){
@@ -156,7 +154,7 @@ public class Layer_Home extends Fragment {
         adapterAllUsers = new AdapterAllUsers(md,requireContext());
         binding.listNotification.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
         binding.listNotification.setAdapter(adapterAllUsers);
-        adapterNotif.notifyDataSetChanged();
+        adapterAllUsers.notifyDataSetChanged();
         binding.shimer.stopShimmer();
         binding.shimer.setVisibility(View.GONE);
     }

@@ -5,6 +5,9 @@ import java.util.List;
 
 public class UserModel extends Calling {
     public static UserModel i;
+    public static boolean isExist(){
+        return BaseModel.i != null;
+    }
 
     public String avatar;
     public String token;

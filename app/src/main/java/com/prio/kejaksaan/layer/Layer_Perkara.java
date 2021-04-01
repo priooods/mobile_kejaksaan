@@ -160,6 +160,7 @@ public class Layer_Perkara extends Fragment {
             public void onResponse(@NotNull Call<PerkaraListModel> call, @NotNull Response<PerkaraListModel> response) {
                 PerkaraListModel baseModel = response.body();
                 if (Calling.TreatResponse(requireContext(), "All Perkara by Jurusita", baseModel)) {
+                    assert baseModel != null;
                     PerkaraModel.listperkara = baseModel.data;
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
@@ -204,9 +205,15 @@ public class Layer_Perkara extends Fragment {
                 binding.btnNewDoc.setVisibility(View.GONE);
                 break;
             case "Panitera":
+                GetPerkaraSudahDiProsess();
+                GettAllPerkara();
+                break;
+            case "KPA":
             case "Ketua":
                 GetPerkaraSudahDiProsess();
                 GettAllPerkara();
+                binding.btnAddTop.setVisibility(View.GONE);
+                binding.btnNewDoc.setVisibility(View.GONE);
                 break;
             case "PP":
                 GetPerkaraSudahDiProsess();
