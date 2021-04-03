@@ -8,4 +8,6 @@ public class ModelLaporanATK extends Calling {
     public int id;
     public int keluar;
     public int sisa_masuk;
+    public int sisa;
+    public int masuk;
 }

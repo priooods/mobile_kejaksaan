@@ -87,7 +87,7 @@ public class Layer_Anggaran extends Fragment {
                     assert data != null;
                     model = data.data;
                     adapterAnggaran = new AdapterAnggaran(requireContext(), data.data);
-                    binding.listanggaran.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+                    binding.listanggaran.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
                     binding.listanggaran.setHasFixedSize(true);
                     binding.listanggaran.setAdapter(adapterAnggaran);
                     binding.shimer.stopShimmer();

@@ -95,7 +95,7 @@ public class CreateUsers extends DialogFragment {
                     MDToast.makeText(requireContext(),"Successfully Create New Users", Toast.LENGTH_SHORT, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
                     if (UserModel.TypeCreateUser == 1){
-                        Layer_Home home = (Layer_Home) getFragmentManager().findFragmentByTag("profile");
+                        Layer_Home home = (Layer_Home) getFragmentManager().findFragmentByTag("home");
                         FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                         assert home != null;
                         transaction.detach(home);

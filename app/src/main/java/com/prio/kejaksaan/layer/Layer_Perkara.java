@@ -94,14 +94,14 @@ public class Layer_Perkara extends Fragment {
 
     public void storeAdapter(List<PerkaraListModel.Item> md){
         adapterPerkara = new AdapterPerkara(md, requireContext());
-        binding.listPerkara.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+        binding.listPerkara.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.listPerkara.setHasFixedSize(true);
         binding.listPerkara.setAdapter(adapterPerkara);
     }
 
     public void storeAdapterPanMud(List<SuratModel.Item> md){
         adapterSurat = new AdapterSurat(requireContext(),md);
-        binding.listPerkara.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+        binding.listPerkara.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.listPerkara.setHasFixedSize(true);
         binding.listPerkara.setAdapter(adapterSurat);
     }
@@ -210,6 +210,7 @@ public class Layer_Perkara extends Fragment {
                 break;
             case "KPA":
             case "Ketua":
+            case "SuperUser":
                 GetPerkaraSudahDiProsess();
                 GettAllPerkara();
                 binding.btnAddTop.setVisibility(View.GONE);

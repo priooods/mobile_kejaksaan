@@ -9,9 +9,9 @@
     <application
         android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logos"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logos"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.Login" android:screenOrientation="portrait">

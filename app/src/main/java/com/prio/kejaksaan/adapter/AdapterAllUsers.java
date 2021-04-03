@@ -5,11 +5,17 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.prio.kejaksaan.databinding.ModelListUsersBinding;
+import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.UserModel;
+import com.prio.kejaksaan.views.perkara.DetailPerkara;
+import com.prio.kejaksaan.views.profile.EditProfile;
 
 import java.util.List;
 
@@ -37,6 +43,17 @@ public class AdapterAllUsers extends RecyclerView.Adapter<AdapterAllUsers.VHolde
             Glide.with(context).load("https://digitalsystemindo.com/jaksa/public/images/" + models.get(position).avatar)
                     .circleCrop().into(holder.binding.avatar);
         }
+        if (UserModel.i.type.equals("SuperUser")) {
+            holder.binding.detailUserss.setOnClickListener(v -> {
+                UserModel.TypeCreateUser = 90;
+                UserModel.i = models.get(position);
+                FragmentActivity frg = (FragmentActivity) (context);
+                FragmentManager mrg = frg.getSupportFragmentManager();
+                DialogFragment fragment = new EditProfile();
+                fragment.show(mrg, "Editing Profile");
+            });
+        }
+
     }
 
     @Override

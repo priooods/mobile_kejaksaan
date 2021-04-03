@@ -23,7 +23,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:fontFamily="@font/gopher_bold"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="@id/btn_search"
                 app:layout_constraintBottom_toBottomOf="@id/btn_search"
@@ -108,7 +107,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tap item to see details"
-                android:fontFamily="@font/gopher_medium"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginHorizontal="18dp"
                 android:id="@+id/desc"/>

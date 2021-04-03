@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ModelNotificationBinding;
 import com.prio.kejaksaan.layer.Layer_Document;
+import com.prio.kejaksaan.model.ModelNotification;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.views.perkara.DetailPerkara;
 
@@ -24,9 +25,9 @@ import java.util.List;
 public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.vHolder> {
 
     Context context;
-    List<PerkaraModel> modelList;
+    List<ModelNotification.Item> modelList;
 
-    public AdapterNotif(Context context, List<PerkaraModel> modelList) {
+    public AdapterNotif(Context context, List<ModelNotification.Item> modelList) {
         this.context = context;
         this.modelList = modelList;
     }
@@ -39,9 +40,9 @@ public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.vHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull vHolder holder, int position) {
-        holder.binding.titleNotif.setText(modelList.get(position).fullname_pp);
-        holder.binding.subtitleNotif.setText(modelList.get(position).penahanan);
-        holder.binding.textNotif.setText(modelList.get(position).dakwaan);
+        holder.binding.titleNotif.setText(modelList.get(position).detail);
+        holder.binding.subtitleNotif.setText(modelList.get(position).message);
+        holder.binding.textNotif.setText(modelList.get(position).time);
 
         holder.binding.readmore.setOnClickListener(v -> {
             //TODO: Ini nanti bisa click go to apa atau bisa click full item tinggal ganti
@@ -63,7 +64,10 @@ public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.vHolder> {
 
     @Override
     public int getItemCount() {
-        return modelList.size();
+        if (modelList.size() != 0){
+            modelList.size();
+        }
+        return 0;
     }
 
     public static class vHolder extends RecyclerView.ViewHolder{

@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tap item to see details"
-        android:fontFamily="@font/gopher_medium"
         android:textColor="@color/colorPrimary"
         android:layout_marginHorizontal="18dp"
         android:id="@+id/desc"/>

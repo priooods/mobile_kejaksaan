@@ -26,6 +26,7 @@ import com.prio.kejaksaan.adapter.AdapterPerkaraVerif;
 import com.prio.kejaksaan.databinding.FragHomeBinding;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
+import com.prio.kejaksaan.model.ModelNotification;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
@@ -73,7 +74,7 @@ public class Layer_Home extends Fragment {
                 e.printStackTrace();
             }
             //TODO: Dicheck kalau typenya not KPA.kalau ga berhasil kabarin lgi
-            if (!UserModel.i.type.equals("KPA")){
+            if (!UserModel.i.type.equals("KPA") || !UserModel.i.type.equals("SuperUser")){
                 popupMenu.getMenu().findItem(R.id.add).setVisible(false);
             }
 
@@ -88,6 +89,7 @@ public class Layer_Home extends Fragment {
                         dialogFragment.show(requireActivity().getSupportFragmentManager(),"Create User");
                         break;
                     case R.id.edit:
+                        UserModel.TypeCreateUser = 80;
                         DialogFragment fragment = new EditProfile();
                         fragment.show(requireActivity().getSupportFragmentManager(),"Edit Profile");
                         break;
@@ -104,15 +106,19 @@ public class Layer_Home extends Fragment {
         switch (Objects.requireNonNull(sharedPreferences.getString("type", null))) {
             case "KPA":
             case "Ketua":
+            case "SuperUser":
                 binding.layoutKosong.setVisibility(View.GONE);
                 binding.listNotification.setVisibility(View.GONE);
                 binding.titleKpa.setVisibility(View.VISIBLE);
                 binding.listUserss.setVisibility(View.VISIBLE);
                 GettingUserAll();
                 break;
-            case "PPK":
-                GettingNotifPPK();
+            default:
+                binding.listNotification.setVisibility(View.VISIBLE);
+                binding.listUserss.setVisibility(View.GONE);
+                ShowingNotif();
                 break;
+
         }
         return binding.getRoot();
     }
@@ -147,16 +153,9 @@ public class Layer_Home extends Fragment {
         binding.shimer.setVisibility(View.GONE);
     }
 
-
-    public void ListNotif(List<PerkaraModel> md){
-        md = new ArrayList<>();
-        md.add(new PerkaraModel("Hallo world", "Inisubtitle nya yahh", "Nah disini nanti detailnys bebas apa aja"));
-        md.add(new PerkaraModel("Hallo world", "Inisubtitle nya yahh", "Nah disini nanti detailnys bebas apa aja"));
-        md.add(new PerkaraModel("Hallo world", "Inisubtitle nya yahh", "Nah disini nanti detailnys bebas apa aja"));
-        md.add(new PerkaraModel("Hallo world", "Inisubtitle nya yahh", "Nah disini nanti detailnys bebas apa aja"));
-
+    public void ListNotif(List<ModelNotification.Item> md){
         adapterNotif = new AdapterNotif(requireContext(),md);
-        binding.listNotification.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+        binding.listNotification.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.listNotification.setAdapter(adapterNotif);
         adapterNotif.notifyDataSetChanged();
         binding.shimer.stopShimmer();
@@ -205,6 +204,7 @@ public class Layer_Home extends Fragment {
             public void onResponse(@NotNull Call<List<UserModel>> call, @NotNull Response<List<UserModel>> response) {
                 List<UserModel> mode = response.body();
                 ListUsers(mode);
+                Log.i(TAG, "onResponse: " + mode);
             }
 
             @Override
@@ -227,5 +227,34 @@ public class Layer_Home extends Fragment {
         }else{
             return "Good Evening "+ fullname +"!";
         }
+    }
+
+    public void ShowingNotif(){
+        Call<ModelNotification> call = BaseModel.i.getService().AllNotifikasiUser(BaseModel.i.token);
+        call.enqueue(new Callback<ModelNotification>() {
+            @Override
+            public void onResponse(@NotNull Call<ModelNotification> call, @NotNull Response<ModelNotification> response) {
+                ModelNotification mode = response.body();
+                if (Calling.TreatResponse(getContext(),"Getting Notifikasi", mode)){
+                    if (mode != null && mode.data.size() == 0){
+                        binding.layoutKosong.setVisibility(View.VISIBLE);
+                    } else {
+                        assert mode != null;
+                        Log.i(TAG, "onResponse: " + mode);
+                        adapterNotif = new AdapterNotif(getContext(),mode.data);
+                        binding.listNotification.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+                        binding.listNotification.setAdapter(adapterNotif);
+                        adapterNotif.notifyDataSetChanged();
+                        binding.shimer.stopShimmer();
+                        binding.shimer.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ModelNotification> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
     }
 }

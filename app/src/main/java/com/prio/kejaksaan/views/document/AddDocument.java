@@ -189,9 +189,8 @@ public class AddDocument extends DialogFragment {
                 binding.nomor.setText(perkara.nomor);
                 binding.jenisPerkara.setText(perkara.jenis);
                 binding.tanggal.setText(perkara.tanggal);
+                binding.titleLayout.setVisibility(View.GONE);
                 binding.penahanan.setText(perkara.penahanan);
-//                binding.l1.setVisibility(View.VISIBLE);
-//                binding.
                 binding.l7.setVisibility(View.GONE);
                 binding.uploadFile.setVisibility(View.VISIBLE);
                 binding.l8.setVisibility(View.GONE);
@@ -203,7 +202,6 @@ public class AddDocument extends DialogFragment {
                         UploadSuratJurusita();
                     }
                 });
-//                binding.btnCreateletter.setOnClickListener(v -> UploadSuratJurusita());
                 binding.surat.setVisibility(View.VISIBLE);
                 binding.btnShowa.setOnClickListener(v -> {
                     Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+surat.surat_tugas));
@@ -330,8 +328,6 @@ public class AddDocument extends DialogFragment {
                 binding.penahanant.setText("Agenda");
                 binding.penahanan.setText(bayar.surat_tugas.perkara.proses.agenda);
 
-
-//                binding.ppName.setText(bayar.surat_tugas.perkara.fullname_jurusita);
                 binding.jurusitaName.setText(bayar.surat_tugas.perkara.fullname_jurusita);
                 binding.pemverifikasi.setText(bayar.surat_tugas.fullname_ppk);
                 break;
@@ -401,7 +397,7 @@ public class AddDocument extends DialogFragment {
     public void IjinStorage(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)){
             new AlertDialog.Builder(requireContext()).setTitle("Permission Required")
-                    .setMessage("You must give document opening permission to upload files")
+                    .setMessage("Anda harus memberikan ijin untuk akses File Manager")
                     .setPositiveButton("Yes", (dialog, which) -> ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PRIVATE_CODE))
                     .setNegativeButton("No", (dialog, which) ->{
                         dialog.dismiss();

@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.DialogEditProfileBinding;
+import com.prio.kejaksaan.layer.Layer_Home;
 import com.prio.kejaksaan.layer.Layer_Profile;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.UserModel;
@@ -199,7 +200,7 @@ public class EditProfile extends DialogFragment {
                 if (Calling.TreatResponse(requireContext(), "Update Profile", data)){
                     MDToast.makeText(requireContext(),"Successfully Update User Profile", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
-                    Layer_Profile profile = (Layer_Profile) getFragmentManager().findFragmentByTag("profile");
+                    Layer_Home profile = (Layer_Home) getFragmentManager().findFragmentByTag("home");
                     FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                     assert profile != null;
                     transaction.detach(profile);

@@ -5,6 +5,7 @@ import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.ModelLaporanATK;
+import com.prio.kejaksaan.model.ModelNotification;
 import com.prio.kejaksaan.model.PembayaranModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
@@ -298,4 +299,10 @@ public interface UserService {
 
     @GET("laporan/atk")
     Call<List<ModelLaporanATK>> LaporanAtkPPK();
+
+    @FormUrlEncoded
+    @POST("notif")
+    Call<ModelNotification> AllNotifikasiUser(
+            @Field("token") String token
+    );
 }

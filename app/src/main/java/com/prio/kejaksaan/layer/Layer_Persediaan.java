@@ -89,6 +89,7 @@ public class Layer_Persediaan extends Fragment {
                 binding.btnAddTop.setVisibility(View.GONE);
                 break;
             case "KPA":
+            case "SuperUser":
                 binding.shimer.setVisibility(View.VISIBLE);
                 binding.shimer.startShimmer();
                 GetLaporanATKPPK();
@@ -166,7 +167,7 @@ public class Layer_Persediaan extends Fragment {
                         binding.kosongList.setVisibility(View.VISIBLE);
                     }
                     adapterSelainLogistik = new AdapterSelainLogistik(requireContext(), atkModel.data);
-                    binding.listPersediaan.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+                    binding.listPersediaan.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
                     binding.listPersediaan.setAdapter(adapterSelainLogistik);
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
@@ -189,7 +190,7 @@ public class Layer_Persediaan extends Fragment {
                 if (getContext() == null)
                     return;
                 adapterLaporanAtk = new AdapterLaporanAtk(requireContext(), data);
-                binding.listPersediaan.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+                binding.listPersediaan.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
                 binding.listPersediaan.setAdapter(adapterLaporanAtk);
                 binding.shimer.stopShimmer();
                 binding.shimer.setVisibility(View.GONE);
@@ -246,9 +247,11 @@ public class Layer_Persediaan extends Fragment {
             holder.binding.namaTerdakwa.setText(models.get(position).name);
             holder.binding.t1.setText("Masuk");
             holder.binding.t2.setText("Keluar");
-            holder.binding.v1.setText(String.valueOf(models.get(position).sisa_masuk));
+            holder.binding.t3.setText("Sisa");
+            holder.binding.v1.setText(String.valueOf(models.get(position).masuk));
             holder.binding.v2.setText(String.valueOf(models.get(position).keluar));
-            holder.binding.l3.setVisibility(View.GONE);
+            holder.binding.v3.setText(String.valueOf(models.get(position).sisa));
+//            holder.binding.l3.setVisibility(View.GONE);
             holder.binding.l4.setVisibility(View.GONE);
             holder.binding.l5.setVisibility(View.GONE);
             holder.binding.l6.setVisibility(View.GONE);

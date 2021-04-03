@@ -11,8 +11,12 @@
     
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/grey</item>
-        <item name="fontFamily">@font/gopher_light</item>
         <item name="boxStrokeWidth">0.8dp</item>
+    </style>
+
+    <style name="TextInputLayoutLogin" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="background">@color/white</item>
     </style>
 
     <style name="TextInputLayoutStyleDropdown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">

@@ -28,7 +28,6 @@
             <TextView
                 android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
-                android:fontFamily="@font/gopher_bold"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="23sp"
@@ -66,7 +65,6 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:id="@+id/name"
-                android:fontFamily="@font/gopher_light"
                 android:layout_height="match_parent"
                 android:textColor="@color/colorPrimary"
                 android:inputType="text"/>
@@ -92,7 +90,6 @@
                 android:layout_width="match_parent"
                 android:id="@+id/fullname"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/gopher_light"
                 android:textColor="@color/colorPrimary"
                 android:inputType="text"/>
 
@@ -119,7 +116,6 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/gopher_light"
                 android:id="@+id/password"
                 android:inputType="textPassword"
                 android:textColor="@color/colorPrimary"/>
@@ -162,7 +158,6 @@
             android:layout_marginTop="30dp"
             android:id="@+id/btn_create_users"
             app:backgroundTintMode="add"
-            android:fontFamily="@font/gopher_bold"
             android:text="@string/edit_users"
             android:background="@drawable/button_style"
             android:textColor="@color/white"
