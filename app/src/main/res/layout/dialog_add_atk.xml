@@ -50,7 +50,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:textSize="12sp"
                 android:id="@+id/desc"
-                android:text="You must add all fields on forms"
+                android:text="Harap mengisi semua masukan ATK dengan benar"
                 android:textColor="@color/colorPrimary"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -156,7 +156,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
-                        android:hint="Proses data"
+                        android:hint="Proses Perkara}"
                         android:textColorHint="@color/grey"
                         app:endIconMode="dropdown_menu"
                         app:endIconTint="@color/colorPrimary"
@@ -208,7 +208,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
-                            android:text="Please add field on form"
+                            android:text="Kamu harus mengisi data ATK secara lengkap"
                             android:textColor="@color/colorPrimary"
                             android:textSize="12sp" />
 
@@ -269,28 +269,28 @@
                             android:orientation="horizontal">
 
                             <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btn_add_minta"
+                                android:id="@+id/btn_cancel_minta"
                                 android:layout_width="0dp"
                                 android:layout_height="45dp"
                                 android:layout_marginStart="20dp"
                                 android:layout_marginEnd="4dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/button_style"
-                                android:text="Save"
+                                android:background="@drawable/custom_toast_error_background"
+                                android:text="Batalkan"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
                                 app:backgroundTintMode="add"
                                 app:layout_constraintTop_toBottomOf="@id/r1" />
 
                             <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btn_cancel_minta"
+                                android:id="@+id/btn_add_minta"
                                 android:layout_width="0dp"
                                 android:layout_height="45dp"
                                 android:layout_marginStart="4dp"
                                 android:layout_marginEnd="20dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/button_orange"
-                                android:text="Cancel"
+                                android:background="@drawable/menu_tabs_filled"
+                                android:text="Simpan"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
                                 app:backgroundTintMode="add"
@@ -319,15 +319,15 @@
                 android:textAllCaps="false"/>
 
             <ProgressBar
-                android:visibility="gone"
+                android:id="@+id/loading1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/orange"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:id="@+id/loading1"
-                android:backgroundTint="@color/orange"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

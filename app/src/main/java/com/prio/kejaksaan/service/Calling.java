@@ -24,7 +24,6 @@ public class Calling {
             Log.i(tag, "onResponseError: " + "POST " + tag + " gagal");
         return false;
     }
-
     public boolean TreatResponse(Context context, String tag) {
         Log.i(tag, "Error          -->  " + error);
         Log.i(tag, "Description       -->  " + desc);
@@ -32,7 +31,7 @@ public class Calling {
             Log.i(tag, "Success : " + tag + " : " + desc);
             return true;
         } else {
-            MDToast.makeText(context, desc, Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
+            MDToast.makeText(context, desc, MDToast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
             Log.e(tag, "Failed : \n Error " + error + " : " + desc);
             return false;
         }

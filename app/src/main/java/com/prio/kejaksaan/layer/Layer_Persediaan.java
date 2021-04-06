@@ -27,11 +27,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.activity.Login;
 import com.prio.kejaksaan.adapter.AdapterAtk;
+import com.prio.kejaksaan.adapter.AdapterRequestATK;
 import com.prio.kejaksaan.databinding.FragPersedianBinding;
 import com.prio.kejaksaan.databinding.ModelAtkReqBinding;
 import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
 import com.prio.kejaksaan.model.AtkItemModel;
 import com.prio.kejaksaan.model.AtkModel;
+import com.prio.kejaksaan.model.AtkRequest;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.ModelLaporanATK;
 import com.prio.kejaksaan.model.PerkaraListModel;
@@ -49,7 +51,6 @@ import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -58,87 +59,86 @@ import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 
-public class Layer_Persediaan extends Fragment {
+public class Layer_Persediaan extends Fragment implements goFilter{
 
     FragPersedianBinding binding;
     PagerAdapter adapter;
-    AdapterSelainLogistik adapterSelainLogistik;
+    AdapterRequestATK adapterSelainLogistik;
     AdapterLaporanAtk adapterLaporanAtk;
+    goFilter myPersediaan;
+    boolean layerLaporan;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragPersedianBinding.inflate(inflater,container,false);
 
+        layerLaporan = false;
         switch (UserModel.i.type){
             case "PP":
-                showTabsPP();
+                showTabs(false,"Semua","Belum Terima");
                 binding.btnAddTop.setOnClickListener(v -> {
-                    AtkModel.StatusAddATK = 1;
-                    DialogFragment dialogFragment = new AddATK();
+                    DialogFragment dialogFragment = new AddATK(1);
                     dialogFragment.show(requireActivity().getSupportFragmentManager(),"Add ATK");
                 });
                 break;
             case "Pengelola Persediaan":
-                showTabsLog();
+                showTabs(true,"Semua","Belum Serah");
                 binding.btnAddTop.setOnClickListener(v -> {
-                    AtkModel.StatusAddATK = 0;
-                    DialogFragment dialogFragment = new AddATK();
+                    DialogFragment dialogFragment = new AddATK(0);
                     dialogFragment.show(requireActivity().getSupportFragmentManager(),"Add ATK");
                 });
                 break;
             case "PPK":
-                binding.shimer.setVisibility(View.VISIBLE);
-                binding.shimer.startShimmer();
-                GetATkPPK();
-                binding.layoutTabs.setVisibility(View.GONE);
-                binding.layoutList.setVisibility(View.VISIBLE);
+                showTabs(false,"Semua","Belum Verifikasi");
                 binding.btnAddTop.setVisibility(View.GONE);
                 break;
             case "KPA":
             case "SuperUser":
-                //Untuk function and UI search;
-                //start
-//                binding.btnSearch.setVisibility(View.VISIBLE);
-//                binding.cross.setOnClickListener(v -> {
-//                    binding.search2.setVisibility(View.GONE);
-//                    adapterLaporanAtk.notifyDataSetChanged();
-//                });
-                //end
                 binding.shimer.setVisibility(View.VISIBLE);
                 binding.shimer.startShimmer();
-                GetLaporanATKPPK();
+                myPersediaan = this;
+                GetLaporanATK();
                 binding.layoutTabs.setVisibility(View.GONE);
                 binding.layoutList.setVisibility(View.VISIBLE);
                 binding.btnAddTop.setVisibility(View.GONE);
                 break;
         }
+
+        binding.btnSearch.setOnClickListener(v -> {
+            binding.search1.setVisibility(View.GONE);
+            binding.search2.setVisibility(View.VISIBLE);
+        });
+
+        binding.cross.setOnClickListener(v -> {
+            binding.search2.setVisibility(View.GONE);
+            binding.search1.setVisibility(View.VISIBLE);
+//            (PerkaraModel.listperkara);
+        });
+        binding.findinput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
         return binding.getRoot();
     }
 
-    public void showTabsLog(){
+    public void showTabs(boolean Gudang, String verified, String unverified) {
         binding.tabMenu.setupWithViewPager(binding.viewpager);
         adapter = new PagerAdapter(getChildFragmentManager());
 
-        adapter.AddFragment(new AtkPermintaan(), "All Request");
-        adapter.AddFragment(new AtkVerifikasi(), "Verified");
-        adapter.AddFragment(new Gudang(), "All ATK");
+        adapter.AddFragment((Fragment) (myPersediaan = new AtkPermintaan()), verified);
+        adapter.AddFragment(new AtkVerifikasi(), unverified); //semua
+        if (Gudang)
+            adapter.AddFragment(new Gudang(), "All ATK");
         binding.viewpager.setAdapter(adapter);
 
-        for(int i=0; i < binding.tabMenu.getTabCount(); i++) {
-            View tab = ((ViewGroup) binding.tabMenu.getChildAt(0)).getChildAt(i);
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-            p.setMargins(30, 0, 10, 0);
-            tab.requestLayout();
-        }
-    }
 
-    public void showTabsPP(){
-        binding.tabMenu.setupWithViewPager(binding.viewpager);
-        adapter = new PagerAdapter(getChildFragmentManager());
-
-        adapter.AddFragment(new AtkVerifikasi(), "Verified");
-        adapter.AddFragment(new AtkPermintaan(), "All Request");
         binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -161,9 +161,8 @@ public class Layer_Persediaan extends Fragment {
 
             }
         });
-        binding.viewpager.setAdapter(adapter);
 
-        for(int i=0; i < binding.tabMenu.getTabCount(); i++) {
+        for (int i = 0; i < binding.tabMenu.getTabCount(); i++) {
             View tab = ((ViewGroup) binding.tabMenu.getChildAt(0)).getChildAt(i);
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
             p.setMargins(30, 0, 10, 0);
@@ -171,33 +170,7 @@ public class Layer_Persediaan extends Fragment {
         }
     }
 
-    public void GetATkPPK(){
-        Call<AtkModel> call = BaseModel.i.getService().ATkreqPPK(BaseModel.i.token);
-        call.enqueue(new Callback<AtkModel>() {
-            @Override
-            public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
-                AtkModel atkModel = response.body();
-                if(Calling.TreatResponse(getContext(),"req atk pp", atkModel)){
-                    assert atkModel != null;
-                    if (atkModel.data.size() == 0){
-                        binding.kosongList.setVisibility(View.VISIBLE);
-                    }
-                    adapterSelainLogistik = new AdapterSelainLogistik(requireContext(), atkModel.data);
-                    binding.listPersediaan.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-                    binding.listPersediaan.setAdapter(adapterSelainLogistik);
-                    binding.shimer.stopShimmer();
-                    binding.shimer.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<AtkModel> call, @NotNull Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
-    }
-
-    public void GetLaporanATKPPK(){
+    public void GetLaporanATK(){
         Call<List<ModelLaporanATK>> call = BaseModel.i.getService().LaporanAtkPPK();
         call.enqueue(new Callback<List<ModelLaporanATK>>() {
             @Override
@@ -219,37 +192,27 @@ public class Layer_Persediaan extends Fragment {
         });
     }
 
-    public void GetATkPPKVerify(int ids){
-        Call<PerkaraModel> call = BaseModel.i.getService().ReqATKPPK(BaseModel.i.token, ids);
-        call.enqueue(new Callback<PerkaraModel>() {
-            @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel atkModel = response.body();
-                if(Calling.TreatResponse(requireContext(),"req atk pp", atkModel)){
-                    assert atkModel != null;
-                    MDToast.makeText(requireContext(), "Request Berhasil di verifikasi !", Toast.LENGTH_SHORT, MDToast.TYPE_SUCCESS).show();
-                    assert getFragmentManager() != null;
-                    getFragmentManager().beginTransaction().detach(Layer_Persediaan.this).attach(Layer_Persediaan.this).commit();
-                }
+    @Override
+    public void Filter(String filters) {
+        if (layerLaporan)
+            if (filters.length() != 0) {
+//                adapterLaporanAtk.getFilter().filter(filters);
+            } else {
+//                adapterSelainLogistik.getFilter().filter(filters);
             }
-
-            @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
+        else{
+            adapterSelainLogistik.getFilter().filter(filters);
+        }
     }
 
-    public static class AdapterLaporanAtk extends RecyclerView.Adapter<AdapterLaporanAtk.vHolder> implements Filterable {
+    public static class AdapterLaporanAtk extends RecyclerView.Adapter<AdapterLaporanAtk.vHolder>{
 
         Context context;
         List<ModelLaporanATK> models;
-        List<ModelLaporanATK> modelfilter;
 
         public AdapterLaporanAtk(Context context, List<ModelLaporanATK> models) {
             this.context = context;
             this.models = models;
-            this.modelfilter = models;
         }
 
         @NonNull
@@ -269,7 +232,6 @@ public class Layer_Persediaan extends Fragment {
             holder.binding.v1.setText(String.valueOf(models.get(position).masuk));
             holder.binding.v2.setText(String.valueOf(models.get(position).keluar));
             holder.binding.v3.setText(String.valueOf(models.get(position).sisa));
-//            holder.binding.l3.setVisibility(View.GONE);
             holder.binding.l4.setVisibility(View.GONE);
             holder.binding.l5.setVisibility(View.GONE);
             holder.binding.l6.setVisibility(View.GONE);
@@ -284,39 +246,6 @@ public class Layer_Persediaan extends Fragment {
             return models.size();
         }
 
-        @Override
-        public Filter getFilter() {
-            return new Filter() {
-                @Override
-                protected FilterResults performFiltering(CharSequence constraint) {
-                    String key = constraint.toString();
-                    if (key.isEmpty()){
-                        models = modelfilter;
-                    } else {
-                        List<ModelLaporanATK> modelss = new ArrayList<>();
-                        for (ModelLaporanATK model : modelfilter){
-                            if (model.keterangan.toLowerCase().contains(key.toLowerCase()) ||
-                                    model.name.toLowerCase().contains(key.toLowerCase())){
-                                modelss.add(model);
-                            }
-                        }
-
-                        models = modelss;
-                    }
-
-                    FilterResults filterResults = new FilterResults();
-                    filterResults.values = models;
-                    return filterResults;
-                }
-
-                @Override
-                protected void publishResults(CharSequence constraint, FilterResults results) {
-                    models = (List<ModelLaporanATK>) results.values;
-                    notifyDataSetChanged();
-                }
-            };
-        }
-
         public static class vHolder extends RecyclerView.ViewHolder{
             ModelPerkaraBinding binding;
             public vHolder(ModelPerkaraBinding itemView) {
@@ -325,118 +254,4 @@ public class Layer_Persediaan extends Fragment {
             }
         }
     }
-
-    public class AdapterSelainLogistik extends RecyclerView.Adapter<AdapterSelainLogistik.vHolder>{
-
-        Context context;
-        List<AtkModel> models;
-
-        public AdapterSelainLogistik(Context context, List<AtkModel> models) {
-            this.context = context;
-            this.models = models;
-        }
-
-        @NonNull
-        @Override
-        public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new vHolder(ModelPerkaraBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull vHolder holder, int position) {
-            switch (UserModel.i.type){
-                case "PPK":
-                    if (models.get(position).ppk_id != 0){
-                        holder.binding.namaTerdakwa.setVisibility(View.GONE);
-                    } else {
-                        holder.binding.namaTerdakwa.setText("Verifikasi");
-                        holder.binding.namaTerdakwa.setGravity(Gravity.END);
-                        holder.binding.namaTerdakwa.setTextColor(context.getColor(R.color.colorPrimaryDark));
-                        holder.binding.namaTerdakwa.setOnClickListener(v -> GetATkPPKVerify(models.get(position).id));
-                    }
-                    break;
-            }
-
-            holder.binding.dakwaan.setVisibility(View.GONE);
-            holder.binding.t1.setText("PPK");
-            holder.binding.t2.setText("Logistik");
-            if (models.get(position).ppk_id != 0){
-                holder.binding.v1.setText("Verified");
-                holder.binding.v1.setTextColor(context.getColor(R.color.green));
-            } else {
-                holder.binding.v1.setText("Unverified");
-                holder.binding.v1.setTextColor(context.getColor(R.color.red));
-            }
-
-            if (models.get(position).log_id != 0){
-                holder.binding.v2.setText("Verified");
-                holder.binding.v2.setTextColor(context.getColor(R.color.green));
-            } else {
-                holder.binding.v2.setText("Unverified");
-                holder.binding.v2.setTextColor(context.getColor(R.color.red));
-            }
-
-            holder.binding.l3.setVisibility(View.GONE);
-            holder.binding.l4.setVisibility(View.GONE);
-            holder.binding.l5.setVisibility(View.GONE);
-            holder.binding.l6.setVisibility(View.GONE);
-
-            AdapterAnak adapterAnak = new AdapterAnak(context, models.get(position).barang);
-            holder.binding.listOnmodel.setVisibility(View.VISIBLE);
-            holder.binding.listOnmodel.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true));
-            holder.binding.listOnmodel.setAdapter(adapterAnak);
-        }
-
-        @Override
-        public int getItemCount() {
-            return models.size();
-        }
-
-        public class vHolder extends RecyclerView.ViewHolder{
-            ModelPerkaraBinding binding;
-            public vHolder(ModelPerkaraBinding itemView) {
-                super(itemView.getRoot());
-                this.binding = itemView;
-            }
-        }
-    }
-
-    public static class AdapterAnak extends RecyclerView.Adapter<AdapterAnak.vHolder>{
-
-        Context context;
-        List<AtkModel> models;
-
-        public AdapterAnak(Context context, List<AtkModel> models) {
-            this.context = context;
-            this.models = models;
-        }
-
-        @NonNull
-        @Override
-        public vHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new vHolder(ModelAtkReqBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull vHolder holder, int position) {
-            holder.binding.r1.setVisibility(View.GONE);
-            holder.binding.r2.setVisibility(View.VISIBLE);
-            holder.binding.nameDetail1.setText("Nama : " + models.get(position).name);
-            holder.binding.jumlahDetail1.setText("Jumlah : " + String.valueOf(models.get(position).jumlah) + " Items");
-        }
-
-        @Override
-        public int getItemCount() {
-            return models.size();
-        }
-
-        public static class vHolder extends RecyclerView.ViewHolder{
-            ModelAtkReqBinding binding;
-            public vHolder(ModelAtkReqBinding itemView) {
-                super(itemView.getRoot());
-                this.binding = itemView;
-            }
-        }
-    }
-
 }

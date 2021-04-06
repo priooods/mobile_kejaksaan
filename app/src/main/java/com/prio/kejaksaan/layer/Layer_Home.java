@@ -22,7 +22,6 @@ import com.prio.kejaksaan.activity.Login;
 import com.prio.kejaksaan.adapter.AdapterAllUsers;
 import com.prio.kejaksaan.adapter.AdapterNotif;
 import com.prio.kejaksaan.adapter.AdapterPerkara;
-import com.prio.kejaksaan.adapter.AdapterPerkaraVerif;
 import com.prio.kejaksaan.databinding.FragHomeBinding;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
@@ -74,9 +73,7 @@ public class Layer_Home extends Fragment {
                 e.printStackTrace();
             }
             //TODO: Dicheck kalau typenya not KPA.kalau ga berhasil kabarin lgi
-            if (UserModel.i.type.equals("KPA") || UserModel.i.type.equals("SuperUser")){
-                popupMenu.getMenu().findItem(R.id.add).setVisible(true);
-            } else{
+            if (!UserModel.i.type.equals("KPA") || !UserModel.i.type.equals("SuperUser")){
                 popupMenu.getMenu().findItem(R.id.add).setVisible(false);
             }
 
@@ -105,58 +102,43 @@ public class Layer_Home extends Fragment {
         binding.shimer.setVisibility(View.GONE);
         binding.layoutKosong.setVisibility(View.VISIBLE);
 
-        switch (Objects.requireNonNull(sharedPreferences.getString("type", null))) {
-            case "KPA":
-            case "SuperUser":
-            case "Ketua":
-                binding.layoutKosong.setVisibility(View.GONE);
-                binding.listNotification.setVisibility(View.GONE);
-                binding.titleKpa.setVisibility(View.VISIBLE);
-                binding.listUserss.setVisibility(View.VISIBLE);
-                GettingUserAll();
-                break;
-            default:
-                binding.listNotification.setVisibility(View.VISIBLE);
-                binding.listUserss.setVisibility(View.GONE);
-                ShowingNotif();
-                break;
+        String type = null;
+        if (UserModel.isExist())
+            type = UserModel.i.type;
 
-        }
+        try {
+            if (type == null && sharedPreferences != null)
+                type = Objects.requireNonNull(sharedPreferences.getString("type", null));
+        } catch (Exception e) {}
+
+        if (type == null) {
+            startActivity(new Intent(requireActivity(), Login.class));
+            requireActivity().finish();
+        } else
+            switch (type) {
+                case "KPA":
+                case "Ketua":
+                case "SuperUser":
+                    binding.layoutKosong.setVisibility(View.GONE);
+                    binding.listNotification.setVisibility(View.GONE);
+                    binding.titleKpa.setVisibility(View.VISIBLE);
+                    binding.listUserss.setVisibility(View.VISIBLE);
+                    GettingUserAll();
+                    break;
+                default:
+                    binding.listNotification.setVisibility(View.VISIBLE);
+                    binding.listUserss.setVisibility(View.GONE);
+                    ShowingNotif();
+                    break;
+            }
         return binding.getRoot();
     }
 
-    public void GettingNotifPPK(){
-        Call<AtkModel> call = BaseModel.i.getService().AtkNotifUntukPPK(BaseModel.i.token);
-        call.enqueue(new Callback<AtkModel>() {
-            @Override
-            public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
-                AtkModel atkModel = response.body();
-                if(Calling.TreatResponse(getContext(),"req atk pp", atkModel)){
-                    assert atkModel != null;
-                    if (atkModel.data.size() == 0){
-                        binding.layoutKosong.setVisibility(View.VISIBLE);
-                    }
-                    NotifikasiPPK(atkModel.data);
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<AtkModel> call, @NotNull Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
-    }
-
-    public void NotifikasiPPK(List<AtkModel> md){
-        AdapterPerkaraVerif adapterPerkaraVerif = new AdapterPerkaraVerif(requireContext(),md);
-        binding.listNotification.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
-        binding.listNotification.setAdapter(adapterPerkaraVerif);
-        binding.shimer.stopShimmer();
-        binding.shimer.setVisibility(View.GONE);
-    }
-
     public void ListNotif(List<ModelNotification.Item> md){
-        adapterNotif = new AdapterNotif(requireContext(),md);
+        if (md.size() == 0)
+            return;
+        adapterNotif = new AdapterNotif(getContext(),md);
+        binding.layoutKosong.setVisibility(View.GONE);
         binding.listNotification.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.listNotification.setAdapter(adapterNotif);
         adapterNotif.notifyDataSetChanged();
@@ -236,19 +218,17 @@ public class Layer_Home extends Fragment {
         call.enqueue(new Callback<ModelNotification>() {
             @Override
             public void onResponse(@NotNull Call<ModelNotification> call, @NotNull Response<ModelNotification> response) {
-                ModelNotification mode = response.body();
-                if (Calling.TreatResponse(getContext(),"Getting Notifikasi", mode)){
-                    if (mode != null && mode.data.size() == 0){
+                ModelNotification model = response.body();
+                if (Calling.TreatResponse(getContext(),"Getting Notifikasi", model)){
+                    if (model != null && model.data.size() == 0){
                         binding.layoutKosong.setVisibility(View.VISIBLE);
                     } else {
-                        assert mode != null;
-                        Log.i(TAG, "onResponse: " + mode);
-                        adapterNotif = new AdapterNotif(getContext(),mode.data);
-                        binding.listNotification.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-                        binding.listNotification.setAdapter(adapterNotif);
-                        adapterNotif.notifyDataSetChanged();
-                        binding.shimer.stopShimmer();
-                        binding.shimer.setVisibility(View.GONE);
+                        Log.i(TAG, "onResponse: " + model.data.size());
+                        for(ModelNotification.Item l : model.data){
+                            Log.e(TAG,l.toString());
+                        }
+//                        model.data.add(model.defItem());
+                        ListNotif(model.data);
                     }
                 }
             }

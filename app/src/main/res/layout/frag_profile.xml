@@ -28,16 +28,16 @@
             android:textColor="@color/colorPrimary"/>
 
         <ImageView
-            android:layout_marginEnd="10dp"
+            android:id="@+id/menu_add"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@id/menu_dots"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/icon_user_add"
             android:layout_alignParentEnd="true"
-            android:id="@+id/menu_add"/>
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/icon_user_add"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/menu_dots"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:layout_marginEnd="10dp"
@@ -91,85 +91,85 @@
                         android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_weight="1"
-                            android:visibility="gone"
                             android:id="@+id/layout_valueUser"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
                             android:orientation="vertical"
-                            android:gravity="center">
+                            android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/value_admin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textStyle="bold"
-                                android:textSize="18sp"
                                 android:fontFamily="@font/gopher_medium"
                                 android:textColor="@color/colorPrimary"
-                                android:id="@+id/value_admin"/>
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
                             <TextView
-                                android:layout_marginTop="8dp"
                                 android:layout_width="wrap_content"
-                                android:fontFamily="@font/gopher_light"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/gopher_light"
                                 android:text="@string/users"
-                                android:textColor="@color/colorPrimary"/>
+                                android:textColor="@color/colorPrimary" />
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:visibility="gone"
                             android:id="@+id/val2"
-                            android:layout_weight="1">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/value_atk"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textStyle="bold"
-                                android:textSize="18sp"
                                 android:textColor="@color/colorPrimary"
-                                android:id="@+id/value_atk"/>
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
                             <TextView
-                                android:layout_marginTop="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="ATK"
+                                android:layout_marginTop="8dp"
                                 android:fontFamily="@font/gopher_light"
-                                android:textColor="@color/colorPrimary"/>
+                                android:text="ATK"
+                                android:textColor="@color/colorPrimary" />
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/val3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
+                            android:layout_weight="1"
                             android:gravity="center"
-                            android:visibility="gone"
-                            android:id="@+id/val3"
-                            android:layout_weight="1">
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/value_info"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textStyle="bold"
                                 android:fontFamily="@font/gopher_medium"
-                                android:textSize="18sp"
                                 android:textColor="@color/colorPrimary"
-                                android:id="@+id/value_info"/>
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
                             <TextView
-                                android:layout_marginTop="8dp"
-                                android:text="@string/perkara"
-                                android:fontFamily="@font/gopher_light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/colorPrimary"/>
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/gopher_light"
+                                android:text="@string/perkara"
+                                android:textColor="@color/colorPrimary" />
 
                         </LinearLayout>
 

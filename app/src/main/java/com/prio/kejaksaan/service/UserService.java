@@ -1,9 +1,13 @@
 package com.prio.kejaksaan.service;
 
+import android.os.Message;
+
 import com.prio.kejaksaan.model.AtkItemModel;
 import com.prio.kejaksaan.model.AtkModel;
+import com.prio.kejaksaan.model.AtkRequest;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
+import com.prio.kejaksaan.model.MessageModel;
 import com.prio.kejaksaan.model.ModelLaporanATK;
 import com.prio.kejaksaan.model.ModelNotification;
 import com.prio.kejaksaan.model.PembayaranModel;
@@ -219,13 +223,13 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("atk/pp")
-    Call<AtkModel> ATkverifPP(
+    Call<AtkRequest> ATkverifPP(
             @Field("token") String token
     );
 
     @FormUrlEncoded
     @POST("atk/req/my")
-    Call<AtkModel> ATkreqPP(
+    Call<AtkRequest> ATkreqPP(
             @Field("token") String token
     );
 
@@ -235,40 +239,48 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("atk/ppk/show")
-    Call<AtkModel> ATkreqPPK(
+    Call<AtkRequest> ATkreqPPK(
             @Field("token") String token
     );
 
     @FormUrlEncoded
     @POST("atk/ppk")
-    Call<AtkModel> AtkNotifUntukPPK(
+    Call<AtkRequest> ATkverifPPK(
             @Field("token") String token
     );
 
     @FormUrlEncoded
     @POST("atk/ppk/acc")
-    Call<PerkaraModel> ReqATKPPK(
+    Call<MessageModel> AtkaccPPK(
             @Field("token") String token
             , @Field("id") int id
     );
 
     @Multipart
+    @POST("atk/pp/acc")
+    Call<MessageModel> AtkaccPP(
+            @Query("token") String token
+            , @Query("id") int id
+            ,@Part MultipartBody.Part penerimaan
+    );
+
+    @Multipart
     @POST("atk/log/acc")
-    Call<AtkModel> VerifyATKLog(
+    Call<MessageModel> VerifyATKLog(
             @Query("token") String token,
             @Query("id") int id
             ,@Part MultipartBody.Part penyerahan
     );
 
     @FormUrlEncoded
-    @POST("atk/log")
-    Call<AtkModel> ATkreqLog(
+    @POST("atk/log/show")
+    Call<AtkRequest> ATkreqLog(
             @Field("token") String token
     );
 
     @FormUrlEncoded
-    @POST("atk/log/show")
-    Call<AtkModel> ATkverifLog(
+    @POST("atk/log")
+    Call<AtkRequest> ATkverifLog(
             @Field("token") String token
     );
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +57,6 @@ public class Layer_Anggaran extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragAnggaranBinding.inflate(inflater,container,false);
         binding.shimer.startShimmer();
-        binding.btnAddNew.setVisibility(View.GONE);
         ListPembayaran();
 //        switch (UserModel.i.type){
 //            case "PPK":
@@ -72,6 +73,26 @@ public class Layer_Anggaran extends Fragment {
 //                ListPembayaran();
 //                break;
 //        }
+        binding.btnSearch.setOnClickListener(v -> {
+            binding.search1.setVisibility(View.GONE);
+            binding.search2.setVisibility(View.VISIBLE);
+        });
+
+        binding.cross.setOnClickListener(v -> {
+            binding.search2.setVisibility(View.GONE);
+            binding.search1.setVisibility(View.VISIBLE);
+//            (PerkaraModel.listperkara);
+        });
+        binding.findinput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                Log.e("Anggaran","OnChange");
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
 
         return binding.getRoot();
     }

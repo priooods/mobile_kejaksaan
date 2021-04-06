@@ -74,9 +74,8 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:textColor="@color/colorPrimary"
                 android:layout_height="wrap_content"
-                android:hint="Search Perkara Item..."
+                android:hint="Mencari Perkara..."
                 android:textColorHint="@color/grey"
-                android:fontFamily="@font/gopher_reguler"
                 android:id="@+id/findinput"/>
 
             <ImageView
@@ -106,7 +105,7 @@
                 android:layout_marginTop="13dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tap item to see details"
+                android:text="Menampilkan semua daftar perkara"
                 android:textColor="@color/colorPrimary"
                 android:layout_marginHorizontal="18dp"
                 android:id="@+id/desc"/>

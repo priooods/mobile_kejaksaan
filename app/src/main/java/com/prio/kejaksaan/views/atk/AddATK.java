@@ -27,7 +27,9 @@ import com.prio.kejaksaan.databinding.ModelAtkReqBinding;
 import com.prio.kejaksaan.layer.Layer_Persediaan;
 import com.prio.kejaksaan.model.AtkItemModel;
 import com.prio.kejaksaan.model.AtkModel;
+import com.prio.kejaksaan.model.AtkRequest;
 import com.prio.kejaksaan.model.BaseModel;
+import com.prio.kejaksaan.model.MessageModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.UserModel;
@@ -61,9 +63,9 @@ public class AddATK extends DialogFragment {
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogFullscreen);
     }
 
-//    ArrayList<AtkModel> atkModels;
     ArrayList<AtkItemModel.Item> atkModels;
     AtkItemModel.Item atkItem;
+    AtkRequest.Item atkRequest;
     int prosesId = -1;
     DialogAddAtkBinding binding;
     List<AtkItemModel.Item> atkid;
@@ -74,7 +76,15 @@ public class AddATK extends DialogFragment {
     Intent openFileManager;
     public static int PRIVATE_CODE = 1;
     File files;
+    int mode;
 
+    public AddATK(int mode){
+        this.mode = mode;
+    }
+    public AddATK(int mode, AtkRequest.Item item){
+        atkRequest = item;
+        this.mode = mode;
+    }
 
     @Nullable
     @Override
@@ -82,7 +92,7 @@ public class AddATK extends DialogFragment {
         binding = DialogAddAtkBinding.inflate(inflater,container,false);
         binding.backpress.setOnClickListener(v -> dismiss());
         atkModels = new ArrayList<>();
-        switch (AtkModel.StatusAddATK){
+        switch (mode){
             case 0:
                 binding.btnCreateUsers.setOnClickListener(v->TambahATK());
                 break;
@@ -97,6 +107,18 @@ public class AddATK extends DialogFragment {
                 binding.sco.setVisibility(View.VISIBLE);
                 binding.uploadFile.setOnClickListener(v -> OpenManager());
                 binding.btnUploadfile.setOnClickListener(v -> KirimATkLogVerify());
+                binding.deleteFile.setOnClickListener(v -> {
+                    binding.uploadFile.setVisibility(View.VISIBLE);
+                    files = null;
+                    binding.nameFile.setText(null);
+                    binding.layoutNamefile.setVisibility(View.GONE);
+                });
+                break;
+            case 3:
+                binding.scn.setVisibility(View.GONE);
+                binding.sco.setVisibility(View.VISIBLE);
+                binding.uploadFile.setOnClickListener(v -> OpenManager());
+                binding.btnUploadfile.setOnClickListener(v -> KirimAtkPPVerify());
                 binding.deleteFile.setOnClickListener(v -> {
                     binding.uploadFile.setVisibility(View.VISIBLE);
                     files = null;
@@ -219,6 +241,8 @@ public class AddATK extends DialogFragment {
             @Override
             public void onResponse(@NotNull Call<List<AtkItemModel.Item>> call, @NotNull Response<List<AtkItemModel.Item>> response) {
                     List<AtkItemModel.Item> data = response.body();
+                    if (data == null)
+                        return;
                     atkid = data;
                     Log.e("ATKREQ","List Acquired "+atkid.size());
             }
@@ -294,6 +318,40 @@ public class AddATK extends DialogFragment {
         });
     }
 
+    public void KirimAtkPPVerify(){
+        binding.loading2.setVisibility(View.VISIBLE);
+        MultipartBody.Part fileToUpload = null;
+        if (files != null){
+            fileToUpload = MultipartBody.Part.createFormData("penerimaan", files.getPath(), File_form(files));
+        }
+
+        Call<MessageModel> call = BaseModel.i.getService().AtkaccPP(BaseModel.i.token, atkRequest.id, fileToUpload);
+        call.enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                MessageModel atkModel = response.body();
+                if(Calling.TreatResponse(requireContext(),"req atk pp", atkModel)){
+                    assert atkModel != null;
+                    MDToast.makeText(requireContext(),atkModel.data, Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    assert getFragmentManager() != null;
+                    Layer_Persediaan persediaan = (Layer_Persediaan) getFragmentManager().findFragmentByTag("persediaan");
+                    FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+                    assert persediaan != null;
+                    atkRequest.penyerahan = files.getParent();
+                    transaction.detach(persediaan);
+                    transaction.attach(persediaan);
+                    transaction.commit();
+                    dismiss();
+                }
+                binding.loading2.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+    }
     public void KirimATkLogVerify(){
         binding.loading2.setVisibility(View.VISIBLE);
         MultipartBody.Part fileToUpload = null;
@@ -301,29 +359,33 @@ public class AddATK extends DialogFragment {
             fileToUpload = MultipartBody.Part.createFormData("penyerahan", files.getPath(), File_form(files));
         }
 
-        Call<AtkModel> call = BaseModel.i.getService().VerifyATKLog(BaseModel.i.token, AtkModel.i.id, fileToUpload);
-        call.enqueue(new Callback<AtkModel>() {
+        Call<MessageModel> call = BaseModel.i.getService().VerifyATKLog(BaseModel.i.token, atkRequest.id, fileToUpload);
+        call.enqueue(new Callback<MessageModel>() {
             @Override
-            public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
-                AtkModel atkModel = response.body();
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                MessageModel atkModel = response.body();
                 if(Calling.TreatResponse(requireContext(),"req atk pp", atkModel)){
                     assert atkModel != null;
-                    MDToast.makeText(requireContext(),"Success Verify Request ATK", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
-                    binding.loading2.setVisibility(View.GONE);
+                    MDToast.makeText(requireContext(),atkModel.data, Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
                     Layer_Persediaan persediaan = (Layer_Persediaan) getFragmentManager().findFragmentByTag("persediaan");
                     FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                     assert persediaan != null;
+                    atkRequest.penyerahan = files.getParent();
                     transaction.detach(persediaan);
                     transaction.attach(persediaan);
                     transaction.commit();
                     dismiss();
-                }
+                }else
+                    MDToast.makeText(requireContext(),"Permintaan Gagal, Coba Lagi!", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
+                binding.loading2.setVisibility(View.GONE);
             }
 
             @Override
-            public void onFailure(@NotNull Call<AtkModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
+                binding.loading2.setVisibility(View.GONE);
+                MDToast.makeText(requireContext(),"Verifikasi Gagal", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
             }
         });
     }

@@ -22,6 +22,9 @@ public class PerkaraListModel extends Calling {
         public String getIdentity(){
             return identitas+" - "+dakwaan;
         }
+        public String getInformation(){
+            return "Perkara "+tanggal+"/ No."+nomor+"/ Jenis."+jenis;
+        }
     }
     public class Proses{
         public int id;
@@ -30,6 +33,7 @@ public class PerkaraListModel extends Calling {
         public String agenda;
         public int perkara_id;
         public String created;
+        public PerkaraListModel.Item perkara;
         public String print(){
             return hari+","+tanggal+" : "+agenda;
         }

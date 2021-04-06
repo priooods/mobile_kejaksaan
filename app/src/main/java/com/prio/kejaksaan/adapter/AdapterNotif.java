@@ -20,6 +20,7 @@ import com.prio.kejaksaan.model.ModelNotification;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.views.perkara.DetailPerkara;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.vHolder> {
@@ -40,8 +41,8 @@ public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.vHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull vHolder holder, int position) {
-        holder.binding.titleNotif.setText(modelList.get(position).detail);
-        holder.binding.subtitleNotif.setText(modelList.get(position).message);
+        holder.binding.titleNotif.setText(modelList.get(position).message);
+        holder.binding.subtitleNotif.setText(modelList.get(position).detail);
         holder.binding.textNotif.setText(modelList.get(position).time);
 
         holder.binding.readmore.setOnClickListener(v -> {
@@ -64,8 +65,8 @@ public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.vHolder> {
 
     @Override
     public int getItemCount() {
-        if (modelList.size() != 0){
-            modelList.size();
+        if (modelList!=null){
+            return modelList.size();
         }
         return 0;
     }

@@ -29,7 +29,6 @@
             android:id="@+id/jumlah"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,35 +42,37 @@
 
     <LinearLayout
         android:id="@+id/r2"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/name_detail1"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:textColor="@color/colorPrimary"
-            android:maxLines="1"
             android:layout_height="wrap_content"
             android:layout_marginEnd="3dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            android:text="Delete"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/name_detail1"
-            android:textSize="12sp"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/name"
-            app:layout_constraintTop_toBottomOf="@id/name"
             android:id="@+id/jumlah_detail1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
+            android:layout_weight="1"
             android:textColor="@color/colorPrimary"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:text="Delete"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/name" />
 
     </LinearLayout>
 

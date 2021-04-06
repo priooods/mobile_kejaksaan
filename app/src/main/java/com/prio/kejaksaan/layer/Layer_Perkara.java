@@ -99,13 +99,6 @@ public class Layer_Perkara extends Fragment {
         binding.listPerkara.setAdapter(adapterPerkara);
     }
 
-    public void storeAdapterPanMud(List<SuratModel.Item> md){
-        adapterSurat = new AdapterSurat(requireContext(),md);
-        binding.listPerkara.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        binding.listPerkara.setHasFixedSize(true);
-        binding.listPerkara.setAdapter(adapterSurat);
-    }
-
 
     public void GettAllPerkaraPP(){
         Call<PerkaraListModel> call = BaseModel.i.getService().PerkaraPP(BaseModel.i.token);
