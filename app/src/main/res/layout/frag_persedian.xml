@@ -46,7 +46,52 @@
                 android:id="@+id/btn_add_top"
                 android:contentDescription="@string/perkara" />
 
+<!--            <ImageView-->
+<!--                android:layout_width="30dp"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/icon_search"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                android:layout_marginEnd="12dp"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                android:id="@+id/btn_search"-->
+<!--                android:contentDescription="@string/perkara" />-->
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        <LinearLayout-->
+<!--            android:visibility="gone"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:id="@+id/search2"-->
+<!--            android:layout_marginHorizontal="12px"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <EditText-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:backgroundTint="@color/colorPrimary"-->
+<!--                android:textColor="@color/colorPrimary"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Search Persediaan Item..."-->
+<!--                android:textColorHint="@color/grey"-->
+<!--                android:fontFamily="@font/gopher_reguler"-->
+<!--                android:id="@+id/findinput"/>-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/icon_cross"-->
+<!--                android:id="@+id/cross"-->
+<!--                android:scaleType="fitXY"/>-->
+
+
+<!--        </LinearLayout>-->
 
     </RelativeLayout>
 

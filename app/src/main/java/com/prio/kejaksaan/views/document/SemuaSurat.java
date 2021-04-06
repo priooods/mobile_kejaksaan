@@ -50,7 +50,7 @@ public class SemuaSurat extends Fragment {
 
     public void storeAdapter(List<SuratModel.Item> md){
         adapterSurat = new AdapterSuratList(requireContext(), md);
-        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.listDocument.setHasFixedSize(true);
         binding.listDocument.setAdapter(adapterSurat);
     }

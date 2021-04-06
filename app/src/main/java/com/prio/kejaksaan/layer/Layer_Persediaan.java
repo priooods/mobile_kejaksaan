@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.activity.Login;
@@ -29,6 +34,7 @@ import com.prio.kejaksaan.model.AtkItemModel;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.ModelLaporanATK;
+import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
@@ -43,6 +49,7 @@ import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -90,6 +97,14 @@ public class Layer_Persediaan extends Fragment {
                 break;
             case "KPA":
             case "SuperUser":
+                //Untuk function and UI search;
+                //start
+//                binding.btnSearch.setVisibility(View.VISIBLE);
+//                binding.cross.setOnClickListener(v -> {
+//                    binding.search2.setVisibility(View.GONE);
+//                    adapterLaporanAtk.notifyDataSetChanged();
+//                });
+                //end
                 binding.shimer.setVisibility(View.VISIBLE);
                 binding.shimer.startShimmer();
                 GetLaporanATKPPK();
@@ -124,6 +139,28 @@ public class Layer_Persediaan extends Fragment {
 
         adapter.AddFragment(new AtkVerifikasi(), "Verified");
         adapter.AddFragment(new AtkPermintaan(), "All Request");
+        binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        //disini page satu detected
+                        break;
+                    case 1:
+                        //page dua detected
+                        break;
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         binding.viewpager.setAdapter(adapter);
 
         for(int i=0; i < binding.tabMenu.getTabCount(); i++) {
@@ -133,27 +170,6 @@ public class Layer_Persediaan extends Fragment {
             tab.requestLayout();
         }
     }
-
-//    public void GetAllAtk(){
-//        Call<AtkItemModel> call = BaseModel.i.getService().AllAtk();
-//        call.enqueue(new Callback<AtkItemModel>() {
-//            @Override
-//            public void onResponse(@NotNull Call<AtkItemModel> call, @NotNull Response<AtkItemModel> response) {
-//                AtkItemModel data = response.body();
-//                if (Calling.TreatResponse(requireContext(), "list_atk", data)) {
-//
-////                    for(AtkItemModel.Item a : data.data){
-//////                        a.toString();
-////                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NotNull Call<AtkItemModel> call, @NotNull Throwable t) {
-//                Log.e(TAG, "onFailure: ", t);
-//            }
-//        });
-//    }
 
     public void GetATkPPK(){
         Call<AtkModel> call = BaseModel.i.getService().ATkreqPPK(BaseModel.i.token);
@@ -224,14 +240,16 @@ public class Layer_Persediaan extends Fragment {
         });
     }
 
-    public static class AdapterLaporanAtk extends RecyclerView.Adapter<AdapterLaporanAtk.vHolder>{
+    public static class AdapterLaporanAtk extends RecyclerView.Adapter<AdapterLaporanAtk.vHolder> implements Filterable {
 
         Context context;
         List<ModelLaporanATK> models;
+        List<ModelLaporanATK> modelfilter;
 
         public AdapterLaporanAtk(Context context, List<ModelLaporanATK> models) {
             this.context = context;
             this.models = models;
+            this.modelfilter = models;
         }
 
         @NonNull
@@ -264,6 +282,39 @@ public class Layer_Persediaan extends Fragment {
                 return 0;
             }
             return models.size();
+        }
+
+        @Override
+        public Filter getFilter() {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    String key = constraint.toString();
+                    if (key.isEmpty()){
+                        models = modelfilter;
+                    } else {
+                        List<ModelLaporanATK> modelss = new ArrayList<>();
+                        for (ModelLaporanATK model : modelfilter){
+                            if (model.keterangan.toLowerCase().contains(key.toLowerCase()) ||
+                                    model.name.toLowerCase().contains(key.toLowerCase())){
+                                modelss.add(model);
+                            }
+                        }
+
+                        models = modelss;
+                    }
+
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = models;
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    models = (List<ModelLaporanATK>) results.values;
+                    notifyDataSetChanged();
+                }
+            };
         }
 
         public static class vHolder extends RecyclerView.ViewHolder{

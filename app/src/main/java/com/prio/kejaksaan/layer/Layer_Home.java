@@ -74,7 +74,9 @@ public class Layer_Home extends Fragment {
                 e.printStackTrace();
             }
             //TODO: Dicheck kalau typenya not KPA.kalau ga berhasil kabarin lgi
-            if (!UserModel.i.type.equals("KPA") || !UserModel.i.type.equals("SuperUser")){
+            if (UserModel.i.type.equals("KPA") || UserModel.i.type.equals("SuperUser")){
+                popupMenu.getMenu().findItem(R.id.add).setVisible(true);
+            } else{
                 popupMenu.getMenu().findItem(R.id.add).setVisible(false);
             }
 
@@ -105,8 +107,8 @@ public class Layer_Home extends Fragment {
 
         switch (Objects.requireNonNull(sharedPreferences.getString("type", null))) {
             case "KPA":
-            case "Ketua":
             case "SuperUser":
+            case "Ketua":
                 binding.layoutKosong.setVisibility(View.GONE);
                 binding.listNotification.setVisibility(View.GONE);
                 binding.titleKpa.setVisibility(View.VISIBLE);
