@@ -52,6 +52,7 @@ import com.valdesekamdem.library.mdtoast.MDToast;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,7 +67,9 @@ public class Layer_Persediaan extends Fragment implements goFilter{
     AdapterRequestATK adapterSelainLogistik;
     AdapterLaporanAtk adapterLaporanAtk;
     goFilter myPersediaan;
+    goFilter[] myPersediaans;
     boolean layerLaporan;
+    int ID = new Random().nextInt(1000);
 
     @Nullable
     @Override
@@ -120,7 +123,8 @@ public class Layer_Persediaan extends Fragment implements goFilter{
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-
+                Log.e("ATKFILTER",getID()+" On Text Changed");
+                myPersediaan.Filter(charSequence);
             }
             @Override
             public void afterTextChanged(Editable s) { }
@@ -130,35 +134,36 @@ public class Layer_Persediaan extends Fragment implements goFilter{
 
     public void showTabs(boolean Gudang, String verified, String unverified) {
         binding.tabMenu.setupWithViewPager(binding.viewpager);
-        adapter = new PagerAdapter(getChildFragmentManager());
+        if (adapter != null) {
+            binding.viewpager.setAdapter(adapter);
 
-        adapter.AddFragment((Fragment) (myPersediaan = new AtkPermintaan()), verified);
-        adapter.AddFragment(new AtkVerifikasi(), unverified); //semua
+            for (int i = 0; i < binding.tabMenu.getTabCount(); i++) {
+                View tab = ((ViewGroup) binding.tabMenu.getChildAt(0)).getChildAt(i);
+                ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+                p.setMargins(30, 0, 10, 0);
+                tab.requestLayout();
+            }
+            return;
+        }
+        adapter = new PagerAdapter(getChildFragmentManager());
+        myPersediaans = new goFilter[3];
+        adapter.AddFragment((Fragment) (myPersediaan = myPersediaans[0] = new AtkPermintaan()), verified);
+        Log.e("ATKFILTER",ID+" myPersediaan refresh to "+myPersediaan.getID()+"!");
+        adapter.AddFragment((Fragment) (myPersediaans[1] = new AtkVerifikasi()), unverified); //semua
         if (Gudang)
-            adapter.AddFragment(new Gudang(), "All ATK");
+            adapter.AddFragment((Fragment) (myPersediaans[2] = new Gudang()), "All ATK");
         binding.viewpager.setAdapter(adapter);
 
 
         binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            @Override
+            public void onPageScrollStateChanged(int state) {}
 
             @Override
             public void onPageSelected(int position) {
-                switch (position){
-                    case 0:
-                        //disini page satu detected
-                        break;
-                    case 1:
-                        //page dua detected
-                        break;
-                }
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+                myPersediaan = myPersediaans[position];
             }
         });
 
@@ -193,7 +198,7 @@ public class Layer_Persediaan extends Fragment implements goFilter{
     }
 
     @Override
-    public void Filter(String filters) {
+    public void Filter(CharSequence filters) {
         if (layerLaporan)
             if (filters.length() != 0) {
 //                adapterLaporanAtk.getFilter().filter(filters);
@@ -201,8 +206,12 @@ public class Layer_Persediaan extends Fragment implements goFilter{
 //                adapterSelainLogistik.getFilter().filter(filters);
             }
         else{
-            adapterSelainLogistik.getFilter().filter(filters);
+            myPersediaan.Filter(filters);
         }
+    }
+    @Override
+    public int getID() {
+        return ID;
     }
 
     public static class AdapterLaporanAtk extends RecyclerView.Adapter<AdapterLaporanAtk.vHolder>{

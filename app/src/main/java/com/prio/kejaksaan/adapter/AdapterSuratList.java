@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +18,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
 import com.prio.kejaksaan.model.DocumentModel;
+import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.views.document.AddDocument;
 import com.prio.kejaksaan.views.perkara.DetailPerkara;
 
+import java.util.ArrayList;
 import java.util.List;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 public class AdapterSuratList extends RecyclerView.Adapter<AdapterSuratList.vHolder> {
 
     Context context;
-    List<SuratModel.Item> models;
+    List<SuratModel.Item> models, unfilter;
 
     public AdapterSuratList(Context context, List<SuratModel.Item> models) {
         this.context = context;
-        this.models = models;
+        this.models = this.unfilter = models;
     }
 
     @NonNull
@@ -101,6 +106,44 @@ public class AdapterSuratList extends RecyclerView.Adapter<AdapterSuratList.vHol
             return models.size();
         } else
             return 0;
+    }
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                if (constraint.length() == 0){
+                    Log.e("Request","No Adapter");
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = unfilter;
+                    return filterResults;
+                }
+                String key = constraint.toString().toLowerCase();
+                List<SuratModel.Item> modelss = new ArrayList<>();
+
+                PerkaraListModel.Item perkara;
+                for (SuratModel.Item model : unfilter) {
+                    perkara = model.perkara;
+                    if (perkara.getIdentity().toLowerCase().contains(key) ||
+                            model.tipe.toLowerCase().contains(key) ||
+                            perkara.tanggal.toLowerCase().contains(key) ||
+                            perkara.jenis.toLowerCase().contains(key) ||
+                            perkara.nomor.toLowerCase().contains(key)) {
+                        modelss.add(model);
+                    }
+                }
+//                models = modelss;
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = modelss;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                models = (List<SuratModel.Item>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public static class vHolder extends RecyclerView.ViewHolder{

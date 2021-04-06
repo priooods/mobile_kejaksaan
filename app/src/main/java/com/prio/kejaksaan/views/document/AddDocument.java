@@ -141,7 +141,7 @@ public class AddDocument extends DialogFragment {
                 binding.titleLayout.setVisibility(View.VISIBLE);
                 binding.btnCreateletter.setOnClickListener(v -> {
                     if (Objects.requireNonNull(binding.title.getText()).toString().isEmpty() || files == null){
-                        MDToast.makeText(requireContext(), "Please Completely all forms", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
+                        MDToast.makeText(requireContext(), "Harap isi semua masukan yang diperlukan!", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
                     } else {
                         binding.progress.setVisibility(View.VISIBLE);
                         UploadSuratPanmud();
@@ -149,8 +149,8 @@ public class AddDocument extends DialogFragment {
                 });
                 break;
             case 2: //ini untuk panmud detail sudah ada files di upload
-                binding.top.setText("Detail Document");
-                binding.top2.setText("Click on document name if you want getting files");
+                binding.top.setText("Surat Tugas");
+                binding.top2.setText("Tekan tombol unduh untuk melihat surat");
                 binding.l1.setVisibility(View.GONE);
                 binding.btnCreateletter.setVisibility(View.GONE);
                 perkara = surat.perkara;
@@ -164,7 +164,7 @@ public class AddDocument extends DialogFragment {
                 binding.jurusitaName.setText(perkara.fullname_jurusita);
                 binding.surat.setVisibility(View.VISIBLE);
                 if (surat.daftar_pengantar == null){
-                    binding.btnShowb.setVisibility(View.GONE);
+                    binding.btnShowb.setVisibility(View.INVISIBLE);
                     binding.btnShowb.setOnClickListener(v -> {
                         Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+surat.daftar_pengantar));
                         startActivity(web);
@@ -181,7 +181,7 @@ public class AddDocument extends DialogFragment {
                 });
                 break;
             case 3: // ini untuk jurusita upload files
-                binding.top.setText("Detail Surat");
+                binding.top.setText("Surat Tugas");
                 binding.top2.setText("Pilih file untuk mengirimkan bukti pengantar (bukti perjalanan dinas)");
                 perkara = surat.perkara;
                 binding.nama.setText(perkara.identitas);
@@ -208,7 +208,7 @@ public class AddDocument extends DialogFragment {
                     startActivity(web);
                 });
                 if (surat.daftar_pengantar == null) {
-                    binding.btnShowb.setVisibility(View.GONE);
+                    binding.btnShowb.setVisibility(View.INVISIBLE);
                 }else{
                     binding.btnShowb.setOnClickListener(v -> {
                         Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+surat.daftar_pengantar));
@@ -244,8 +244,8 @@ public class AddDocument extends DialogFragment {
                     binding.l1.setVisibility(View.GONE);
                 }
             case 4:
-                binding.top.setText("Detail Surat");
-                binding.top2.setText("Pilih nama dokumen untuk mendapatkan file surat");
+                binding.top.setText("Surat Tugas");
+                binding.top2.setText("Tekan tombol unduh untuk melihat surat");
                 perkara = surat.perkara;
                 binding.nama.setText(perkara.identitas);
                 binding.dakwaan.setText(perkara.dakwaan);
@@ -260,7 +260,7 @@ public class AddDocument extends DialogFragment {
                 binding.jurusitaName.setText(perkara.fullname_jurusita);
                 binding.surat.setVisibility(View.VISIBLE);
                 if (surat.daftar_pengantar == null){
-                    binding.btnShowb.setVisibility(View.GONE);
+                    binding.btnShowb.setVisibility(View.INVISIBLE);
                     binding.btnCreateletter.setVisibility(View.GONE);
                 }else{
                     binding.btnShowb.setOnClickListener(v -> {
@@ -298,7 +298,7 @@ public class AddDocument extends DialogFragment {
 //                binding.btnUpreq.setVisibility(View.GONE);
                 binding.surat.setVisibility(View.VISIBLE);
                 if (bayar.kuitansi == null)
-                    binding.btnUpkwit.setVisibility(View.GONE);
+                    binding.btnUpkwit.setVisibility(View.INVISIBLE);
                 else{
                     binding.btnUpkwit.setOnClickListener(v -> {
                         Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+bayar.kuitansi));
@@ -311,9 +311,12 @@ public class AddDocument extends DialogFragment {
                 });
 
                 binding.ppkuploadsurat.setVisibility(View.VISIBLE);
+                binding.l11.setVisibility(View.VISIBLE);
+                binding.l7.setVisibility(View.GONE);
                 binding.titleLayout.setVisibility(View.GONE);
                 binding.top.setText("Permintaan Pembayaran");
-                binding.top2.setText("Upload files PDF Kuitansi untuk verifikasi permintaan pembiayaan!");
+                binding.top2.setText("Unggah berkas PDF/JPG/PNG Kuitansi untuk verifikasi permintaan pembiayaan!");
+                binding.a.setText("Data Surat Tugas");
 
                 binding.namat.setText("Tipe Surat");
                 binding.nama.setText(bayar.surat_tugas.tipe);
@@ -329,7 +332,7 @@ public class AddDocument extends DialogFragment {
                 binding.penahanan.setText(bayar.surat_tugas.perkara.proses.agenda);
 
                 binding.jurusitaName.setText(bayar.surat_tugas.perkara.fullname_jurusita);
-                binding.pemverifikasi.setText(bayar.surat_tugas.fullname_ppk);
+                binding.pemverifikasi.setText(bayar.fullname_ppk);
                 break;
         }
 
@@ -454,13 +457,13 @@ public class AddDocument extends DialogFragment {
 //                    PerkaraModel.perkaradiproses.removeIf(ise -> ise.perkara_id == data.surat.perkara_id);
                     binding.progress.setVisibility(View.VISIBLE);
                     MDToast.makeText(requireContext(), "Successfully add letter !", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
-                    assert getFragmentManager() != null;
-                    Layer_Document document = (Layer_Document) getFragmentManager().findFragmentByTag("document");
-                    FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                    assert document != null;
-                    transaction.detach(document);
-                    transaction.attach(document);
-                    transaction.commit();
+//                    assert getFragmentManager() != null;
+//                    Layer_Document document = (Layer_Document) getFragmentManager().findFragmentByTag("document");
+//                    FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+//                    assert document != null;
+//                    transaction.detach(document);
+//                    transaction.attach(document);
+//                    transaction.commit();
                     dismiss();
                 }
             }

@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import com.prio.kejaksaan.databinding.FragDocumentBinding;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
@@ -41,6 +43,8 @@ public class Layer_Document extends Fragment {
     PagerAdapter adapter;
     PerkaraListModel perkara_list;
     SuratModel surat_list;
+    goFilter myDocument;
+    goFilter[] myDocuments;
 
     @Nullable
     @Override
@@ -65,6 +69,7 @@ public class Layer_Document extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                myDocument.Filter(charSequence);
                 Log.e("Anggaran","OnChange");
             }
             @Override
@@ -76,16 +81,41 @@ public class Layer_Document extends Fragment {
     public void showTabs(boolean perkara){
         if ((perkara && perkara_list == null) || surat_list == null)
             return;
+        if (adapter != null) {
+            binding.viewpager.setAdapter(adapter);
+
+            for (int i = 0; i < binding.tabMenu.getTabCount(); i++) {
+                View tab = ((ViewGroup) binding.tabMenu.getChildAt(0)).getChildAt(i);
+                ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+                p.setMargins(30, 0, 10, 0);
+                tab.requestLayout();
+            }
+            return;
+        }
 
         binding.shimer.stopShimmer();
         binding.shimer.setVisibility(View.GONE);
         binding.tabMenu.setupWithViewPager(binding.viewpager);
         adapter = new PagerAdapter(getChildFragmentManager());
+        int position = 0;
+        myDocuments = new goFilter[2];
         if (perkara) {
-            adapter.AddFragment(new SemuaPerkara(perkara_list), "All Perkara");
+            adapter.AddFragment((Fragment)(myDocument = myDocuments[position] = new SemuaPerkara(perkara_list)), "Semua Perkara");
+            position++;
         }
-        adapter.AddFragment(new SemuaSurat(surat_list), "History Surat");
+        adapter.AddFragment((Fragment)(myDocument = myDocuments[position] = new SemuaSurat(surat_list)), "Semua Surat");
         binding.viewpager.setAdapter(adapter);
+        binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+
+            @Override
+            public void onPageSelected(int position) {
+                myDocument = myDocuments[position];
+            }
+        });
 
         for(int i=0; i < binding.tabMenu.getTabCount(); i++) {
             View tab = ((ViewGroup) binding.tabMenu.getChildAt(0)).getChildAt(i);

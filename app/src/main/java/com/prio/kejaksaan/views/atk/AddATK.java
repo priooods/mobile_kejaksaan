@@ -97,6 +97,7 @@ public class AddATK extends DialogFragment {
                 binding.btnCreateUsers.setOnClickListener(v->TambahATK());
                 break;
             case 1:
+                binding.title.setText("Buat Permintaan ATK");
                 binding.l1.setVisibility(View.GONE);
                 binding.btnCreateUsers.setVisibility(View.GONE);
                 binding.l2.setVisibility(View.VISIBLE);
@@ -141,6 +142,8 @@ public class AddATK extends DialogFragment {
         listATK();
         listProses();
         binding.nameatk.setOnFocusChangeListener((view, b) -> {
+            if (atkid == null)
+                return;
             atkname = new String[atkid.size()];
             for (int i=0; i<atkid.size();i++){
                 atkname[i] = atkid.get(i).name;
@@ -153,8 +156,7 @@ public class AddATK extends DialogFragment {
                 binding.nameatk.clearFocus();
             });
         });
-
-        binding.prosesid.setOnItemClickListener((parent, view, eposition, id) -> {
+        binding.prosesid.setOnFocusChangeListener((view,b) -> {
             if (prosessname !=null) {
                 binding.prosesid.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
                 ArrayAdapter<String> adapterprosesid = new ArrayAdapter<>(requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, prosessname);
@@ -162,10 +164,12 @@ public class AddATK extends DialogFragment {
                 binding.prosesid.setOnItemClickListener((eparent, eview, position, eid) -> {
                     //TODO: ini nanti di set proses id nya dan AtkMode.atklist diganti berdasarkan response
                     prosesId = prosesid[position];
+                    Log.e("AddATK","Proses id = "+prosesId);
                     binding.prosesid.clearFocus();
                 });
             }
         });
+        binding.atkprosesidLayout.setVisibility(View.GONE);
 
         binding.btnAddMinta.setOnClickListener(v -> {
             if (binding.jumlahminta.getText().toString().equals("")) {
@@ -180,7 +184,6 @@ public class AddATK extends DialogFragment {
             atkModels.add(atkItem.updateJumlah(Integer.parseInt(Objects.requireNonNull(binding.jumlahminta.getText()).toString())));
             atkid.remove(atkItem);
             atkItem = null;
-            prosesId = -1;
             setListPermintaan(atkModels);
             binding.btnCreateUsers.setVisibility(View.VISIBLE);
             binding.formMinta.setVisibility(View.GONE);
@@ -204,19 +207,19 @@ public class AddATK extends DialogFragment {
         Log.e("ATK","TAMBAH ATK");
         String name = Objects.requireNonNull(binding.name.getText()).toString();
         String jumlah = Objects.requireNonNull(binding.jumlah.getText()).toString();
-        Call<AtkItemModel> call = BaseModel.i.getService().AddATK(
+        Call<MessageModel> call = BaseModel.i.getService().AddATK(
                 (name.equals("") ? null:name),
                 Objects.requireNonNull(binding.keterangan.getText()).toString(),
                 (jumlah.equals("") ? null:Integer.parseInt(jumlah))
         );
 
-        call.enqueue(new Callback<AtkItemModel>() {
+        call.enqueue(new Callback<MessageModel>() {
             @Override
-            public void onResponse(@NotNull Call<AtkItemModel> call, @NotNull Response<AtkItemModel> response) {
-                AtkItemModel data = response.body();
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                MessageModel data = response.body();
                 if (Calling.TreatResponse(getContext(), "Add ATK", data)){
                     assert data != null;
-                    MDToast.makeText(getContext(), "ATK Baru berhasil di tambahkan", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    MDToast.makeText(getContext(), data.data, Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
                     Layer_Persediaan persediaan = (Layer_Persediaan) getFragmentManager().findFragmentByTag("persediaan");
                     FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
@@ -229,7 +232,7 @@ public class AddATK extends DialogFragment {
             }
 
             @Override
-            public void onFailure(@NotNull Call<AtkItemModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t );
             }
         });
@@ -266,9 +269,13 @@ public class AddATK extends DialogFragment {
                 Log.e("Proses Perkara","Proses Perkara "+data.size()+" aquired!");
                 prosessname = new String[data.size()];
                 prosesid = new int[data.size()];
-                for (int i=0; i<data.size();i++){
-                    prosessname[i] = data.get(i).print();
-                    prosesid[i] = data.get(i).id;
+                if (prosesid.length > 0) {
+                    for (int i = 0; i < data.size(); i++) {
+                        prosessname[i] = data.get(i).print();
+                        Log.e("Proses Id = " + i, prosessname[i]);
+                        prosesid[i] = data.get(i).id;
+                    }
+                    binding.atkprosesidLayout.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -292,13 +299,13 @@ public class AddATK extends DialogFragment {
             i++;
         }
 
-        Call<AtkModel> call = BaseModel.i.getService().ReqATK(BaseModel.i.token, prosesId, forms);
-        call.enqueue(new Callback<AtkModel>() {
+        Call<MessageModel> call = BaseModel.i.getService().ReqATK(BaseModel.i.token, prosesId, forms);
+        call.enqueue(new Callback<MessageModel>() {
             @Override
-            public void onResponse(@NotNull Call<AtkModel> call, @NotNull Response<AtkModel> response) {
-                AtkModel data = response.body();
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                MessageModel data = response.body();
                 if (Calling.TreatResponse(requireContext(),"Req ATK", data)){
-                    MDToast.makeText(requireContext(),"Succesfully sending request ATK",Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    MDToast.makeText(requireContext(),data.data,Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     binding.loading1.setVisibility(View.GONE);
                     assert getFragmentManager() != null;
                     Layer_Persediaan persediaan = (Layer_Persediaan) getFragmentManager().findFragmentByTag("persediaan");
@@ -312,7 +319,7 @@ public class AddATK extends DialogFragment {
             }
 
             @Override
-            public void onFailure(@NotNull Call<AtkModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });

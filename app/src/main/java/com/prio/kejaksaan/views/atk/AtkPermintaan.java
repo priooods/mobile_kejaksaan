@@ -26,6 +26,8 @@ import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Random;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,12 +38,14 @@ public class AtkPermintaan extends Fragment implements goFilter {
 
     FragAtkReqBinding binding;
     AdapterRequestATK adapterSelainLogistik;
+    int ID = new Random().nextInt(1000);
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragAtkReqBinding.inflate(inflater, container, false);
         binding.shimer.startShimmer();
+        Log.e("ATKFILTER", ID+" begin Call!");
         switch (UserModel.i.type) {
             case "Pengelola Persediaan":
                 GetATKRequest(BaseModel.i.getService().ATkreqLog(BaseModel.i.token));
@@ -65,11 +69,13 @@ public class AtkPermintaan extends Fragment implements goFilter {
                 if (Calling.TreatResponse(getContext(), "req atk Log", atkModel)) {
                     assert atkModel != null;
                     adapterSelainLogistik = new AdapterRequestATK(getContext(), atkModel.data);
+                    Log.e("ATKFILTER", ID+" on Call adapterSelainLogistik refreshed "+atkModel.data.size()+"item!");
                     binding.listAtkReq.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
                     binding.listAtkReq.setAdapter(adapterSelainLogistik);
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
-                }
+                }else
+                    Log.e("ATKFILTER", ID+" on Call adapterSelainLogistik fail refresh!"+atkModel.data.size());
             }
 
             @Override
@@ -80,7 +86,15 @@ public class AtkPermintaan extends Fragment implements goFilter {
     }
 
     @Override
-    public void Filter(String filters) {
+    public void Filter(CharSequence filters) {
+        if (adapterSelainLogistik != null)
+            adapterSelainLogistik.getFilter().filter(filters);
 
+            Log.e("ATKFILTER", ID+" adapterSelainLogistik == "+(adapterSelainLogistik != null ? "EXISTS":"NULL")+"!");
+    }
+
+    @Override
+    public int getID() {
+        return ID;
     }
 }

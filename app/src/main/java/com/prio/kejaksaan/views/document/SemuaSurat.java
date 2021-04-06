@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.prio.kejaksaan.adapter.AdapterSurat;
 import com.prio.kejaksaan.adapter.AdapterSuratList;
 import com.prio.kejaksaan.databinding.FragDocumentListBinding;
+import com.prio.kejaksaan.layer.goFilter;
 import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.SuratModel;
@@ -20,7 +21,7 @@ import com.prio.kejaksaan.model.UserModel;
 
 import java.util.List;
 
-public class SemuaSurat extends Fragment {
+public class SemuaSurat extends Fragment implements goFilter {
 
     FragDocumentListBinding binding;
     AdapterSuratList adapterSurat;
@@ -33,7 +34,7 @@ public class SemuaSurat extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragDocumentListBinding.inflate(inflater, container, false);
 
-        binding.desc.setText("Tap item to show documents");
+        binding.desc.setText("Pilih dalam daftar untuk melihat rincian");
 //        switch (UserModel.i.type){
 //            case "Jurusita":
 //                break;
@@ -50,8 +51,8 @@ public class SemuaSurat extends Fragment {
 
     public void storeAdapter(List<SuratModel.Item> md){
         adapterSurat = new AdapterSuratList(requireContext(), md);
-        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        binding.listDocument.setHasFixedSize(true);
+        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+//        binding.listDocument.setHasFixedSize(true);
         binding.listDocument.setAdapter(adapterSurat);
     }
 
@@ -67,5 +68,16 @@ public class SemuaSurat extends Fragment {
 //        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
 //        binding.listDocument.setHasFixedSize(true);
 //        binding.listDocument.setAdapter(adapterSurat);
+    }
+
+    @Override
+    public void Filter(CharSequence filters) {
+        if (adapterSurat != null)
+            adapterSurat.getFilter().filter(filters);
+    }
+
+    @Override
+    public int getID() {
+        return 0;
     }
 }

@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +42,7 @@ public class AtkVerifikasi extends Fragment implements goFilter {
     FragAtkReqBinding binding;
     AdapterRequestATK adapterSelainLogistik;
     DialogFragment dialog;
+    int ID = new Random().nextInt(1000);
 
     @Nullable
     @Override
@@ -146,7 +148,6 @@ public class AtkVerifikasi extends Fragment implements goFilter {
                     assert atkModel != null;
                     PPAdapter(atkModel.data);
                     Log.e("PP Log Verify", "setout "+atkModel.data.size());
-                    PPAdapter(atkModel.data);
                     binding.listAtkReq.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
                     binding.listAtkReq.setAdapter(adapterSelainLogistik);
                     adapterSelainLogistik.notifyDataSetChanged();
@@ -256,7 +257,12 @@ public class AtkVerifikasi extends Fragment implements goFilter {
     }
 
     @Override
-    public void Filter(String filters) {
+    public void Filter(CharSequence filters) {
+        adapterSelainLogistik.getFilter().filter(filters);
     }
 
+    @Override
+    public int getID() {
+        return ID;
+    }
 }

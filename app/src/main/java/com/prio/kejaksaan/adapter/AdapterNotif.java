@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ModelNotificationBinding;
+import com.prio.kejaksaan.layer.Layer_Anggaran;
 import com.prio.kejaksaan.layer.Layer_Document;
+import com.prio.kejaksaan.layer.Layer_Perkara;
+import com.prio.kejaksaan.layer.Layer_Persediaan;
 import com.prio.kejaksaan.model.ModelNotification;
 import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.views.perkara.DetailPerkara;
@@ -45,7 +48,29 @@ public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.vHolder> {
         holder.binding.subtitleNotif.setText(modelList.get(position).detail);
         holder.binding.textNotif.setText(modelList.get(position).time);
 
+//        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, select, "home").commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, select, "persediaan").commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, select, "perkara").commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, select, "document").commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, select, "anggaran").commit();
+
         holder.binding.readmore.setOnClickListener(v -> {
+            AppCompatActivity sct = (AppCompatActivity)context;
+            Fragment fr;
+            switch(modelList.get(position).type){
+                case 1:
+                        fr = new Layer_Persediaan();
+                        sct.getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fr, "persediaan").commit();
+                    break;
+                case 2:
+                        fr = new Layer_Document();
+                        sct.getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fr, "document").commit();
+                    break;
+                case 3:
+                        fr = new Layer_Anggaran();
+                        sct.getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fr, "anggaran").commit();
+                    break;
+            }
             //TODO: Ini nanti bisa click go to apa atau bisa click full item tinggal ganti
             //TODO: jadi holder.binding.card.. dibawah sample kalau mau ke dialogfragment
 //            PerkaraModel.i = models.get(position);

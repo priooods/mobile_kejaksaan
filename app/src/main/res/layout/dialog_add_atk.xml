@@ -156,7 +156,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
-                        android:hint="Proses Perkara}"
+                        android:hint="Proses Perkara"
                         android:textColorHint="@color/grey"
                         app:endIconMode="dropdown_menu"
                         app:endIconTint="@color/colorPrimary"
@@ -180,8 +180,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
-                        android:layout_marginTop="60dp"
-                        android:nestedScrollingEnabled="true" />
+                        android:layout_marginTop="10dp"
+                        android:nestedScrollingEnabled="true"
+                        android:layout_below="@id/atkprosesid_layout"
+                        />
 
                     <TextView
                         android:id="@+id/tambahpermintaan"
@@ -312,7 +314,6 @@
                 android:layout_marginTop="30dp"
                 android:id="@+id/btn_create_users"
                 app:backgroundTintMode="add"
-                android:fontFamily="@font/gopher_bold"
                 android:text="Save Item"
                 android:background="@drawable/button_style"
                 android:textColor="@color/white"
@@ -348,8 +349,7 @@
             android:layout_marginHorizontal="20dp"
             android:textSize="12sp"
             android:id="@+id/desc2"
-            android:fontFamily="@font/gopher_reguler"
-            android:text="You must add File. Required file png/jpeg format !"
+            android:text="Harap kirimkan berkas PDF/PNG/JPEG Format!"
             android:textColor="@color/colorPrimary"/>
 
         <LinearLayout
@@ -373,8 +373,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textSize="12sp"
-                android:textColor="@color/colorPrimary"
-                android:fontFamily="@font/gopher_light"/>
+                android:textColor="@color/colorPrimary"/>
 
 
             <ImageView
@@ -390,7 +389,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gopher_bold"
             app:layout_constraintTop_toBottomOf="@id/layout_namefile"
             android:layout_marginTop="25dp"
             android:id="@+id/upload_file"
@@ -409,7 +407,6 @@
             android:layout_marginTop="30dp"
             android:id="@+id/btn_uploadfile"
             app:backgroundTintMode="add"
-            android:fontFamily="@font/gopher_bold"
             android:text="Verified"
             android:background="@drawable/button_style"
             android:textColor="@color/white"

@@ -94,7 +94,7 @@ public class Layer_Perkara extends Fragment {
 
     public void storeAdapter(List<PerkaraListModel.Item> md){
         adapterPerkara = new AdapterPerkara(md, requireContext());
-        binding.listPerkara.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        binding.listPerkara.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
         binding.listPerkara.setHasFixedSize(true);
         binding.listPerkara.setAdapter(adapterPerkara);
     }

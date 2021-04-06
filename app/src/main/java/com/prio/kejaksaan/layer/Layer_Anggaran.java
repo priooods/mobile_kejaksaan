@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,10 +26,13 @@ import com.prio.kejaksaan.adapter.AdapterSurat;
 import com.prio.kejaksaan.databinding.FragAnggaranBinding;
 import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
 import com.prio.kejaksaan.model.AtkModel;
+import com.prio.kejaksaan.model.AtkRequest;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.PembayaranModel;
+import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
+import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
 import com.prio.kejaksaan.views.atk.AtkVerifikasi;
@@ -38,6 +42,7 @@ import com.prio.kejaksaan.views.profile.EditProfile;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -88,7 +93,7 @@ public class Layer_Anggaran extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                Log.e("Anggaran","OnChange");
+                adapterAnggaran.getFilter().filter(charSequence);
             }
             @Override
             public void afterTextChanged(Editable s) { }
@@ -150,11 +155,11 @@ public class Layer_Anggaran extends Fragment {
     public static class AdapterAnggaran extends RecyclerView.Adapter<AdapterAnggaran.vHolder>{
 
         Context context;
-        List<PembayaranModel.Item> models;
+        List<PembayaranModel.Item> models, unfilter;
 
         public AdapterAnggaran(Context context, List<PembayaranModel.Item> models) {
             this.context = context;
-            this.models = models;
+            this.models = this.unfilter = models;
         }
 
         @NonNull
@@ -202,6 +207,42 @@ public class Layer_Anggaran extends Fragment {
                     }
                     fragment.show(mrg,"Add Document");
                 });
+        }
+        public Filter getFilter() {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    if (constraint.length() == 0){
+                        Log.e("Request","No Adapter");
+                        FilterResults filterResults = new FilterResults();
+                        filterResults.values = unfilter;
+                        return filterResults;
+                    }
+                    String key = constraint.toString().toLowerCase();
+                    List<PembayaranModel.Item> modelss = new ArrayList<>();
+                    for (PembayaranModel.Item model : unfilter) {
+                        SuratModel.Item surat = model.surat_tugas;
+                        if (surat.tipe.toLowerCase().contains(key.toLowerCase()) ||
+                                surat.perkara.getIdentity().toLowerCase().contains(key.toLowerCase()) ||
+                                surat.daftar_time.toLowerCase().contains(key.toLowerCase()) ||
+                                surat.perkara.fullname_jurusita.toLowerCase().contains(key.toLowerCase()) ||
+                                model.created.toLowerCase().contains(key.toLowerCase())) {
+                            modelss.add(model);
+                        }
+                    }
+//                models = modelss;
+
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = modelss;
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    models = (List<PembayaranModel.Item>) results.values;
+                    notifyDataSetChanged();
+                }
+            };
         }
 
         @Override

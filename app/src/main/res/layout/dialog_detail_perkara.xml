@@ -337,7 +337,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_marginTop="15dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/l9"
                 android:id="@+id/r2">
@@ -364,7 +364,6 @@
                     <TextView
                         android:layout_width="140dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/gopher_reguler"
                         android:text="Agenda"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp"/>

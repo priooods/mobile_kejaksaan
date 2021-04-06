@@ -120,7 +120,7 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("atk/add")
-    Call<AtkItemModel> AddATK(
+    Call<MessageModel> AddATK(
             @Field("name") String name,
             @Query("keterangan") String keterangan,
             @Field("jumlah") Integer jumlah
@@ -215,7 +215,7 @@ public interface UserService {
 
     @Multipart
     @POST("atk/req")
-    Call<AtkModel> ReqATK(
+    Call<MessageModel> ReqATK(
             @Query("token") String token
             ,@Query("proses_id") int proses_id
             ,@PartMap Map<String, RequestBody> form

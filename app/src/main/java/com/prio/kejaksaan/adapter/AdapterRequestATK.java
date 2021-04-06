@@ -2,6 +2,7 @@ package com.prio.kejaksaan.adapter;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +25,12 @@ import java.util.List;
 public class AdapterRequestATK extends RecyclerView.Adapter<AdapterRequestATK.vHolder>{
 
     Context context;
-    public List<AtkRequest.Item> models;
+    public List<AtkRequest.Item> models, unfilter;
 
     public AdapterRequestATK(Context context, List<AtkRequest.Item> models) {
         this.context = context;
         this.models = models;
+        this.unfilter = models;
     }
 
     @NonNull
@@ -93,14 +95,15 @@ public class AdapterRequestATK extends RecyclerView.Adapter<AdapterRequestATK.vH
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                String key = constraint.toString();
-                if (key.equals("")){
+                if (constraint.length() == 0){
+                    Log.e("Request","No Adapter");
                     FilterResults filterResults = new FilterResults();
-                    filterResults.values = models;
+                    filterResults.values = unfilter;
                     return filterResults;
                 }
+                String key = constraint.toString();
                 List<AtkRequest.Item> modelss = new ArrayList<>();
-                for (AtkRequest.Item model : models) {
+                for (AtkRequest.Item model : unfilter) {
                     PerkaraListModel.Item perkara = model.proses.perkara;
                     if (model.proses.agenda.toLowerCase().contains(key.toLowerCase()) ||
                             perkara.identitas.toLowerCase().contains(key.toLowerCase()) ||

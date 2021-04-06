@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.prio.kejaksaan.adapter.AdapterAtk;
 import com.prio.kejaksaan.databinding.FragAtkReqBinding;
+import com.prio.kejaksaan.layer.goFilter;
 import com.prio.kejaksaan.model.AtkItemModel;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
@@ -25,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Gudang extends Fragment {
+public class Gudang extends Fragment implements goFilter {
 
     FragAtkReqBinding binding;
     AdapterAtk adapterAtk;
@@ -62,5 +63,16 @@ public class Gudang extends Fragment {
                 Log.e("TAG", "onFailure: ", t);
             }
         });
+    }
+
+    @Override
+    public void Filter(CharSequence filters) {
+        if (adapterAtk != null)
+            adapterAtk.getFilter().filter(filters);
+    }
+
+    @Override
+    public int getID() {
+        return 0;
     }
 }

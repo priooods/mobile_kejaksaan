@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:fontFamily="@font/gopher_bold"
             android:text="@string/add_surat"
             android:textColor="@color/colorPrimary"
             android:textSize="23sp"
@@ -44,7 +43,6 @@
             android:layout_marginStart="12dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/gopher_reguler"
             android:text="@string/surat_desc"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
@@ -56,7 +54,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/gopher_bold"
             android:text="Data Perkara"
             android:textColor="@color/colorPrimary"
             android:textSize="13sp"
@@ -76,7 +73,6 @@
                 android:id="@+id/namat"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text="Nama Terdakwa"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -84,7 +80,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text=": "
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -94,7 +89,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/gopher_bold"
                 android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -114,7 +108,6 @@
                 android:id="@+id/dakwaant"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text="Dakwaan"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -122,7 +115,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text=": "
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -132,7 +124,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/gopher_bold"
                 android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -152,7 +143,6 @@
                 android:id="@+id/nomort"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text="No. Perkara"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -160,7 +150,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text=": "
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -170,7 +159,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/gopher_bold"
                 android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -190,7 +178,6 @@
                 android:id="@+id/jenis_perkarat"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text="Jenis Perkara"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -198,7 +185,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text=": "
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -208,7 +194,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/gopher_bold"
                 android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -228,7 +213,6 @@
                 android:id="@+id/tanggalt"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text="Tanggal Penerimaan"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -236,7 +220,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text=": "
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -246,7 +229,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/gopher_bold"
                 android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -266,7 +248,6 @@
                 android:id="@+id/penahanant"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text="Lama Penahanan"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -274,7 +255,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text=": "
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -284,7 +264,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/gopher_bold"
                 android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -304,7 +283,6 @@
                 android:id="@+id/identitas1"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text="Indentias PP"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -312,7 +290,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text=": "
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -322,7 +299,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/gopher_bold"
                 android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -341,7 +317,6 @@
             <TextView
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text="Identitas Jurusita"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -349,7 +324,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
                 android:text=": "
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -359,7 +333,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/gopher_bold"
+                android:maxLines="1"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/l11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="13dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/l8"
+            tools:layout_editor_absoluteX="20dp">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:text="Pemverifikasi"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=": "
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/pemverifikasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -368,17 +376,18 @@
 
         <LinearLayout
             android:id="@+id/surat"
-            android:layout_width="387dp"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginStart="24dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/l8">
+            app:layout_constraintTop_toBottomOf="@+id/l11">
 
             <LinearLayout
-                android:layout_width="60dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:visibility="visible"
@@ -395,7 +404,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Diupload"
+                    android:text="Dinas"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp"
@@ -407,7 +416,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-               android:layout_marginStart="25dp"
+               android:layout_marginStart="10dp"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/custom_toast_success_background"
                 android:text="Surat Tugas"
@@ -431,7 +440,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:text="Pengantar"
                 android:maxLines="2"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:backgroundTint="#186EBA"
@@ -446,14 +455,15 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginStart="24dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/surat">
 
             <LinearLayout
-                android:layout_width="60dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:visibility="visible"
@@ -480,7 +490,7 @@
                 android:id="@+id/btn_upreq"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="0dp"
                 android:layout_weight="1"
                 android:background="@drawable/custom_toast_success_background"
@@ -527,53 +537,17 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/l11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/l10"
-            tools:layout_editor_absoluteX="20dp">
 
-            <TextView
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
-                android:text="Pemverifikasi"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gopher_reguler"
-                android:text=": "
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/pemverifikasi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:fontFamily="@font/gopher_bold"
-                android:maxLines="1"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp" />
-
-        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/l1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="44dp"
             android:orientation="vertical"
             android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/l11">
+            app:layout_constraintTop_toBottomOf="@id/l10"
+            tools:layout_editor_absoluteX="70dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/title_layout"
@@ -596,7 +570,6 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/gopher_light"
                     android:inputType="none"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
@@ -624,7 +597,6 @@
                     android:layout_marginEnd="20dp"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:fontFamily="@font/gopher_light"
                     android:maxLines="1"
                     android:text="10000"
                     android:textAlignment="viewEnd"
@@ -648,7 +620,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="15sp"
-                android:fontFamily="@font/gopher_bold"
                 android:text="Upload Files"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="13sp"
@@ -667,8 +638,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/button_style"
-            android:fontFamily="@font/gopher_bold"
-            android:text="Create Letter"
+            android:text="Kirim Surat"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:backgroundTint="@color/colorPrimaryDark"
@@ -681,7 +651,6 @@
             android:layout_marginHorizontal="70dp"
             android:layout_marginTop="20dp"
             android:background="@android:drawable/editbox_dropdown_light_frame"
-            android:fontFamily="@font/gopher_bold"
             android:text="Buat Permintaan Bayar"
             android:textAllCaps="false"
             android:textColor="@color/white"

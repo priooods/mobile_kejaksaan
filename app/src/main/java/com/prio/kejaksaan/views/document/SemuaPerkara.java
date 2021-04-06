@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.prio.kejaksaan.adapter.AdapterPerkara;
 import com.prio.kejaksaan.adapter.AdapterSurat;
 import com.prio.kejaksaan.databinding.FragDocumentListBinding;
+import com.prio.kejaksaan.layer.goFilter;
 import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.PerkaraModel;
@@ -22,7 +23,7 @@ import com.prio.kejaksaan.model.UserModel;
 
 import java.util.List;
 
-public class SemuaPerkara extends Fragment {
+public class SemuaPerkara extends Fragment implements goFilter {
 
     FragDocumentListBinding binding;
     AdapterPerkara adapterSurat;
@@ -37,14 +38,16 @@ public class SemuaPerkara extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragDocumentListBinding.inflate(inflater,container,false);
 
-        binding.desc.setText("Tap item to upload Letter status");
         switch (UserModel.i.type){
             case "Jurusita":
-            case "Panmud":
             case "PPK":
-                storeAdapter();
+                binding.desc.setText("Pilih salah satu untuk melihat rincian");
+                break;
+            case "Panmud":
+                binding.desc.setText("Pilih salah satu perkara untuk dibuatkan surat");
                 break;
         }
+        storeAdapter();
 
         return binding.getRoot();
     }
@@ -57,4 +60,14 @@ public class SemuaPerkara extends Fragment {
         binding.listDocument.setAdapter(adapterSurat);
     }
 
+    @Override
+    public void Filter(CharSequence filters) {
+        if (adapterSurat != null)
+            adapterSurat.getFilter().filter(filters);
+    }
+
+    @Override
+    public int getID() {
+        return 0;
+    }
 }

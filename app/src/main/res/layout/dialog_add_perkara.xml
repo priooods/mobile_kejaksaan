@@ -25,7 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gopher_bold"
             app:layout_constraintTop_toTopOf="@id/back"
             app:layout_constraintStart_toEndOf="@id/back"
             app:layout_constraintBottom_toBottomOf="@id/back"
@@ -40,7 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:fontFamily="@font/gopher_reguler"
             app:layout_constraintTop_toBottomOf="@id/top"
             android:textSize="14sp"
             android:textColor="@color/colorPrimary"
@@ -65,7 +63,6 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:id="@+id/nomer_dakwaan"
-                android:fontFamily="@font/gopher_light"
                 android:layout_height="match_parent"
                 android:textColor="@color/colorPrimary"
                 android:inputType="number"/>
@@ -90,7 +87,6 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:id="@+id/jenis"
-                android:fontFamily="@font/gopher_light"
                 android:layout_height="match_parent"
                 android:textColor="@color/colorPrimary"
                 android:inputType="text"/>
@@ -118,7 +114,6 @@
                 android:id="@+id/tanggal"
                 android:clickable="true"
                 android:focusable="false"
-                android:fontFamily="@font/gopher_light"
                 android:layout_height="match_parent"
                 android:textColor="@color/colorPrimary"
                 android:inputType="text"/>
@@ -143,7 +138,6 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:id="@+id/identitas"
-                android:fontFamily="@font/gopher_light"
                 android:layout_height="match_parent"
                 android:textColor="@color/colorPrimary"
                 android:inputType="text"/>
@@ -170,7 +164,6 @@
                 android:layout_width="match_parent"
                 android:id="@+id/dakwaan"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/gopher_light"
                 android:textColor="@color/colorPrimary"
                 android:inputType="text"/>
 
@@ -194,7 +187,6 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:id="@+id/penahan"
-                android:fontFamily="@font/gopher_light"
                 android:layout_height="match_parent"
                 android:textColor="@color/colorPrimary"
                 android:inputType="text"/>
@@ -219,7 +211,6 @@
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
-                android:fontFamily="@font/gopher_light"
                 android:id="@+id/pp"
                 android:layout_height="match_parent"
                 android:textColor="@color/colorPrimary"
@@ -249,7 +240,6 @@
                 android:layout_width="match_parent"
                 android:id="@+id/jurusita"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/gopher_light"
                 android:textColor="@color/colorPrimary"
                 android:inputType="none"/>
 
