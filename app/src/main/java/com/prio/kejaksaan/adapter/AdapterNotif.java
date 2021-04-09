@@ -2,15 +2,11 @@ package com.prio.kejaksaan.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prio.kejaksaan.R;
@@ -20,10 +16,7 @@ import com.prio.kejaksaan.layer.Layer_Document;
 import com.prio.kejaksaan.layer.Layer_Perkara;
 import com.prio.kejaksaan.layer.Layer_Persediaan;
 import com.prio.kejaksaan.model.ModelNotification;
-import com.prio.kejaksaan.model.PerkaraModel;
-import com.prio.kejaksaan.views.perkara.DetailPerkara;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.vHolder> {
@@ -59,6 +52,7 @@ public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.vHolder> {
             Fragment fr;
             switch(modelList.get(position).type){
                 case 1:
+//                        binding.bottomNavigation.getMenu().findItem(R.id.perkara).setChecked(true);
                         fr = new Layer_Persediaan();
                         sct.getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fr, "persediaan").commit();
                     break;
@@ -69,6 +63,10 @@ public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.vHolder> {
                 case 3:
                         fr = new Layer_Anggaran();
                         sct.getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fr, "anggaran").commit();
+                    break;
+                case 4:
+                    fr = new Layer_Perkara();
+                    sct.getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fr, "perkara").commit();
                     break;
             }
             //TODO: Ini nanti bisa click go to apa atau bisa click full item tinggal ganti

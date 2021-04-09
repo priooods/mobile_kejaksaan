@@ -1,8 +1,6 @@
 package com.prio.kejaksaan.layer;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,23 +20,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.prio.kejaksaan.R;
-import com.prio.kejaksaan.adapter.AdapterSurat;
 import com.prio.kejaksaan.databinding.FragAnggaranBinding;
 import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
-import com.prio.kejaksaan.model.AtkModel;
-import com.prio.kejaksaan.model.AtkRequest;
 import com.prio.kejaksaan.model.BaseModel;
-import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.PembayaranModel;
-import com.prio.kejaksaan.model.PerkaraListModel;
-import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
-import com.prio.kejaksaan.views.atk.AtkVerifikasi;
+import com.prio.kejaksaan.tools.Laravel;
 import com.prio.kejaksaan.views.document.AddDocument;
-import com.prio.kejaksaan.views.perkara.DetailPerkara;
-import com.prio.kejaksaan.views.profile.EditProfile;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -172,10 +162,10 @@ public class Layer_Anggaran extends Fragment {
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
 //            holder.binding.dakwaan.setVisibility(View.GONE);
             holder.binding.namaTerdakwa.setText(models.get(position).surat_tugas.tipe);
-            holder.binding.dakwaan.setText(models.get(position).surat_tugas.perkara.getIdentity());
+            holder.binding.dakwaan.setText(models.get(position).surat_tugas.perkara.identitas);
             holder.binding.t1.setText("Dibuat");
             holder.binding.t2.setText("Dibayar");
-            holder.binding.v1.setText(models.get(position).created);
+            holder.binding.v1.setText(Laravel.getShortDateTime(models.get(position).created));
             if (models.get(position).kuitansi ==null){
                 holder.binding.v2.setTextColor(context.getColor(R.color.red));
                 holder.binding.v2.setText("Belum");
@@ -184,14 +174,14 @@ public class Layer_Anggaran extends Fragment {
                 holder.binding.v2.setText("Sudah");
             }
             holder.binding.t3.setText("Terlaksana");
-            holder.binding.v3.setText(models.get(position).surat_tugas.daftar_time);
+            holder.binding.v3.setText(Laravel.getShortDateTime(models.get(position).surat_tugas.daftar_time));
             holder.binding.t5.setText("Pelaksana");
             holder.binding.v5.setText(models.get(position).surat_tugas.perkara.fullname_jurusita);
 
 
 //            holder.binding.l3.setVisibility(View.GONE);
             holder.binding.l4.setVisibility(View.GONE);
-            holder.binding.l5.setVisibility(View.GONE);
+//            holder.binding.l5.setVisibility(View.GONE);
             holder.binding.l6.setVisibility(View.GONE);
 
                 holder.binding.card.setOnClickListener(v -> {
@@ -223,7 +213,7 @@ public class Layer_Anggaran extends Fragment {
                     for (PembayaranModel.Item model : unfilter) {
                         SuratModel.Item surat = model.surat_tugas;
                         if (surat.tipe.toLowerCase().contains(key.toLowerCase()) ||
-                                surat.perkara.getIdentity().toLowerCase().contains(key.toLowerCase()) ||
+                                surat.perkara.identitas.toLowerCase().contains(key.toLowerCase()) ||
                                 surat.daftar_time.toLowerCase().contains(key.toLowerCase()) ||
                                 surat.perkara.fullname_jurusita.toLowerCase().contains(key.toLowerCase()) ||
                                 model.created.toLowerCase().contains(key.toLowerCase())) {

@@ -21,11 +21,11 @@ import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.DialogDetailPerkaraBinding;
 import com.prio.kejaksaan.layer.Layer_Perkara;
 import com.prio.kejaksaan.model.BaseModel;
+import com.prio.kejaksaan.model.MessageModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
-import com.prio.kejaksaan.model.PerkaraModel;
-import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
+import com.prio.kejaksaan.tools.Laravel;
 import com.prio.kejaksaan.views.document.AddDocument;
 import com.valdesekamdem.library.mdtoast.MDToast;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -55,24 +55,27 @@ public class DetailPerkara extends DialogFragment {
     DialogDetailPerkaraBinding binding;
     String days, tanggals;
     PerkaraListModel.Item model;
+    int status;
+    public DetailPerkara(int status, PerkaraListModel.Item model){
+        this.status = status;
+        this.model = model;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogDetailPerkaraBinding.inflate(inflater,container,false);
         binding.backpress.setOnClickListener(v -> dismiss());
-        model = PerkaraListModel.i;
         switch (UserModel.i.type){
             case "SuperUser":
 //            case "KPA":
             case "Panitera":
-                if (PerkaraModel.statusPerkara != 2){
+                if (status != 2){
                     binding.btnupdatePerkara.setVisibility(View.VISIBLE);
                     binding.btndeletePerkara.setVisibility(View.VISIBLE);
                     binding.btndeletePerkara.setOnClickListener(v -> DeletePerkara());
                     binding.btnupdatePerkara.setOnClickListener(v -> {
-                        PerkaraModel.buatPerkaraShow = 2;
-                        DialogFragment fragment = new AddPerkara();
+                        DialogFragment fragment = new AddPerkara(2, model, this);
                         fragment.show(requireActivity().getSupportFragmentManager(),"Create Perkara");
                     });
                 }
@@ -90,52 +93,13 @@ public class DetailPerkara extends DialogFragment {
                     });
                 break;
             case "PP":
-                if (PerkaraModel.statusPerkara == 1){
+                if (status == 1){
                     binding.btnprosesPerkara.setVisibility(View.VISIBLE);
                 }
                 break;
         }
 
-//        SimpleDateFormat fr = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
-        SimpleDateFormat tex = new SimpleDateFormat("dd MMMM YYYY", Locale.ENGLISH);
-//        Calendar c = Calendar.getInstance();
-        Calendar d = Calendar.getInstance();
-
-
-        if (PerkaraModel.statusPerkara == 2){
-            binding.status.setText("Sudah");
-            binding.status.setTextColor(getResources().getColor(R.color.green));
-            binding.r2.setVisibility(View.VISIBLE);
-//            for (PerkaraListModel md : PerkaraListModel.i){
-//                if (md.perkara_id == model.id){
-//                    try {
-//                        d.setTime(Objects.requireNonNull(fr.parse(md.tanggal)));
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-                    binding.agenda.setText(model.proses.agenda);
-                    binding.tanggalProsess.setText(model.proses.hari+", "+tex.format(d.getTime()));
-//                }
-//            }
-        }
-
-        binding.nama.setText(model.identitas);
-        binding.dakwaan.setText(model.dakwaan);
-        binding.jenisPerkara.setText(model.jenis);
-        binding.backpress.setOnClickListener(v->dismiss());
-        binding.nomor.setText(model.nomor);
-        binding.penahanan.setText(model.penahanan);
-        switch (UserModel.i.type){
-            case "PP":
-            case "Jurusita":
-                binding.l7.setVisibility(View.GONE);
-                binding.l8.setVisibility(View.GONE);
-                break;
-        }
-        binding.ppName.setText(model.fullname_pp);
-        binding.jurusitaName.setText(model.fullname_jurusita);
-
-        binding.addTanggalProsess.setOnClickListener(v -> ShowDateTime(binding.addTanggalProsess));
+        RefreshPerkara();
 
 
         binding.btnprosesPerkara.setOnClickListener(v -> {
@@ -154,16 +118,43 @@ public class DetailPerkara extends DialogFragment {
 
         return binding.getRoot();
     }
+    public void RefreshPerkara(){
+        if (status == 2) {
+            binding.status.setText("Sudah");
+            binding.status.setTextColor(getResources().getColor(R.color.green));
+            binding.r2.setVisibility(View.VISIBLE);
+            binding.agenda.setText(model.proses.agenda);
+            binding.dakwaan.setText(model.proses.dakwaan);
+            binding.penahanan.setText(model.proses.penahanan);
+            binding.tanggalProsess.setText(model.proses.hari + ", " + Laravel.getDate(model.proses.tanggal));
+        }
+
+        binding.nama.setText(model.identitas);
+        binding.jenisPerkara.setText(model.jenis);
+        binding.backpress.setOnClickListener(v->dismiss());
+        binding.nomor.setText(model.nomor);
+        binding.tanggal.setText(Laravel.getDate(model.tanggal));
+        switch (UserModel.i.type){
+            case "PP":
+            case "Jurusita":
+                binding.l5.setVisibility(View.GONE);
+                binding.l6.setVisibility(View.GONE);
+                break;
+        }
+        binding.ppName.setText(model.fullname_pp);
+        binding.jurusitaName.setText(model.fullname_jurusita);
+
+        binding.addTanggalProsess.setOnClickListener(v -> ShowDateTime(binding.addTanggalProsess));
+    }
 
     public void DeletePerkara(){
-        Call<BaseModel> call = BaseModel.i.getService().DeletePerkara(model.id);
-        call.enqueue(new Callback<BaseModel>() {
+        Call<MessageModel> call = BaseModel.i.getService().DeletePerkara(model.id);
+        call.enqueue(new Callback<MessageModel>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onResponse(@NotNull Call<BaseModel> call, @NotNull Response<BaseModel> response) {
-                BaseModel data = response.body();
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                MessageModel data = response.body();
                 if (Calling.TreatResponse(requireContext(),"Delete Perkara", data)){
-                    PerkaraModel.listperkara.removeIf(ise -> ise.id == model.id);
                     assert data != null;
                     MDToast.makeText(requireContext(), "Successfuly Deleted Perkara", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
@@ -178,53 +169,39 @@ public class DetailPerkara extends DialogFragment {
             }
 
             @Override
-            public void onFailure(@NotNull Call<BaseModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });
     }
 
     public void AddProsesPerkara(){
-        Call<PerkaraModel> call = BaseModel.i.getService().PerkaraAddProses(BaseModel.i.token,tanggals,
+//        Log.e("PERKARA",days);
+//        return;
+        Call<MessageModel> call = BaseModel.i.getService().PerkaraAddProses(BaseModel.i.token,tanggals,
                 String.valueOf(model.id),
-                days, Objects.requireNonNull(binding.addAgenda.getText()).toString());
-        call.enqueue(new Callback<PerkaraModel>() {
+                days, Objects.requireNonNull(binding.addAgenda.getText()).toString(),
+                Objects.requireNonNull(binding.addDakwaan.getText()).toString(),
+                Objects.requireNonNull(binding.addPenahanan.getText()).toString()
+                );
+        call.enqueue(new Callback<MessageModel>() {
             @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel data = response.body();
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                MessageModel data = response.body();
                 if (Calling.TreatResponse(requireContext(),"Add Proses", data)){
-//                    SimpleDateFormat fr = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
-//                    SimpleDateFormat tex = new SimpleDateFormat("dd MMMM YYYY", Locale.ENGLISH);
-//                    Calendar d = Calendar.getInstance();
-//                    assert data != null;
-//                    try {
-//                        d.setTime(Objects.requireNonNull(fr.parse(data.data.tanggal)));
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//                    PerkaraModel.perkaradiproses.add(data.data);
-//                    binding.agenda.setText(data.data.agenda);
-//                    binding.tanggalProsess.setText(data.data.hari+", "+tex.format(d.getTime()));
-//                    binding.status.setText("Sudah");
-//                    binding.status.setTextColor(getResources().getColor(R.color.green));
-//                    binding.btnCancelprosesPerkara.setVisibility(View.GONE);
-//                    binding.btnprosesPerkara.setVisibility(View.GONE);
-//                    binding.r3.setVisibility(View.GONE);
-//                    binding.r2.setVisibility(View.VISIBLE);
-//                    assert getFragmentManager() != null;
                     Layer_Perkara perkara = (Layer_Perkara) getFragmentManager().findFragmentByTag("perkara");
                     FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                     assert perkara != null;
                     transaction.detach(perkara);
                     transaction.attach(perkara);
                     transaction.commit();
-                    MDToast.makeText(requireContext(), "Proses Perkara berhasil di buat", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    MDToast.makeText(requireContext(), data.data, Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     dismiss();
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });
@@ -241,6 +218,15 @@ public class DetailPerkara extends DialogFragment {
             SimpleDateFormat tex = new SimpleDateFormat("dd MMMM YYYY", Locale.ENGLISH);
             SimpleDateFormat hari = new SimpleDateFormat("EEEE", Locale.ENGLISH);
             days = hari.format(calendar.getTime());
+            switch(days){
+                case "Monday": days = "Senin"; break;
+                case "Tuesday" : days = "Selasa"; break;
+                case "Wednesday" : days = "Rabu"; break;
+                case "Thursday" : days = "Kamis"; break;
+                case "Friday" : days = "Jumat"; break;
+                case "Saturday" : days = "Sabtu"; break;
+                case "Sunday" : days = "Minggu"; break;
+            }
             tanggals = fr.format(calendar.getTime());
             texit.setText(tex.format(calendar.getTime()));
         };

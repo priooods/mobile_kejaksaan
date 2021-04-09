@@ -10,14 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.prio.kejaksaan.adapter.AdapterSurat;
 import com.prio.kejaksaan.adapter.AdapterSuratList;
 import com.prio.kejaksaan.databinding.FragDocumentListBinding;
 import com.prio.kejaksaan.layer.goFilter;
 import com.prio.kejaksaan.model.DocumentModel;
-import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.SuratModel;
-import com.prio.kejaksaan.model.UserModel;
 
 import java.util.List;
 

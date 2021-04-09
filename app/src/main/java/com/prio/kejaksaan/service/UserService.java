@@ -1,18 +1,14 @@
 package com.prio.kejaksaan.service;
 
-import android.os.Message;
-
 import com.prio.kejaksaan.model.AtkItemModel;
 import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.AtkRequest;
 import com.prio.kejaksaan.model.BaseModel;
-import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.MessageModel;
 import com.prio.kejaksaan.model.ModelLaporanATK;
 import com.prio.kejaksaan.model.ModelNotification;
 import com.prio.kejaksaan.model.PembayaranModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
-import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 
@@ -87,13 +83,11 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("perkara/create")
-    Call<PerkaraModel> AddPerkara(
+    Call<MessageModel> AddPerkara(
             @Field("tanggal") String tanggal,
             @Field("nomor") String nomor,
             @Field("jenis") String jenis
             ,@Field("identitas") String identitas
-            ,@Field("dakwaan") String dakwaan
-            ,@Field("penahanan") String penahanan
             ,@Field("pp") int pp
             ,@Field("jurusita") int jurusita
             ,@Field("token") String token
@@ -101,20 +95,18 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("perkara/update")
-    Call<PerkaraModel> UpdatePerkara(
+    Call<MessageModel> UpdatePerkara(
             @Field("tanggal") String tanggal,
             @Field("nomor") String nomor,
             @Field("jenis") String jenis
             ,@Field("identitas") String identitas
-            ,@Field("dakwaan") String dakwaan
-            ,@Field("penahanan") String penahanan
             ,@Field("token") String token
             ,@Field("id") int id
     );
 
     @FormUrlEncoded
     @POST("perkara/delete")
-    Call<BaseModel> DeletePerkara(
+    Call<MessageModel> DeletePerkara(
             @Field("id") int id
     );
 
@@ -140,12 +132,14 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("perkara/proses")
-    Call<PerkaraModel> PerkaraAddProses(
+    Call<MessageModel> PerkaraAddProses(
             @Field("token") String token
             ,@Field("tanggal") String tanggal
             ,@Field("perkara_id") String perkara_id
             ,@Field("hari") String hari
             ,@Field("agenda") String agenda
+            ,@Field("dakwaan") String dakwaan
+            ,@Field("penahanan") String penahanan
     );
 
     @FormUrlEncoded
@@ -162,7 +156,7 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("tugas/jurusita")
-    Call<PerkaraModel> TugasJurusita(
+    Call<SuratModel> TugasJurusita(
             @Field("token") String token
     );
 
@@ -191,7 +185,7 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("tugas/acc")
-    Call<PerkaraModel> VerifyPPK(
+    Call<MessageModel> VerifyPPK(
             @Field("token") String token,
             @Field("id") int id
     );
@@ -295,7 +289,7 @@ public interface UserService {
 
     @Multipart
     @POST("bayar/create")
-    Call<PerkaraModel> BayarCreate(
+    Call<MessageModel> BayarCreate(
             @Query("token") String token
             ,@Query("surat_id") Integer surat_id
             ,@Part MultipartBody.Part bayar
@@ -313,7 +307,7 @@ public interface UserService {
     Call<List<ModelLaporanATK>> LaporanAtkPPK();
 
     @FormUrlEncoded
-    @POST("notif")
+    @POST("notif2")
     Call<ModelNotification> AllNotifikasiUser(
             @Field("token") String token
     );

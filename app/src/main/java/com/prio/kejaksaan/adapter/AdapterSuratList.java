@@ -49,7 +49,7 @@ public class AdapterSuratList extends RecyclerView.Adapter<AdapterSuratList.vHol
     @Override
     public void onBindViewHolder(@NonNull vHolder holder, int position) {
         holder.binding.namaTerdakwa.setText(models.get(position).tipe);
-        holder.binding.dakwaan.setText(models.get(position).perkara.getIdentity());
+        holder.binding.dakwaan.setText(models.get(position).perkara.identitas);
         holder.binding.garis.setBackground(context.getResources().getDrawable(R.color.red));
         holder.binding.t1.setText("Nomor");
         holder.binding.t2.setText("Pengantar");
@@ -123,7 +123,7 @@ public class AdapterSuratList extends RecyclerView.Adapter<AdapterSuratList.vHol
                 PerkaraListModel.Item perkara;
                 for (SuratModel.Item model : unfilter) {
                     perkara = model.perkara;
-                    if (perkara.getIdentity().toLowerCase().contains(key) ||
+                    if (perkara.identitas.toLowerCase().contains(key) ||
                             model.tipe.toLowerCase().contains(key) ||
                             perkara.tanggal.toLowerCase().contains(key) ||
                             perkara.jenis.toLowerCase().contains(key) ||

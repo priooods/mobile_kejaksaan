@@ -167,6 +167,7 @@ public class BaseActivity extends AppCompatActivity {
                 binding.bottomNavigation.getMenu().findItem(R.id.persediaan).setVisible(false);
                 break;
             case "KPA":
+            case "SuperUser":
                 binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
                 break;
         }

@@ -12,8 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,7 +19,8 @@ import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.DialogAddPerkaraBinding;
 import com.prio.kejaksaan.layer.Layer_Perkara;
 import com.prio.kejaksaan.model.BaseModel;
-import com.prio.kejaksaan.model.PerkaraModel;
+import com.prio.kejaksaan.model.MessageModel;
+import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
 import com.valdesekamdem.library.mdtoast.MDToast;
@@ -53,8 +52,19 @@ public class AddPerkara extends DialogFragment {
     DialogAddPerkaraBinding binding;
     List<UserModel> pp, jurusita ;
     List<String> ppstr, jurusitastr ;
+    PerkaraListModel.Item model;
+    DetailPerkara detail;
     String datesValue;
-    int idPP, idJurusita;
+    int idPP, idJurusita,mode;
+    public AddPerkara(int mode, PerkaraListModel.Item model){
+        this.mode = mode;
+        this.model = model;
+    }
+    public AddPerkara(int mode, PerkaraListModel.Item model, DetailPerkara detail){
+        this.mode = mode;
+        this.model = model;
+        this.detail = detail;
+    }
 
     @Nullable
     @Override
@@ -84,20 +94,20 @@ public class AddPerkara extends DialogFragment {
         binding.jurusita.setAdapter(adapterJurusita);
         binding.jurusita.setOnItemClickListener((parent, view, position, id) -> idJurusita = jurusita.get(position).id);
 
-        if (PerkaraModel.buatPerkaraShow == 2) {
-            binding.dakwaan.setText(PerkaraModel.i.dakwaan);
-            binding.identitas.setText(PerkaraModel.i.identitas);
-            binding.nomerDakwaan.setText(PerkaraModel.i.nomor);
-            binding.jenis.setText(PerkaraModel.i.jenis);
-            binding.penahan.setText(PerkaraModel.i.penahanan);
-            binding.tanggal.setText(PerkaraModel.i.tanggal);
+        if (mode == 2) {
+            binding.top.setText("Update Perkara");
+            binding.top2.setText("Harap lengkapi semua form tersedia untuk membuat Perkara");
+            binding.nomerDakwaan.setText(model.nomor);
+            binding.jenis.setText(model.jenis);
+            binding.tanggal.setText(model.tanggal);
+            binding.identitas.setText(model.identitas);
             binding.btnCreatePerkara.setText("Update Perkara");
             binding.ppLayout.setVisibility(View.GONE);
             binding.typeLayout.setVisibility(View.GONE);
         }
 
         binding.btnCreatePerkara.setOnClickListener(v->{
-            if (PerkaraModel.buatPerkaraShow == 2){
+            if (mode == 2){
                 UpdatePerkara();
             } else {
                 TambahPerkara();
@@ -128,25 +138,29 @@ public class AddPerkara extends DialogFragment {
 
     public void UpdatePerkara(){
         Log.e("Perkara","Update Perkara!");
-        Call<PerkaraModel> call = BaseModel.i.getService().UpdatePerkara(datesValue,
+        Call<MessageModel> call = BaseModel.i.getService().UpdatePerkara(datesValue,
                 Objects.requireNonNull(binding.nomerDakwaan.getText()).toString(),
                 Objects.requireNonNull(binding.jenis.getText()).toString(), Objects.requireNonNull(binding.identitas.getText()).toString(),
-                Objects.requireNonNull(binding.dakwaan.getText()).toString(), Objects.requireNonNull(binding.penahan.getText()).toString(),
-                BaseModel.i.token, PerkaraModel.i.id);
+                BaseModel.i.token, model.id);
 
-        call.enqueue(new Callback<PerkaraModel>() {
+        call.enqueue(new Callback<MessageModel>() {
             @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel data = response.body();
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                MessageModel data = response.body();
                 if (Calling.TreatResponse(requireContext(), "Update Perkara", data)){
-                    MDToast.makeText(requireContext(), "Perkara berhasil di update !", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    MDToast.makeText(requireContext(), data.data, Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    model.tanggal = datesValue;
+                    model.nomor = Objects.requireNonNull(binding.nomerDakwaan.getText()).toString();
+                    model.jenis = Objects.requireNonNull(binding.jenis.getText()).toString();
+                    model.identitas = Objects.requireNonNull(binding.identitas.getText()).toString();
+                    detail.RefreshPerkara();
                     Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new Layer_Perkara(),"perkara").commit();
                     dismiss();
                 }
             }
 
             @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });
@@ -154,20 +168,19 @@ public class AddPerkara extends DialogFragment {
 
     public void TambahPerkara(){
         Log.e("Perkara","Tambah Perkara!");
-        Call<PerkaraModel> call = BaseModel.i.getService().AddPerkara(datesValue,
+        Call<MessageModel> call = BaseModel.i.getService().AddPerkara(datesValue,
                 Objects.requireNonNull(binding.nomerDakwaan.getText()).toString(),
                 Objects.requireNonNull(binding.jenis.getText()).toString(), Objects.requireNonNull(binding.identitas.getText()).toString(),
-                Objects.requireNonNull(binding.dakwaan.getText()).toString(), Objects.requireNonNull(binding.penahan.getText()).toString(),
                 idPP,idJurusita, BaseModel.i.token);
 
-        call.enqueue(new Callback<PerkaraModel>() {
+        call.enqueue(new Callback<MessageModel>() {
             @Override
-            public void onResponse(@NotNull Call<PerkaraModel> call, @NotNull Response<PerkaraModel> response) {
-                PerkaraModel data = response.body();
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                MessageModel data = response.body();
                 if (Calling.TreatResponse(requireContext(), "Create Perkara", data)){
                     assert data != null;
 //                    PerkaraModel.listperkara.add(data.data);
-                    MDToast.makeText(requireContext(), "Perkara Baru berhasil di buat", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    MDToast.makeText(requireContext(), data.data, Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
                     Layer_Perkara perkara = (Layer_Perkara) getFragmentManager().findFragmentByTag("perkara");
                     FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
@@ -180,7 +193,7 @@ public class AddPerkara extends DialogFragment {
             }
 
             @Override
-            public void onFailure(@NotNull Call<PerkaraModel> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
                 Log.e(TAG, "onFailure: ", t);
             }
         });

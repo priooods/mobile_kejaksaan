@@ -1,6 +1,7 @@
 package com.prio.kejaksaan.model;
 
 import com.prio.kejaksaan.service.Calling;
+import com.prio.kejaksaan.tools.Laravel;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -14,16 +15,14 @@ public class PerkaraListModel extends Calling {
         public String nomor;
         public String jenis;
         public String identitas;
-        public String penahanan;
-        public String dakwaan;
         public String fullname_pp;
         public String fullname_jurusita;
         public Proses proses;
-        public String getIdentity(){
-            return identitas+" - "+dakwaan;
-        }
+//        public String getIdentity(){
+//            return identitas;
+//        }
         public String getInformation(){
-            return "Perkara "+tanggal+"/ No."+nomor+"/ Jenis."+jenis;
+            return "Perkara No."+nomor+" Jenis "+jenis+".";
         }
     }
     public class Proses{
@@ -31,11 +30,16 @@ public class PerkaraListModel extends Calling {
         public String hari;
         public String tanggal;
         public String agenda;
+        public String penahanan;
+        public String dakwaan;
         public int perkara_id;
         public String created;
         public PerkaraListModel.Item perkara;
+        public String getIdentity(){
+            return perkara.identitas + " ("+dakwaan+")";
+        }
         public String print(){
-            return hari+","+tanggal+" : "+agenda;
+            return hari+", "+ Laravel.getShortDate(tanggal)+" : "+agenda;
         }
     }
 }

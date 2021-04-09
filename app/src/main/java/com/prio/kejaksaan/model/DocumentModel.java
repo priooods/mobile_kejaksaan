@@ -35,10 +35,5 @@ public class DocumentModel extends Calling {
     public List<DocumentModel> data;
     public DocumentModel surat;
 
-    public static List<DocumentModel> semuasuratPanmud;
-    public static List<DocumentModel> notifyJurusita;
-    public static List<DocumentModel> semuaTugasJurusita;
-    public static List<DocumentModel> semuaTugasPPK;
-    public static List<PerkaraModel> perkaradiproses;
     public static int ShowDetailDocument;
 }

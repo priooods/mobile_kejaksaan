@@ -19,8 +19,6 @@ import com.prio.kejaksaan.adapter.AdapterSurat;
 import com.prio.kejaksaan.databinding.FragPerkaraBinding;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
-import com.prio.kejaksaan.model.PerkaraModel;
-import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
 import com.prio.kejaksaan.views.perkara.AddPerkara;
@@ -40,19 +38,48 @@ public class Layer_Perkara extends Fragment {
 
     FragPerkaraBinding binding;
     AdapterPerkara adapterPerkara;
-    AdapterSurat adapterSurat;
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        switch (UserModel.i.type){
+            case "Jurusita":
+//                GetPerkaraSudahDiProsess();
+                GettAllPerkaraJurusita();
+                binding.btnAddTop.setVisibility(View.GONE);
+                binding.btnNewDoc.setVisibility(View.GONE);
+                break;
+            case "Panitera":
+//                GetPerkaraSudahDiProsess();
+                GettAllPerkara();
+                break;
+            case "KPA":
+            case "Ketua":
+            case "SuperUser":
+//                GetPerkaraSudahDiProsess();
+                GettAllPerkara();
+                binding.btnAddTop.setVisibility(View.GONE);
+                binding.btnNewDoc.setVisibility(View.GONE);
+                break;
+            case "PP":
+//                GetPerkaraSudahDiProsess();
+                GettAllPerkaraPP();
+                binding.btnAddTop.setVisibility(View.GONE);
+                binding.btnNewDoc.setVisibility(View.GONE);
+                break;
+        }
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragPerkaraBinding.inflate(inflater, container, false);
 
-        PerkaraModel.updatePerkaraStatus = 0;
+//        PerkaraModel.updatePerkaraStatus = 0;
         binding.shimer.startShimmer();
 
         binding.btnNewDoc.setOnClickListener(v -> {
-            PerkaraModel.buatPerkaraShow = 1;
-            DialogFragment fragment = new AddPerkara();
+//            PerkaraModel.buatPerkaraShow = 1;
+            DialogFragment fragment = new AddPerkara(1, null);
             fragment.show(requireActivity().getSupportFragmentManager(),"Create Perkara");
         });
 
@@ -64,7 +91,6 @@ public class Layer_Perkara extends Fragment {
         binding.cross.setOnClickListener(v -> {
             binding.search2.setVisibility(View.GONE);
             binding.search1.setVisibility(View.VISIBLE);
-            storeAdapter(PerkaraModel.listperkara);
         });
 
         binding.btnAddTop.setOnClickListener(v -> {
@@ -79,11 +105,11 @@ public class Layer_Perkara extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (charSequence.length() != 0) {
+//                if (charSequence.length() != 0) {
                     adapterPerkara.getFilter().filter(charSequence);
-                } else {
-                    storeAdapter(PerkaraModel.listperkara);
-                }
+//                } else {
+//                    storeAdapter(PerkaraModel.listperkara);
+//                }
             }
             @Override
             public void afterTextChanged(Editable s) { }
@@ -110,7 +136,6 @@ public class Layer_Perkara extends Fragment {
                     return;
                 if (Calling.TreatResponse(requireContext(), "All Perkara by PP", baseModel)){
                     assert baseModel != null;
-                    PerkaraModel.listperkara = baseModel.data;
                     storeAdapter(baseModel.data);
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
@@ -132,8 +157,7 @@ public class Layer_Perkara extends Fragment {
                 PerkaraListModel baseModel = response.body();
                 if (Calling.TreatResponse(requireContext(), "All Perkara by Jurusita", baseModel)){
                     assert baseModel != null;
-                    PerkaraModel.listperkara = baseModel.data;
-                    storeAdapter(PerkaraModel.listperkara);
+                    storeAdapter(baseModel.data);
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
                 }
@@ -154,10 +178,9 @@ public class Layer_Perkara extends Fragment {
                 PerkaraListModel baseModel = response.body();
                 if (Calling.TreatResponse(getContext(), "All Perkara by Jurusita", baseModel)) {
                     assert baseModel != null;
-                    PerkaraModel.listperkara = baseModel.data;
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
-                    storeAdapter(PerkaraModel.listperkara);
+                    storeAdapter(baseModel.data);
                 }
             }
 
@@ -168,53 +191,23 @@ public class Layer_Perkara extends Fragment {
         });
     }
 
-    public void GetPerkaraSudahDiProsess(){
-        Call<PerkaraListModel> call = BaseModel.i.getService().PerkaraSudahDiProsess();
-        call.enqueue(new Callback<PerkaraListModel>() {
-            @Override
-            public void onResponse(@NotNull Call<PerkaraListModel> call, @NotNull Response<PerkaraListModel> response) {
-                PerkaraListModel baseModel = response.body();
-                if (Calling.TreatResponse(getContext(),"Perkara Sudah Di Prosess", baseModel)){
-                    assert baseModel != null;
-                    PerkaraModel.listperkara = baseModel.data;
-                }
-            }
+//    public void GetPerkaraSudahDiProsess(){
+//        Call<PerkaraListModel> call = BaseModel.i.getService().PerkaraSudahDiProsess();
+//        call.enqueue(new Callback<PerkaraListModel>() {
+//            @Override
+//            public void onResponse(@NotNull Call<PerkaraListModel> call, @NotNull Response<PerkaraListModel> response) {
+//                PerkaraListModel baseModel = response.body();
+//                if (Calling.TreatResponse(getContext(),"Perkara Sudah Di Prosess", baseModel)){
+//                    assert baseModel != null;
+//                    PerkaraModel.listperkara = baseModel.data;
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NotNull Call<PerkaraListModel> call, @NotNull Throwable t) {
+//                Log.e(TAG, "onFailure: ", t);
+//            }
+//        });
+//    }
 
-            @Override
-            public void onFailure(@NotNull Call<PerkaraListModel> call, @NotNull Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
-        });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        switch (UserModel.i.type){
-            case "Jurusita":
-                GetPerkaraSudahDiProsess();
-                GettAllPerkaraJurusita();
-                binding.btnAddTop.setVisibility(View.GONE);
-                binding.btnNewDoc.setVisibility(View.GONE);
-                break;
-            case "Panitera":
-                GetPerkaraSudahDiProsess();
-                GettAllPerkara();
-                break;
-            case "KPA":
-            case "Ketua":
-            case "SuperUser":
-                GetPerkaraSudahDiProsess();
-                GettAllPerkara();
-                binding.btnAddTop.setVisibility(View.GONE);
-                binding.btnNewDoc.setVisibility(View.GONE);
-                break;
-            case "PP":
-                GetPerkaraSudahDiProsess();
-                GettAllPerkaraPP();
-                binding.btnAddTop.setVisibility(View.GONE);
-                binding.btnNewDoc.setVisibility(View.GONE);
-                break;
-        }
-    }
 }

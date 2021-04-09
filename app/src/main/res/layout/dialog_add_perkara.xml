@@ -55,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:textColorHint="@color/grey"
             android:id="@+id/name_layout"
-            android:hint="@string/nomer_dakwaan"
+            android:hint="Nomor Perkara"
             style="@style/TextInputLayoutStyle"
             android:layout_marginHorizontal="20dp"
             android:layout_height="wrap_content">
@@ -65,7 +65,7 @@
                 android:id="@+id/nomer_dakwaan"
                 android:layout_height="match_parent"
                 android:textColor="@color/colorPrimary"
-                android:inputType="number"/>
+                android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,57 +145,57 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/identitas_layout"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:helperTextTextColor="@color/red"-->
+<!--            app:hintTextColor="@color/colorPrimary"-->
+<!--            android:textColorHint="@color/grey"-->
+<!--            android:id="@+id/dakwaan_layout"-->
+<!--            android:hint="@string/dakwaan"-->
+<!--            style="@style/TextInputLayoutStyle"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:id="@+id/dakwaan"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:textColor="@color/colorPrimary"-->
+<!--                android:inputType="text"/>-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/dakwaan_layout"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:helperTextTextColor="@color/red"-->
+<!--            app:hintTextColor="@color/colorPrimary"-->
+<!--            android:textColorHint="@color/grey"-->
+<!--            android:id="@+id/penahanan_layout"-->
+<!--            android:hint="@string/penahanan"-->
+<!--            style="@style/TextInputLayoutStyle"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:id="@+id/penahan"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:textColor="@color/colorPrimary"-->
+<!--                android:inputType="text"/>-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             app:layout_constraintTop_toBottomOf="@id/identitas_layout"
-            android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:helperTextTextColor="@color/red"
-            app:hintTextColor="@color/colorPrimary"
-            android:textColorHint="@color/grey"
-            android:id="@+id/dakwaan_layout"
-            android:hint="@string/dakwaan"
-            style="@style/TextInputLayoutStyle"
-            android:layout_marginHorizontal="20dp"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:id="@+id/dakwaan"
-                android:layout_height="match_parent"
-                android:textColor="@color/colorPrimary"
-                android:inputType="text"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/dakwaan_layout"
-            android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:helperTextTextColor="@color/red"
-            app:hintTextColor="@color/colorPrimary"
-            android:textColorHint="@color/grey"
-            android:id="@+id/penahanan_layout"
-            android:hint="@string/penahanan"
-            style="@style/TextInputLayoutStyle"
-            android:layout_marginHorizontal="20dp"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:id="@+id/penahan"
-                android:layout_height="match_parent"
-                android:textColor="@color/colorPrimary"
-                android:inputType="text"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/penahanan_layout"
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

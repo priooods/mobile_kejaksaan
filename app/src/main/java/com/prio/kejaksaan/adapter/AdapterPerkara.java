@@ -1,7 +1,6 @@
 package com.prio.kejaksaan.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
-import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
-import com.prio.kejaksaan.model.PerkaraModel;
-import com.prio.kejaksaan.model.UserModel;
+import com.prio.kejaksaan.tools.Laravel;
 import com.prio.kejaksaan.views.perkara.DetailPerkara;
 
 import java.text.ParseException;
@@ -29,8 +26,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
-import static android.content.ContentValues.TAG;
 
 public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder> implements Filterable {
 
@@ -52,25 +47,25 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
 
     @Override
     public void onBindViewHolder(@NonNull cHolder holder, int position) {
-        SimpleDateFormat fr = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
-        SimpleDateFormat tex = new SimpleDateFormat("dd MMM YYYY", Locale.ENGLISH);
-        Calendar c = Calendar.getInstance();
-        try {
-            c.setTime(Objects.requireNonNull(fr.parse(models.get(position).tanggal)));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        SimpleDateFormat fr = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
+//        SimpleDateFormat tex = new SimpleDateFormat("dd MMM YYYY", Locale.ENGLISH);
+//        Calendar c = Calendar.getInstance();
+//        try {
+//            c.setTime(Objects.requireNonNull(fr.parse(models.get(position).tanggal)));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
-        holder.binding.v5.setText(": " + "Belum");
-        holder.binding.v5.setTextColor(context.getColor(R.color.red));
+        holder.binding.v2.setText(": " + "Belum");
+        holder.binding.v2.setTextColor(context.getColor(R.color.red));
 
         if (models.get(position).proses != null){
 //            int i;
 //            for (i=0; i < PerkaraModel.perkaradiproses.size(); i++){
 //                if (models.get(position).id == PerkaraModel.perkaradiproses.get(i).perkara_id) {
 //                    if (models.get(position).id != 0) {
-                        holder.binding.v5.setText(": Sudah");
-                        holder.binding.v5.setTextColor(context.getColor(R.color.green));
+                        holder.binding.v2.setText(": Sudah");
+                        holder.binding.v2.setTextColor(context.getColor(R.color.green));
                         holder.binding.garis.setBackground(context.getResources().getDrawable(R.color.green));
 //                    }
 //                }
@@ -78,28 +73,26 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
         }
 
         holder.binding.namaTerdakwa.setText(models.get(position).identitas);
-        holder.binding.dakwaan.setText(models.get(position).dakwaan);
+        holder.binding.dakwaan.setText(models.get(position).nomor);
+        holder.binding.l4.setVisibility(View.GONE);
+        holder.binding.l5.setVisibility(View.GONE);
         holder.binding.l6.setVisibility(View.GONE);
-        holder.binding.t1.setText("Nomor");
-        holder.binding.t2.setText("Jenis");
-        holder.binding.t3.setText("Ditahan");
-        holder.binding.t4.setText("Tanggal");
-        holder.binding.t5.setText("Status PP");
-        holder.binding.v1.setText(": "+models.get(position).nomor);
-        holder.binding.v2.setText(": "+models.get(position).jenis);
-        holder.binding.v3.setText(": "+models.get(position).penahanan);
-        holder.binding.v4.setText(": "+tex.format(c.getTime()));
+        holder.binding.t1.setText("Jenis");
+        holder.binding.t3.setText("Tanggal");
+        holder.binding.t2.setText("Proses");
+        holder.binding.v1.setText(": "+models.get(position).jenis);
+        holder.binding.v3.setText(": "+ Laravel.getShortDate(models.get(position).tanggal));
 
         holder.binding.vwmodel.setOnClickListener(v -> {
-            if (holder.binding.v5.getText().equals(": Sudah")){
-                PerkaraModel.statusPerkara = 2;
-            } else {
-                PerkaraModel.statusPerkara = 1;
-            }
-            PerkaraListModel.i = models.get(position);
+//            PerkaraListModel.i = models.get(position);
             FragmentActivity frg = (FragmentActivity)(context);
             FragmentManager mrg = frg.getSupportFragmentManager();
-            DialogFragment fragment = new DetailPerkara();
+            DialogFragment fragment;
+            if (models.get(position).proses != null){
+                fragment = new DetailPerkara(2, models.get(position));
+            } else {
+                fragment = new DetailPerkara(1, models.get(position));
+            }
             fragment.show(mrg,"Detail Perkara");
         });
     }
@@ -123,8 +116,7 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
                     for (PerkaraListModel.Item model : modelsfilter){
                         if (model.identitas.toLowerCase().contains(key.toLowerCase()) ||
                                 model.jenis.toLowerCase().contains(key.toLowerCase()) ||
-                                model.penahanan.toLowerCase().contains(key.toLowerCase()) ||
-                                model.dakwaan.toLowerCase().contains(key.toLowerCase()) ||
+                                model.tanggal.toLowerCase().contains(key.toLowerCase()) ||
                                 model.nomor.toLowerCase().contains(key.toLowerCase())){
                             modelss.add(model);
                         }

@@ -17,9 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.prio.kejaksaan.databinding.FragDocumentBinding;
 import com.prio.kejaksaan.model.BaseModel;
-import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
-import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
@@ -28,8 +26,6 @@ import com.prio.kejaksaan.views.document.SemuaPerkara;
 import com.prio.kejaksaan.views.document.SemuaSurat;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,7 +78,10 @@ public class Layer_Document extends Fragment {
         if ((perkara && perkara_list == null) || surat_list == null)
             return;
         if (adapter != null) {
+            binding.tabMenu.setupWithViewPager(binding.viewpager);
             binding.viewpager.setAdapter(adapter);
+            binding.shimer.stopShimmer();
+            binding.shimer.setVisibility(View.GONE);
 
             for (int i = 0; i < binding.tabMenu.getTabCount(); i++) {
                 View tab = ((ViewGroup) binding.tabMenu.getChildAt(0)).getChildAt(i);

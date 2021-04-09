@@ -17,6 +17,7 @@ import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
 import com.prio.kejaksaan.model.AtkRequest;
 import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.UserModel;
+import com.prio.kejaksaan.tools.Laravel;
 import com.prio.kejaksaan.views.atk.AtkVerifikasi;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class AdapterRequestATK extends RecyclerView.Adapter<AdapterRequestATK.vH
 
     @Override
     public void onBindViewHolder(@NonNull vHolder holder, int position) {
-        holder.binding.namaTerdakwa.setText(models.get(position).proses.perkara.getIdentity());
+        holder.binding.namaTerdakwa.setText(models.get(position).proses.getIdentity());
         holder.binding.dakwaan.setText(models.get(position).proses.perkara.getInformation());
         holder.binding.t1.setText("Agenda");
         holder.binding.t2.setText("Diverifikasi");
@@ -61,11 +62,12 @@ public class AdapterRequestATK extends RecyclerView.Adapter<AdapterRequestATK.vH
         if (models.get(position).log_id != null){
             holder.binding.v4.setText("Sudah");
             holder.binding.v4.setTextColor(context.getColor(R.color.green));
-        } else {
+        } else
+            {
             holder.binding.v4.setText("Belum");
             holder.binding.v4.setTextColor(context.getColor(R.color.red));
         }
-        holder.binding.v5.setText(models.get(position).proses.tanggal);
+        holder.binding.v5.setText(Laravel.getShortDate(models.get(position).proses.tanggal));
         if (models.get(position).penerimaan != null){
             holder.binding.v6.setText("Sudah");
             holder.binding.v6.setTextColor(context.getColor(R.color.green));
@@ -107,7 +109,7 @@ public class AdapterRequestATK extends RecyclerView.Adapter<AdapterRequestATK.vH
                     PerkaraListModel.Item perkara = model.proses.perkara;
                     if (model.proses.agenda.toLowerCase().contains(key.toLowerCase()) ||
                             perkara.identitas.toLowerCase().contains(key.toLowerCase()) ||
-                            perkara.dakwaan.toLowerCase().contains(key.toLowerCase()) ||
+                            perkara.proses.dakwaan.toLowerCase().contains(key.toLowerCase()) ||
                             perkara.tanggal.toLowerCase().contains(key.toLowerCase()) ||
                             perkara.jenis.toLowerCase().contains(key.toLowerCase()) ||
                             perkara.nomor.toLowerCase().contains(key.toLowerCase())) {

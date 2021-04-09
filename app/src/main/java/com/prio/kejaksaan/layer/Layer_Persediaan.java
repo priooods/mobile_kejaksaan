@@ -1,56 +1,40 @@
 package com.prio.kejaksaan.layer;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.prio.kejaksaan.R;
-import com.prio.kejaksaan.activity.Login;
-import com.prio.kejaksaan.adapter.AdapterAtk;
 import com.prio.kejaksaan.adapter.AdapterRequestATK;
 import com.prio.kejaksaan.databinding.FragPersedianBinding;
-import com.prio.kejaksaan.databinding.ModelAtkReqBinding;
 import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
-import com.prio.kejaksaan.model.AtkItemModel;
-import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.AtkRequest;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.ModelLaporanATK;
 import com.prio.kejaksaan.model.PerkaraListModel;
-import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.UserModel;
-import com.prio.kejaksaan.service.Calling;
 import com.prio.kejaksaan.tools.PagerAdapter;
 import com.prio.kejaksaan.views.atk.AddATK;
 import com.prio.kejaksaan.views.atk.AtkPermintaan;
 import com.prio.kejaksaan.views.atk.AtkVerifikasi;
 import com.prio.kejaksaan.views.atk.Gudang;
-import com.prio.kejaksaan.views.document.SemuaPerkara;
-import com.prio.kejaksaan.views.document.SemuaSurat;
-import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -101,6 +85,7 @@ public class Layer_Persediaan extends Fragment implements goFilter{
                 binding.shimer.setVisibility(View.VISIBLE);
                 binding.shimer.startShimmer();
                 myPersediaan = this;
+                layerLaporan = true;
                 GetLaporanATK();
                 binding.layoutTabs.setVisibility(View.GONE);
                 binding.layoutList.setVisibility(View.VISIBLE);
@@ -200,11 +185,7 @@ public class Layer_Persediaan extends Fragment implements goFilter{
     @Override
     public void Filter(CharSequence filters) {
         if (layerLaporan)
-            if (filters.length() != 0) {
-//                adapterLaporanAtk.getFilter().filter(filters);
-            } else {
-//                adapterSelainLogistik.getFilter().filter(filters);
-            }
+            adapterLaporanAtk.getFilter().filter(filters);
         else{
             myPersediaan.Filter(filters);
         }
@@ -217,11 +198,11 @@ public class Layer_Persediaan extends Fragment implements goFilter{
     public static class AdapterLaporanAtk extends RecyclerView.Adapter<AdapterLaporanAtk.vHolder>{
 
         Context context;
-        List<ModelLaporanATK> models;
+        List<ModelLaporanATK> models,unfilter;
 
         public AdapterLaporanAtk(Context context, List<ModelLaporanATK> models) {
             this.context = context;
-            this.models = models;
+            this.models = unfilter = models;
         }
 
         @NonNull
@@ -230,6 +211,41 @@ public class Layer_Persediaan extends Fragment implements goFilter{
             return new vHolder(ModelPerkaraBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         }
 
+        public Filter getFilter() {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    if (constraint.length() == 0){
+                        Log.e("Request","No Adapter");
+                        FilterResults filterResults = new FilterResults();
+                        filterResults.values = unfilter;
+                        return filterResults;
+                    }
+                    String key = constraint.toString().toLowerCase();
+                    List<ModelLaporanATK> modelss = new ArrayList<>();
+                    for (ModelLaporanATK model : unfilter) {
+                        if (model.name.toLowerCase().contains(key) ||
+                                model.keterangan.toLowerCase().contains(key) ||
+                                String.valueOf(model.keluar).toLowerCase().contains(key) ||
+                                String.valueOf(model.masuk).contains(key) ||
+                                String.valueOf(model.sisa).contains(key)) {
+                            modelss.add(model);
+                        }
+                    }
+//                models = modelss;
+
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = modelss;
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    models = (List<ModelLaporanATK>) results.values;
+                    notifyDataSetChanged();
+                }
+            };
+        }
         @Override
         public void onBindViewHolder(@NonNull vHolder holder, int position) {
 

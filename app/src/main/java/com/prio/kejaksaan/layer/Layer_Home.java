@@ -16,17 +16,13 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bumptech.glide.Glide;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.activity.Login;
 import com.prio.kejaksaan.adapter.AdapterAllUsers;
 import com.prio.kejaksaan.adapter.AdapterNotif;
-import com.prio.kejaksaan.adapter.AdapterPerkara;
 import com.prio.kejaksaan.databinding.FragHomeBinding;
-import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.ModelNotification;
-import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
 import com.prio.kejaksaan.views.profile.CreateUsers;
@@ -35,7 +31,6 @@ import com.prio.kejaksaan.views.profile.EditProfile;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +48,6 @@ public class Layer_Home extends Fragment {
     SharedPreferences sharedPreferences;
     AdapterNotif adapterNotif;
     AdapterAllUsers adapterAllUsers;
-    List<PerkaraModel> modelList;
 
     @Nullable
     @Override
@@ -73,7 +67,9 @@ public class Layer_Home extends Fragment {
                 e.printStackTrace();
             }
             //TODO: Dicheck kalau typenya not KPA.kalau ga berhasil kabarin lgi
-            if (!UserModel.i.type.equals("KPA") || !UserModel.i.type.equals("SuperUser")){
+            if (UserModel.i.type.equals("KPA") || UserModel.i.type.equals("SuperUser")){
+                popupMenu.getMenu().findItem(R.id.add).setVisible(true);
+            } else{
                 popupMenu.getMenu().findItem(R.id.add).setVisible(false);
             }
 

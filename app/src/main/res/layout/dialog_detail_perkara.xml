@@ -56,8 +56,38 @@
 
             <LinearLayout
                 android:id="@+id/l1"
-                android:layout_marginTop="15dp"
                 app:layout_constraintTop_toBottomOf="@id/a"
+                android:layout_marginTop="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Nomor Perkara"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=": "
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nomor"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/l2"
+                app:layout_constraintTop_toBottomOf="@id/l1"
+                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -85,71 +115,10 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/l2"
-                app:layout_constraintTop_toBottomOf="@id/l1"
-                android:layout_marginTop="13dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:text="Dakwaan"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=": "
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/dakwaan"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/l3"
                 app:layout_constraintTop_toBottomOf="@id/l2"
-                android:layout_marginTop="13dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:text="Nomer Perkara"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=": "
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/nomor"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/l4"
-                app:layout_constraintTop_toBottomOf="@id/l3"
                 android:layout_marginTop="13dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -179,8 +148,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/l5"
-                app:layout_constraintTop_toBottomOf="@id/l4"
+                android:id="@+id/l4"
+                app:layout_constraintTop_toBottomOf="@id/l3"
                 android:layout_marginTop="13dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -210,8 +179,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/l6"
-                app:layout_constraintTop_toBottomOf="@id/l5"
+                android:id="@+id/l5"
+                app:layout_constraintTop_toBottomOf="@id/l4"
                 android:layout_marginTop="13dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -220,38 +189,7 @@
                 <TextView
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Lama Penahanan"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=": "
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/penahanan"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/l7"
-                app:layout_constraintTop_toBottomOf="@id/l6"
-                android:layout_marginTop="13dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:text="Indentias PP"
+                    android:text="Identitas PP"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp"/>
 
@@ -272,8 +210,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/l8"
-                app:layout_constraintTop_toBottomOf="@id/l7"
+                android:id="@+id/l6"
+                app:layout_constraintTop_toBottomOf="@id/l5"
                 android:layout_marginTop="13dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -303,8 +241,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/l9"
-                app:layout_constraintTop_toBottomOf="@id/l8"
+                android:id="@+id/l7"
+                app:layout_constraintTop_toBottomOf="@id/l6"
                 android:layout_marginTop="13dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -313,7 +251,7 @@
                 <TextView
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:text="Status PP"
+                    android:text="Status Proses"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp"/>
 
@@ -329,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/status"
                     android:textColor="@color/red"
-                    android:text="Belum Di Prosess"
+                    android:text="Belum Di Proses"
                     android:textSize="12sp"/>
 
             </LinearLayout>
@@ -339,7 +277,7 @@
                 android:layout_marginTop="15dp"
                 android:visibility="gone"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/l9"
+                app:layout_constraintTop_toBottomOf="@id/l7"
                 android:id="@+id/r2">
 
                 <TextView
@@ -349,7 +287,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:id="@+id/b"
-                    android:text="Detail Perkara Di Proses PP"
+                    android:text="Detail Proses Perkara oleh Panitera Pengganti"
                     android:textSize="13sp"
                     android:textColor="@color/colorPrimary"/>
 
@@ -415,6 +353,66 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/l12"
+                    app:layout_constraintTop_toBottomOf="@id/l11"
+                    android:layout_marginTop="13dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:text="Dakwaan"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=": "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@id/dakwaan"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/l13"
+                    app:layout_constraintTop_toBottomOf="@id/l12"
+                    android:layout_marginTop="13dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:text="Penahanan"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=": "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@id/penahanan"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -443,7 +441,7 @@
                     app:layout_constraintTop_toBottomOf="@id/c"
                     app:layout_constraintStart_toStartOf="parent"
                     android:id="@+id/cd"
-                    android:text="Masukan semua form yang tersedia untuk memproses perkara"
+                    android:text="Harap masukan dengan benar untuk memproses perkara"
                     android:textSize="12sp"
                     android:textColor="@color/colorPrimary"/>
 
@@ -489,6 +487,50 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:id="@+id/add_agenda"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/colorPrimary"
+                        android:inputType="text"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/identitas_layout"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:helperTextTextColor="@color/red"
+                    app:hintTextColor="@color/colorPrimary"
+                    android:textColorHint="@color/grey"
+                    android:id="@+id/dakwaan_layout"
+                    android:hint="Dakwaan"
+                    style="@style/TextInputLayoutStyle"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/add_dakwaan"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/colorPrimary"
+                        android:inputType="text"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/dakwaan_layout"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:helperTextTextColor="@color/red"
+                    app:hintTextColor="@color/colorPrimary"
+                    android:textColorHint="@color/grey"
+                    android:id="@+id/penahanan_layout"
+                    android:hint="Penahanan"
+                    style="@style/TextInputLayoutStyle"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/add_penahanan"
                         android:layout_height="match_parent"
                         android:textColor="@color/colorPrimary"
                         android:inputType="text"/>
@@ -556,7 +598,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_style"
-                    android:text="Prosess Perkara"
+                    android:text="Proses Perkara"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="12sp"

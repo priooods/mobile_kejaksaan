@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,15 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.prio.kejaksaan.adapter.AdapterRequestATK;
 import com.prio.kejaksaan.databinding.FragAtkReqBinding;
-import com.prio.kejaksaan.layer.Layer_Persediaan;
 import com.prio.kejaksaan.layer.goFilter;
-import com.prio.kejaksaan.model.AtkModel;
 import com.prio.kejaksaan.model.AtkRequest;
 import com.prio.kejaksaan.model.BaseModel;
-import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
-import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 

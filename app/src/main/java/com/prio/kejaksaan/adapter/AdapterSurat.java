@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ModelPerkaraBinding;
 import com.prio.kejaksaan.model.DocumentModel;
-import com.prio.kejaksaan.model.PerkaraListModel;
-import com.prio.kejaksaan.model.PerkaraModel;
 import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.views.document.AddDocument;
@@ -76,13 +74,14 @@ public class AdapterSurat extends RecyclerView.Adapter<AdapterSurat.vHolder> {
                 holder.binding.t3.setText("Agenda");
                 holder.binding.t4.setText("Nomor");
                 holder.binding.t5.setText("Jenis");
-                holder.binding.t6.setText("Ditahan");
+//                holder.binding.t6.setText("Ditahan");
                 holder.binding.v1.setText(": "+models.get(position).perkara.tanggal);
                 holder.binding.v2.setText(": "+tex.format(c.getTime()));
                 holder.binding.v3.setText(": "+models.get(position).proses.agenda);
                 holder.binding.v4.setText(": "+models.get(position).perkara.nomor);
                 holder.binding.v5.setText(": "+models.get(position).perkara.jenis);
-                holder.binding.v6.setText(": "+models.get(position).perkara.penahanan);
+//                holder.binding.v6.setText(": "+models.get(position).perkara.penahanan);
+                holder.binding.v6.setVisibility(View.GONE);
                 break;
             case "PPK":
                 SimpleDateFormat frs = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
@@ -99,28 +98,29 @@ public class AdapterSurat extends RecyclerView.Adapter<AdapterSurat.vHolder> {
                 holder.binding.t1.setText("Tanggal");
                 holder.binding.t2.setText("Nomor");
                 holder.binding.t3.setText("Jenis");
-                holder.binding.t4.setText("Ditahan");
+//                holder.binding.t4.setText("Ditahan");
                 holder.binding.v1.setText(": "+texs.format(cs.getTime()));
                 holder.binding.v2.setText(": "+models.get(position).perkara.tanggal);
                 holder.binding.v3.setText(": "+models.get(position).perkara.jenis);
-                holder.binding.v4.setText(": "+models.get(position).perkara.penahanan);
+//                holder.binding.v4.setText(": "+models.get(position).perkara.penahanan);
+                holder.binding.l4.setVisibility(View.GONE);
                 holder.binding.l5.setVisibility(View.GONE);
                 holder.binding.l6.setVisibility(View.GONE);
                 break;
         }
 
         holder.binding.vwmodel.setOnClickListener(v -> {
-            switch (UserModel.i.type){
-                case "Panmud":
-                    DocumentModel.ShowDetailDocument = 1;
-                    break;
-                case "Jurusita":
-                    DocumentModel.ShowDetailDocument = 3;
-                    break;
-                case "PPK":
-                    DocumentModel.ShowDetailDocument = 4;
-                    break;
-            }
+//            switch (UserModel.i.type){
+//                case "Panmud":
+//                    DocumentModel.ShowDetailDocument = 1;
+//                    break;
+//                case "Jurusita":
+//                    DocumentModel.ShowDetailDocument = 3;
+//                    break;
+//                case "PPK":
+//                    DocumentModel.ShowDetailDocument = 4;
+//                    break;
+//            }
 //            SuratModel.i = models.get(position);
             FragmentActivity frg = (FragmentActivity)(context);
             FragmentManager mrg = frg.getSupportFragmentManager();
