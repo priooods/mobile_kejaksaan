@@ -21,6 +21,7 @@ import com.prio.kejaksaan.model.DocumentModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
+import com.prio.kejaksaan.tools.Laravel;
 import com.prio.kejaksaan.views.document.AddDocument;
 import com.prio.kejaksaan.views.perkara.DetailPerkara;
 
@@ -67,7 +68,7 @@ public class AdapterSuratList extends RecyclerView.Adapter<AdapterSuratList.vHol
             holder.binding.v2.setText("Sudah");
             holder.binding.v2.setTextColor(context.getColor(R.color.green));
         }
-        holder.binding.v3.setText(models.get(position).perkara.tanggal);
+        holder.binding.v3.setText(Laravel.getShortDate(models.get(position).perkara.tanggal));
         if (models.get(position).verifier_id == null) {
             holder.binding.v4.setText("Belum");
             holder.binding.v4.setTextColor(context.getColor(R.color.red));

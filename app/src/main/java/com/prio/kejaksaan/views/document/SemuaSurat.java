@@ -32,16 +32,6 @@ public class SemuaSurat extends Fragment implements goFilter {
         binding = FragDocumentListBinding.inflate(inflater, container, false);
 
         binding.desc.setText("Pilih dalam daftar untuk melihat rincian");
-//        switch (UserModel.i.type){
-//            case "Jurusita":
-//                break;
-//            case "Panmud":
-//                storeAdapter(list);
-//                break;
-//            case "PPK":
-//                storeAdapterJPPK(DocumentModel.semuaTugasPPK);
-//                break;
-//        }
                 storeAdapter(list);
         return binding.getRoot();
     }
@@ -52,21 +42,6 @@ public class SemuaSurat extends Fragment implements goFilter {
 //        binding.listDocument.setHasFixedSize(true);
         binding.listDocument.setAdapter(adapterSurat);
     }
-
-    public void storeAdapterJurusita(List<DocumentModel> md){
-//        adapterSurat = new AdapterSuratList(requireContext(), md);
-//        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
-//        binding.listDocument.setHasFixedSize(true);
-//        binding.listDocument.setAdapter(adapterSurat);
-    }
-
-    public void storeAdapterJPPK(List<DocumentModel> md){
-//        adapterSurat = new AdapterSuratList(requireContext(), md);
-//        binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
-//        binding.listDocument.setHasFixedSize(true);
-//        binding.listDocument.setAdapter(adapterSurat);
-    }
-
     @Override
     public void Filter(CharSequence filters) {
         if (adapterSurat != null)
