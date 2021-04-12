@@ -1,6 +1,7 @@
 package com.prio.kejaksaan.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -18,6 +19,8 @@ import com.prio.kejaksaan.views.perkara.DetailPerkara;
 import com.prio.kejaksaan.views.profile.EditProfile;
 
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class AdapterAllUsers extends RecyclerView.Adapter<AdapterAllUsers.VHolder> {
 
@@ -43,10 +46,11 @@ public class AdapterAllUsers extends RecyclerView.Adapter<AdapterAllUsers.VHolde
             Glide.with(context).load("https://digitalsystemindo.com/jaksa/public/images/" + models.get(position).avatar)
                     .circleCrop().into(holder.binding.avatar);
         }
-        if (UserModel.i.type.equals("SuperUser")) {
+        if (UserModel.i.type.equals("KPA")) {
             holder.binding.detailUserss.setOnClickListener(v -> {
                 UserModel.TypeCreateUser = 90;
                 UserModel.i = models.get(position);
+                Log.i(TAG, "onBindViewHolder: " + models.get(position));
                 FragmentActivity frg = (FragmentActivity) (context);
                 FragmentManager mrg = frg.getSupportFragmentManager();
                 DialogFragment fragment = new EditProfile();

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,10 +40,11 @@ import static android.content.ContentValues.TAG;
 public class CreateUsers extends DialogFragment {
 
     DialogCreateUsersBinding binding;
-    String[] listType = {"SuperUser","Ketua","Panitera","KPA","Panmud","PP","Jurusita","PPK","Bendahara","Pengelola Persediaan"};
-    String[] listType2 = {"Ketua","Panitera","KPA","Panmud","PP","Jurusita","PPK","Bendahara","Pengelola Persediaan"};
-    String[] listType3 = {"PP","Jurusita"};
+    String[] listType = {"SuperUser","Ketua","Panitera","Kuasa Pengguna Anggaran","Panitera Muda","Panitera Pengganti","Jurusita","Pejabat Pembuat Komitmen","Bendahara","Pengelola Persediaan"};
+    String[] listType2 = {"Ketua","Panitera","Kuasa Pengguna Anggaran","Panitera Muda","Panitera Pengganti","Jurusita","Pejabat Pembuat Komitmen","Bendahara","Pengelola Persediaan"};
+    String[] listType3 = {"Panitera Pengganti","Jurusita"};
 
+    String types;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,12 +78,34 @@ public class CreateUsers extends DialogFragment {
             } else if (Objects.requireNonNull(binding.password.getText()).toString().length() < 6){
                 MDToast.makeText(requireContext(),"Password Min 6 Char !", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
             } else {
+                checckusertype();
                 CreateNewUser(Objects.requireNonNull(binding.name.getText()).toString(),Objects.requireNonNull(binding.password.getText()).toString(),
-                        Objects.requireNonNull(binding.fullname.getText()).toString(),Objects.requireNonNull(binding.type.getText()).toString());
+                        Objects.requireNonNull(binding.fullname.getText()).toString(),types);
             }
         });
         binding.backpress.setOnClickListener(v-> dismiss());
         return binding.getRoot();
+    }
+
+    public void checckusertype (){
+        assert binding != null;
+        switch (binding.type.getText().toString()){
+            case "Kuasa Pengguna Anggaran":
+                types = "KPA";
+                break;
+            case "Panitera Muda":
+                types = "Panmud";
+                break;
+            case "Pejabat Pembuat Komitmen":
+                types = "PPK";
+                break;
+            case "Panitera Pengganti":
+                types = "PP";
+                break;
+            default:
+                types = binding.type.getText().toString();
+                break;
+        }
     }
 
     private void CreateNewUser(String name, String pass, String fullname, String type){

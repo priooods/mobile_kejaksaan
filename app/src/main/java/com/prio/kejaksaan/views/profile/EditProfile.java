@@ -69,6 +69,12 @@ public class EditProfile extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogEditProfileBinding.inflate(inflater,container,false);
 
+        binding.btnShowEditing.setOnClickListener(v->{
+            binding.showEditingLayout.setVisibility(View.VISIBLE);
+            binding.layoutDetailProfile.setVisibility(View.GONE);
+        });
+
+
         if (UserModel.i.avatar != null) {
             Glide.with(this).load("https://digitalsystemindo.com/jaksa/public/images/" + UserModel.i.avatar)
                     .circleCrop().into(binding.avatar);
@@ -89,6 +95,10 @@ public class EditProfile extends DialogFragment {
             Permission()
         );
 
+        binding.btnCancelEdit.setOnClickListener(v->{
+            binding.showEditingLayout.setVisibility(View.GONE);
+            binding.layoutDetailProfile.setVisibility(View.VISIBLE);
+        });
         binding.btnCreateUsers.setOnClickListener(v -> updateDataUser());
 
         return binding.getRoot();
