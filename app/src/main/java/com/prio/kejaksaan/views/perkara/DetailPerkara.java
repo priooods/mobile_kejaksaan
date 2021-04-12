@@ -70,9 +70,6 @@ public class DetailPerkara extends DialogFragment {
             case "SuperUser":
 //            case "KPA":
             case "Panitera":
-                if (status == 1){
-                    binding.btnsuratCreate.setOnClickListener(v -> SelesaiPerkara());
-                }
                 if (model.proses == null){
                     binding.btnupdatePerkara.setVisibility(View.VISIBLE);
                     binding.btndeletePerkara.setVisibility(View.VISIBLE);
@@ -82,8 +79,11 @@ public class DetailPerkara extends DialogFragment {
                         fragment.show(requireActivity().getSupportFragmentManager(),"Update Perkara");
                     });
                 }else{
-                    binding.btnsuratCreate.setVisibility(View.VISIBLE);
-                    binding.btnsuratCreate.setText("Proses Selesai");
+                    if (status == 1){
+                        binding.btnsuratCreate.setVisibility(View.VISIBLE);
+                        binding.btnsuratCreate.setOnClickListener(v -> SelesaiPerkara());
+                        binding.btnsuratCreate.setText("Proses Selesai");
+                    }
                 }
                 break;
             case "Panmud":
@@ -183,13 +183,12 @@ public class DetailPerkara extends DialogFragment {
         });
     }
     public void SelesaiPerkara(){
-        Call<MessageModel> call = BaseModel.i.getService().ProsesSelesai(model.id);
+        Call<MessageModel> call = BaseModel.i.getService().ProsesSelesai(BaseModel.i.token,model.id);
         call.enqueue(new Callback<MessageModel>() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
                 MessageModel data = response.body();
-                if (Calling.TreatResponse(requireContext(),"Delete Perkara", data)){
+                if (Calling.TreatResponse(requireContext(),"Selesai Perkara", data)){
                     assert data != null;
                     MDToast.makeText(requireContext(), data.data, Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;

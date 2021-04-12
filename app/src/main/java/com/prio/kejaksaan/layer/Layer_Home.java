@@ -210,6 +210,7 @@ public class Layer_Home extends Fragment {
     }
 
     public void ShowingNotif(){
+        Log.e("token",BaseModel.i.token);
         Call<ModelNotification> call = BaseModel.i.getService().AllNotifikasiUser(BaseModel.i.token);
         call.enqueue(new Callback<ModelNotification>() {
             @Override

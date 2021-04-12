@@ -19,6 +19,7 @@ public class PerkaraListModel extends Calling {
         public String fullname_pp;
         public String fullname_jurusita;
         public Proses proses;
+        public List<Proses> proses_list;
 //        public String getIdentity(){
 //            return identitas;
 //        }

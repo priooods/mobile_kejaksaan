@@ -1,6 +1,7 @@
 package com.prio.kejaksaan.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +51,8 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
 
         holder.binding.v2.setText(": " + "Belum");
         holder.binding.v2.setTextColor(context.getColor(R.color.red));
-
-        if (models.get(position).status == "Sudah") {
+//        Log.e("Adapter Perkara",models.get(position).status);
+        if (models.get(position).status.equals("Sudah")) {
             holder.binding.v2.setText(": Sudah");
             holder.binding.v2.setTextColor(context.getColor(R.color.green));
             holder.binding.garis.setBackground(context.getResources().getDrawable(R.color.green));
@@ -73,7 +74,7 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
             FragmentActivity frg = (FragmentActivity)(context);
             FragmentManager mrg = frg.getSupportFragmentManager();
             DialogFragment fragment;
-            if (models.get(position).status == "Sudah"){
+            if (models.get(position).status.equals("Sudah")){
                 fragment = new DetailPerkara(2, models.get(position));
             } else {
                 fragment = new DetailPerkara(1, models.get(position));
