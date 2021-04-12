@@ -109,7 +109,7 @@ public class AdapterRequestATK extends RecyclerView.Adapter<AdapterRequestATK.vH
                     PerkaraListModel.Item perkara = model.proses.perkara;
                     if (model.proses.agenda.toLowerCase().contains(key.toLowerCase()) ||
                             perkara.identitas.toLowerCase().contains(key.toLowerCase()) ||
-                            perkara.proses.dakwaan.toLowerCase().contains(key.toLowerCase()) ||
+//                            perkara.proses.dakwaan.toLowerCase().contains(key.toLowerCase()) ||
                             perkara.tanggal.toLowerCase().contains(key.toLowerCase()) ||
                             perkara.jenis.toLowerCase().contains(key.toLowerCase()) ||
                             perkara.nomor.toLowerCase().contains(key.toLowerCase())) {

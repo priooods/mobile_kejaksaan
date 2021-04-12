@@ -109,6 +109,11 @@ public interface UserService {
     Call<MessageModel> DeletePerkara(
             @Field("id") int id
     );
+    @FormUrlEncoded
+    @POST("perkara/selesai")
+    Call<MessageModel> ProsesSelesai(
+            @Field("id") int id
+    );
 
     @FormUrlEncoded
     @POST("atk/add")
@@ -138,7 +143,6 @@ public interface UserService {
             ,@Field("perkara_id") String perkara_id
             ,@Field("hari") String hari
             ,@Field("agenda") String agenda
-            ,@Field("dakwaan") String dakwaan
             ,@Field("penahanan") String penahanan
     );
 

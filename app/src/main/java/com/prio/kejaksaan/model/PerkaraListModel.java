@@ -11,6 +11,7 @@ public class PerkaraListModel extends Calling {
     public List<Item> data;
     public class Item {
         public int id;
+        public String status;
         public String tanggal;
         public String nomor;
         public String jenis;
@@ -31,12 +32,12 @@ public class PerkaraListModel extends Calling {
         public String tanggal;
         public String agenda;
         public String penahanan;
-        public String dakwaan;
-        public int perkara_id;
-        public String created;
+//        public String dakwaan;
+//        public int perkara_id;
+//        public String created;
         public PerkaraListModel.Item perkara;
         public String getIdentity(){
-            return perkara.identitas + " ("+dakwaan+")";
+            return perkara.identitas;
         }
         public String print(){
             return hari+", "+ Laravel.getShortDate(tanggal)+" : "+agenda;

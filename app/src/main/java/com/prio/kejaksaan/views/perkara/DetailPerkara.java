@@ -70,14 +70,20 @@ public class DetailPerkara extends DialogFragment {
             case "SuperUser":
 //            case "KPA":
             case "Panitera":
-                if (status != 2){
+                if (status == 1){
+                    binding.btnsuratCreate.setOnClickListener(v -> SelesaiPerkara());
+                }
+                if (model.proses == null){
                     binding.btnupdatePerkara.setVisibility(View.VISIBLE);
                     binding.btndeletePerkara.setVisibility(View.VISIBLE);
                     binding.btndeletePerkara.setOnClickListener(v -> DeletePerkara());
                     binding.btnupdatePerkara.setOnClickListener(v -> {
                         DialogFragment fragment = new AddPerkara(2, model, this);
-                        fragment.show(requireActivity().getSupportFragmentManager(),"Create Perkara");
+                        fragment.show(requireActivity().getSupportFragmentManager(),"Update Perkara");
                     });
+                }else{
+                    binding.btnsuratCreate.setVisibility(View.VISIBLE);
+                    binding.btnsuratCreate.setText("Proses Selesai");
                 }
                 break;
             case "Panmud":
@@ -122,9 +128,11 @@ public class DetailPerkara extends DialogFragment {
         if (status == 2) {
             binding.status.setText("Sudah");
             binding.status.setTextColor(getResources().getColor(R.color.green));
+        }
+        if (model.proses != null){
             binding.r2.setVisibility(View.VISIBLE);
             binding.agenda.setText(model.proses.agenda);
-            binding.dakwaan.setText(model.proses.dakwaan);
+//            binding.dakwaan.setVisibility(View.GONE);
             binding.penahanan.setText(model.proses.penahanan);
             binding.tanggalProsess.setText(model.proses.hari + ", " + Laravel.getDate(model.proses.tanggal));
         }
@@ -156,7 +164,34 @@ public class DetailPerkara extends DialogFragment {
                 MessageModel data = response.body();
                 if (Calling.TreatResponse(requireContext(),"Delete Perkara", data)){
                     assert data != null;
-                    MDToast.makeText(requireContext(), "Successfuly Deleted Perkara", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    MDToast.makeText(requireContext(), data.data, Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    assert getFragmentManager() != null;
+                    Layer_Perkara perkara = (Layer_Perkara) getFragmentManager().findFragmentByTag("perkara");
+                    FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+                    assert perkara != null;
+                    transaction.detach(perkara);
+                    transaction.attach(perkara);
+                    transaction.commit();
+                    dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t);
+            }
+        });
+    }
+    public void SelesaiPerkara(){
+        Call<MessageModel> call = BaseModel.i.getService().ProsesSelesai(model.id);
+        call.enqueue(new Callback<MessageModel>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                MessageModel data = response.body();
+                if (Calling.TreatResponse(requireContext(),"Delete Perkara", data)){
+                    assert data != null;
+                    MDToast.makeText(requireContext(), data.data, Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
                     assert getFragmentManager() != null;
                     Layer_Perkara perkara = (Layer_Perkara) getFragmentManager().findFragmentByTag("perkara");
                     FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
@@ -181,8 +216,7 @@ public class DetailPerkara extends DialogFragment {
         Call<MessageModel> call = BaseModel.i.getService().PerkaraAddProses(BaseModel.i.token,tanggals,
                 String.valueOf(model.id),
                 days, Objects.requireNonNull(binding.addAgenda.getText()).toString(),
-                Objects.requireNonNull(binding.addDakwaan.getText()).toString(),
-                Objects.requireNonNull(binding.addPenahanan.getText()).toString()
+               Objects.requireNonNull(binding.addPenahanan.getText()).toString()
                 );
         call.enqueue(new Callback<MessageModel>() {
             @Override

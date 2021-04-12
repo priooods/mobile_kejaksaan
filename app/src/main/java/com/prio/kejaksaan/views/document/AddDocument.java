@@ -38,6 +38,7 @@ import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.SuratModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
+import com.prio.kejaksaan.tools.ConvertFiles;
 import com.prio.kejaksaan.tools.RealPathUtil;
 import com.valdesekamdem.library.mdtoast.MDToast;
 
@@ -125,7 +126,8 @@ public class AddDocument extends DialogFragment {
         switch (mode){
             case 1: //ini untuk panmud upload files
                 binding.nama.setText(perkara.identitas);
-                binding.dakwaan.setText(perkara.proses.dakwaan);
+                binding.dakwaan.setVisibility(View.GONE);
+//                binding.dakwaan.setText(perkara.proses.dakwaan);
                 binding.nomor.setText(perkara.nomor);
                 binding.jenisPerkara.setText(perkara.jenis);
                 binding.tanggal.setText(perkara.tanggal);
@@ -135,6 +137,7 @@ public class AddDocument extends DialogFragment {
                 binding.surat.setVisibility(View.GONE);
                 binding.l10.setVisibility(View.GONE);
                 binding.uploadFile.setVisibility(View.VISIBLE);
+                binding.iconCameraUpload.setVisibility(View.VISIBLE);
                 binding.titleLayout.setVisibility(View.VISIBLE);
                 binding.title.clearFocus();
                 binding.btnCreateletter.setOnClickListener(v -> {
@@ -153,7 +156,8 @@ public class AddDocument extends DialogFragment {
                 binding.btnCreateletter.setVisibility(View.GONE);
                 perkara = surat.perkara;
                 binding.nama.setText(perkara.identitas);
-                binding.dakwaan.setText(perkara.proses.dakwaan);
+                binding.dakwaan.setVisibility(View.GONE);
+//                binding.dakwaan.setText(perkara.proses.dakwaan);
                 binding.nomor.setText(perkara.nomor);
                 binding.jenisPerkara.setText(perkara.jenis);
                 binding.tanggal.setText(perkara.tanggal);
@@ -183,7 +187,8 @@ public class AddDocument extends DialogFragment {
                 binding.top2.setText("Pilih file untuk mengirimkan bukti pengantar (bukti perjalanan dinas)");
                 perkara = surat.perkara;
                 binding.nama.setText(perkara.identitas);
-                binding.dakwaan.setText(perkara.proses.dakwaan);
+                binding.dakwaan.setVisibility(View.GONE);
+//                binding.dakwaan.setText(perkara.proses.dakwaan);
                 binding.nomor.setText(perkara.nomor);
                 binding.jenisPerkara.setText(perkara.jenis);
                 binding.tanggal.setText(perkara.tanggal);
@@ -192,6 +197,7 @@ public class AddDocument extends DialogFragment {
                 binding.l7.setVisibility(View.GONE);
                 binding.uploadFile.setVisibility(View.VISIBLE);
                 binding.l8.setVisibility(View.GONE);
+                binding.iconCameraUpload.setVisibility(View.VISIBLE);
                 binding.btnCreateletter.setOnClickListener(v -> {
                     if (files == null){
                         MDToast.makeText(requireContext(), "Please Selected files", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
@@ -246,7 +252,8 @@ public class AddDocument extends DialogFragment {
                 binding.top2.setText("Tekan tombol unduh untuk melihat surat");
                 perkara = surat.perkara;
                 binding.nama.setText(perkara.identitas);
-                binding.dakwaan.setText(perkara.proses.dakwaan);
+                binding.dakwaan.setVisibility(View.GONE);
+//                binding.dakwaan.setText(perkara.proses.dakwaan);
                 binding.nomor.setText(perkara.nomor);
                 binding.jenisPerkara.setText(perkara.jenis);
                 binding.tanggal.setText(perkara.tanggal);
@@ -373,6 +380,10 @@ public class AddDocument extends DialogFragment {
         }
     }
 
+    public void uploadCameras(){
+
+    }
+
     public void openSetting(){
         Intent setting = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:"+ requireActivity().getPackageName()));
         setting.addCategory(Intent.CATEGORY_DEFAULT);
@@ -418,11 +429,16 @@ public class AddDocument extends DialogFragment {
 //                verifyStoragePermissions(getActivity());
                 if (resultCode == RESULT_OK) {
                     assert data != null;
+                    Log.i(TAG, "ini files getting nya : " + data.getData());
                     Uri path = data.getData();
+                    String checkfile = ConvertFiles.getPath(getContext(), path);
+                    Log.i(TAG, "check baru: " + checkfile);
 
-                    String filePath = RealPathUtil.getRealPathFromURI_API19(requireContext(), path);
+                    String filePath = RealPathUtil.getRealPath(requireContext(), path);
                     assert filePath != null;
-                    files = new File(filePath);
+                    assert checkfile != null;
+                    files = new File(checkfile);
+
 
                     String name = files.getName();
                     int size = (int) files.length() / 1024;

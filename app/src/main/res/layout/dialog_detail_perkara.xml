@@ -38,7 +38,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginTop="13dp"
-            android:layout_marginHorizontal="13dp"
+            android:layout_marginHorizontal="23dp"
             android:paddingBottom="35dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -267,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/status"
                     android:textColor="@color/red"
-                    android:text="Belum Di Proses"
+                    android:text="Belum"
                     android:textSize="12sp"/>
 
             </LinearLayout>
@@ -353,39 +353,39 @@
 
                 </LinearLayout>
 
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/l12"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/l11"-->
+<!--                    android:layout_marginTop="13dp"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="140dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Dakwaan"-->
+<!--                        android:textColor="@color/colorPrimary"-->
+<!--                        android:textSize="12sp"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text=": "-->
+<!--                        android:textColor="@color/colorPrimary"-->
+<!--                        android:textSize="12sp"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:id="@id/dakwaan"-->
+<!--                        android:textColor="@color/colorPrimary"-->
+<!--                        android:textSize="12sp"/>-->
+
+<!--                </LinearLayout>-->
                 <LinearLayout
                     android:id="@+id/l12"
                     app:layout_constraintTop_toBottomOf="@id/l11"
-                    android:layout_marginTop="13dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:text="Dakwaan"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=": "
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@id/dakwaan"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/l13"
-                    app:layout_constraintTop_toBottomOf="@id/l12"
                     android:layout_marginTop="13dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -492,31 +492,31 @@
                         android:inputType="text"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/identitas_layout"-->
+<!--                    android:layout_marginTop="15dp"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:helperTextTextColor="@color/red"-->
+<!--                    app:hintTextColor="@color/colorPrimary"-->
+<!--                    android:textColorHint="@color/grey"-->
+<!--                    android:id="@+id/dakwaan_layout"-->
+<!--                    android:hint="Dakwaan"-->
+<!--                    style="@style/TextInputLayoutStyle"-->
+<!--                    android:layout_height="wrap_content">-->
+
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:id="@+id/add_dakwaan"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:textColor="@color/colorPrimary"-->
+<!--                        android:inputType="text"/>-->
+
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     app:layout_constraintTop_toBottomOf="@id/identitas_layout"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:helperTextTextColor="@color/red"
-                    app:hintTextColor="@color/colorPrimary"
-                    android:textColorHint="@color/grey"
-                    android:id="@+id/dakwaan_layout"
-                    android:hint="Dakwaan"
-                    style="@style/TextInputLayoutStyle"
-                    android:layout_height="wrap_content">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:id="@+id/add_dakwaan"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/colorPrimary"
-                        android:inputType="text"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    app:layout_constraintTop_toBottomOf="@id/dakwaan_layout"
                     android:layout_marginTop="15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -553,26 +553,29 @@
                     android:layout_height="40dp"
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
-                    android:background="@drawable/button_colors"
+                    android:background="@drawable/button_danger"
                     android:text="Delete Perkara"
+                    android:backgroundTint="@color/red_full"
+                    app:backgroundTint="@color/red_full"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"
                     android:visibility="gone"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="12sp"
                     app:layout_constraintTop_toBottomOf="@id/l7" />
 
                 <com.google.android.material.button.MaterialButton
+                    app:backgroundTint="@color/green_light"
                     android:id="@+id/btnupdatePerkara"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="4dp"
+                    android:visibility="gone"
                     android:layout_weight="1"
-                    android:background="@drawable/button_colors"
+                    android:background="@drawable/button_succes"
                     android:text="Update Perkara"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"
-                    android:visibility="gone"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="13sp"
                     app:layout_constraintTop_toBottomOf="@id/l7" />
 
                 <com.google.android.material.button.MaterialButton
@@ -585,7 +588,7 @@
                     android:text="Cancel"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
+                    android:textSize="13sp"
                     android:visibility="gone"
                     app:backgroundTint="@color/orange"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -605,13 +608,19 @@
                     android:visibility="gone"
                     app:backgroundTint="@color/colorPrimaryDark"
                     app:layout_constraintTop_toBottomOf="@id/l7" />
-
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/r3"
+                android:layout_marginTop="35dp"
+                >
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnsuratCreate"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="4dp"
-                    android:layout_weight="1"
                     android:background="@drawable/button_style"
                     android:text="Buat Surat"
                     android:textAllCaps="false"
@@ -619,8 +628,7 @@
                     android:textSize="12sp"
                     android:visibility="gone"
                     app:backgroundTint="@color/colorPrimaryDark"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
+                    app:layout_constraintStart_toEndOf="@+id/r3"/>
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

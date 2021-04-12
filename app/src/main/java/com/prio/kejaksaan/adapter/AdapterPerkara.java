@@ -47,29 +47,14 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
 
     @Override
     public void onBindViewHolder(@NonNull cHolder holder, int position) {
-//        SimpleDateFormat fr = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
-//        SimpleDateFormat tex = new SimpleDateFormat("dd MMM YYYY", Locale.ENGLISH);
-//        Calendar c = Calendar.getInstance();
-//        try {
-//            c.setTime(Objects.requireNonNull(fr.parse(models.get(position).tanggal)));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
 
         holder.binding.v2.setText(": " + "Belum");
         holder.binding.v2.setTextColor(context.getColor(R.color.red));
 
-        if (models.get(position).proses != null){
-//            int i;
-//            for (i=0; i < PerkaraModel.perkaradiproses.size(); i++){
-//                if (models.get(position).id == PerkaraModel.perkaradiproses.get(i).perkara_id) {
-//                    if (models.get(position).id != 0) {
-                        holder.binding.v2.setText(": Sudah");
-                        holder.binding.v2.setTextColor(context.getColor(R.color.green));
-                        holder.binding.garis.setBackground(context.getResources().getDrawable(R.color.green));
-//                    }
-//                }
-//            }
+        if (models.get(position).status == "Sudah") {
+            holder.binding.v2.setText(": Sudah");
+            holder.binding.v2.setTextColor(context.getColor(R.color.green));
+            holder.binding.garis.setBackground(context.getResources().getDrawable(R.color.green));
         }
 
         holder.binding.namaTerdakwa.setText(models.get(position).identitas);
@@ -88,7 +73,7 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
             FragmentActivity frg = (FragmentActivity)(context);
             FragmentManager mrg = frg.getSupportFragmentManager();
             DialogFragment fragment;
-            if (models.get(position).proses != null){
+            if (models.get(position).status == "Sudah"){
                 fragment = new DetailPerkara(2, models.get(position));
             } else {
                 fragment = new DetailPerkara(1, models.get(position));
