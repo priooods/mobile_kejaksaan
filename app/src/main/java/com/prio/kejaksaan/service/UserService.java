@@ -77,9 +77,29 @@ public interface UserService {
             ,@PartMap Map<String, RequestBody> Users
             ,@Part MultipartBody.Part avatar
     );
+    @Multipart
+    @POST("edit")
+    Call<BaseModel> EditUser(
+            @Query("token") String token,
+            @Query("id") int id
+            ,@PartMap Map<String, RequestBody> Users
+            ,@Part MultipartBody.Part avatar
+    );
+
+
+    @FormUrlEncoded
+    @POST("delete")
+    Call<MessageModel> DeleteUser(
+            @Field("id") int id,
+            @Field("token") String token
+    );
 
     @GET("perkara/all")
     Call<PerkaraListModel> AllPerkara();
+
+    @GET("laporan/perkara")
+    Call<List<PerkaraListModel>> AllProsesPerkara();
+
 
     @FormUrlEncoded
     @POST("perkara/create")

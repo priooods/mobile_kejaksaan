@@ -1,7 +1,9 @@
 package com.prio.kejaksaan.views.profile;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -28,6 +30,7 @@ import com.prio.kejaksaan.databinding.DialogEditProfileBinding;
 import com.prio.kejaksaan.layer.Layer_Home;
 import com.prio.kejaksaan.layer.Layer_Profile;
 import com.prio.kejaksaan.model.BaseModel;
+import com.prio.kejaksaan.model.MessageModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
 import com.prio.kejaksaan.tools.RealPathUtil;
@@ -58,21 +61,29 @@ public class EditProfile extends DialogFragment {
     }
 
     DialogEditProfileBinding binding;
-    String[] listType = {"Ketua","Panitera","KPA","Panmud","PP","Jurusita","PPK","Bendahara","Pengelola Persediaan"};
+    SharedPreferences sharedPreferences;
+    String[] listType = {"Ketua","Panitera","Kuasa Pengguna Anggaran","Panitera Muda","Panitera Pengganti","Jurusita","Pejabat Pembuat Komitmen","Bendahara","Pengelola Persediaan"};
+
+//    String[] listType = {"Ketua","Panitera","KPA","Panmud","PP","Jurusita","PPK","Bendahara","Pengelola Persediaan"};
     public static int REQUEST_SETTING = 168;
     public static int PRIVATE_CODE = 1;
     Intent openFileManager;
     File files;
+    String types;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogEditProfileBinding.inflate(inflater,container,false);
-
+        sharedPreferences = requireActivity().getSharedPreferences("session", Context.MODE_PRIVATE);
         binding.btnShowEditing.setOnClickListener(v->{
             binding.showEditingLayout.setVisibility(View.VISIBLE);
             binding.layoutDetailProfile.setVisibility(View.GONE);
         });
+
+        binding.userFullname.setText(UserModel.i.fullname);
+        binding.userUsername.setText(UserModel.i.name);
+        binding.userType.setText(UserModel.i.type);
 
 
         if (UserModel.i.avatar != null) {
@@ -83,9 +94,9 @@ public class EditProfile extends DialogFragment {
         binding.fullname.setText(UserModel.i.fullname);
         binding.password.setText(UserModel.i.password_verified);
         binding.backpress.setOnClickListener(v->dismiss());
-        if (UserModel.i.type.equals("SuperUser") || UserModel.i.type.equals("KPA") ){
-            binding.typeLayout.setVisibility(View.VISIBLE);
-        }
+//        if (UserModel.i.type.equals("SuperUser") || UserModel.i.type.equals("KPA") ){
+//            binding.typeLayout.setVisibility(View.VISIBLE);
+//        }
         binding.type.setText(UserModel.i.type);
 
         binding.type.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
@@ -99,7 +110,20 @@ public class EditProfile extends DialogFragment {
             binding.showEditingLayout.setVisibility(View.GONE);
             binding.layoutDetailProfile.setVisibility(View.VISIBLE);
         });
-        binding.btnCreateUsers.setOnClickListener(v -> updateDataUser());
+        if (UserModel.TypeCreateUser == 90){
+            binding.typeLayout.setVisibility(View.VISIBLE);
+            binding.btnCreateUsers.setOnClickListener(v -> {
+                checckusertype();
+                EditUserforKPA();
+            });
+            binding.btnDeleted.setVisibility(View.VISIBLE);
+            binding.btnDeleted.setOnClickListener(v-> DeleteUsers());
+        } else{
+            binding.btnCreateUsers.setOnClickListener(v -> {
+                checckusertype();
+                updateDataUser();
+            });
+        }
 
         return binding.getRoot();
     }
@@ -116,6 +140,27 @@ public class EditProfile extends DialogFragment {
         openFileManager = new Intent(Intent.ACTION_GET_CONTENT);
         openFileManager.setType("image/*");
         startActivityForResult(openFileManager, 1);
+    }
+
+    public void checckusertype (){
+        assert binding != null;
+        switch (binding.type.getText().toString()){
+            case "Kuasa Pengguna Anggaran":
+                types = "KPA";
+                break;
+            case "Panitera Muda":
+                types = "Panmud";
+                break;
+            case "Pejabat Pembuat Komitmen":
+                types = "PPK";
+                break;
+            case "Panitera Pengganti":
+                types = "PP";
+                break;
+            default:
+                types = binding.type.getText().toString();
+                break;
+        }
     }
 
     @Override
@@ -190,8 +235,9 @@ public class EditProfile extends DialogFragment {
     public void updateDataUser(){
         HashMap<String, RequestBody> Profile = new HashMap<>();
         Profile.put("name", Input_form(Objects.requireNonNull(binding.name.getText()).toString()));
-        if (UserModel.i.type.equals("SuperUser") || UserModel.i.type.equals("KPA")){
-            Profile.put("type", Input_form(Objects.requireNonNull(binding.type.getText()).toString()));
+        if (sharedPreferences.getString("type",null).equals("SuperUser")
+                || sharedPreferences.getString("type",null).equals("KPA")){
+            Profile.put("type", Input_form(types));
         }
         Profile.put("fullname", Input_form(Objects.requireNonNull(binding.fullname.getText()).toString()));
         Profile.put("password", Input_form(Objects.requireNonNull(binding.password.getText()).toString()));
@@ -222,6 +268,80 @@ public class EditProfile extends DialogFragment {
 
             @Override
             public void onFailure(@NotNull Call<BaseModel> call, @NotNull Throwable t) {
+
+            }
+        });
+
+    }
+
+    public void EditUserforKPA(){
+        HashMap<String, RequestBody> Profile = new HashMap<>();
+        Profile.put("name", Input_form(Objects.requireNonNull(binding.name.getText()).toString()));
+        if (sharedPreferences.getString("type",null).equals("SuperUser")
+                || sharedPreferences.getString("type",null).equals("KPA")){
+            Profile.put("type", Input_form(types));
+        }
+        Profile.put("fullname", Input_form(Objects.requireNonNull(binding.fullname.getText()).toString()));
+        Profile.put("password", Input_form(Objects.requireNonNull(binding.password.getText()).toString()));
+
+
+        MultipartBody.Part fileToUpload = null;
+        if (files != null){
+            fileToUpload = MultipartBody.Part.createFormData("avatar", files.getPath(), File_form(files));
+        }
+
+        Call<BaseModel> call = BaseModel.i.getService().EditUser(BaseModel.i.token, UserModel.i.id, Profile, fileToUpload);
+        call.enqueue(new Callback<BaseModel>() {
+            @Override
+            public void onResponse(@NotNull Call<BaseModel> call, @NotNull Response<BaseModel> response) {
+                BaseModel data = response.body();
+                if (Calling.TreatResponse(requireContext(), "Update Profile", data)){
+                    Log.i(TAG, "onResponse: " + "Updated Userss Succeess gaes");
+                    MDToast.makeText(requireContext(),"Successfully Update User Profile", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    binding.layoutDetailProfile.setVisibility(View.VISIBLE);
+                    binding.showEditingLayout.setVisibility(View.GONE);
+                    //                    assert getFragmentManager() != null;
+//                    Layer_Home profile = (Layer_Home) getFragmentManager().findFragmentByTag("home");
+//                    FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+//                    assert profile != null;
+//                    transaction.detach(profile);
+//                    transaction.attach(profile);
+//                    transaction.commit();
+//                    Objects.requireNonNull(getDialog()).dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<BaseModel> call, @NotNull Throwable t) {
+
+            }
+        });
+
+    }
+
+
+    public void DeleteUsers(){
+        Call<MessageModel> call = BaseModel.i.getService().DeleteUser(UserModel.i.id,BaseModel.i.token);
+        call.enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(@NotNull Call<MessageModel> call, @NotNull Response<MessageModel> response) {
+                MessageModel data = response.body();
+                if (Calling.TreatResponse(requireContext(), "Delete Profile", data)){
+                    Log.i(TAG, "onResponse: " + "Delete Users Succeess gaes");
+                    MDToast.makeText(requireContext(),"Successfully Delete User", Toast.LENGTH_LONG, MDToast.TYPE_SUCCESS).show();
+                    assert getFragmentManager() != null;
+                    Layer_Home profile = (Layer_Home) getFragmentManager().findFragmentByTag("home");
+                    FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+                    assert profile != null;
+                    transaction.detach(profile);
+                    transaction.attach(profile);
+                    transaction.commit();
+                    Objects.requireNonNull(getDialog()).dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<MessageModel> call, @NotNull Throwable t) {
 
             }
         });

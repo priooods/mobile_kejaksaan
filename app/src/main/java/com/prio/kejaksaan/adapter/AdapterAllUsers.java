@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.prio.kejaksaan.R;
 import com.prio.kejaksaan.databinding.ModelListUsersBinding;
 import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.UserModel;
@@ -23,6 +24,7 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 public class AdapterAllUsers extends RecyclerView.Adapter<AdapterAllUsers.VHolder> {
+
 
     List<UserModel> models;
     Context context;
@@ -41,16 +43,34 @@ public class AdapterAllUsers extends RecyclerView.Adapter<AdapterAllUsers.VHolde
     @Override
     public void onBindViewHolder(@NonNull VHolder holder, int position) {
         holder.binding.username.setText(models.get(position).fullname);
-        holder.binding.access.setText(models.get(position).type);
+        switch (models.get(position).type){
+            case "KPA":
+                holder.binding.access.setText("Kuasa Pengguna Anggaran");
+                break;
+            case "Panmud":
+                holder.binding.access.setText("Panitera Muda");
+                break;
+            case "PP":
+                holder.binding.access.setText("Panitera Pengganti");
+                break;
+            case "PPK":
+                holder.binding.access.setText("Pejabat Pembuat Komitmen");
+                break;
+            default:
+                holder.binding.access.setText(models.get(position).type);
+                break;
+
+        }
         if (models.get(position).avatar != null){
             Glide.with(context).load("https://digitalsystemindo.com/jaksa/public/images/" + models.get(position).avatar)
                     .circleCrop().into(holder.binding.avatar);
         }
+
+        holder.binding.detailUserss.setBackground(context.getResources().getDrawable(R.color.shimer));
         if (UserModel.i.type.equals("KPA")) {
             holder.binding.detailUserss.setOnClickListener(v -> {
                 UserModel.TypeCreateUser = 90;
                 UserModel.i = models.get(position);
-                Log.i(TAG, "onBindViewHolder: " + models.get(position));
                 FragmentActivity frg = (FragmentActivity) (context);
                 FragmentManager mrg = frg.getSupportFragmentManager();
                 DialogFragment fragment = new EditProfile();

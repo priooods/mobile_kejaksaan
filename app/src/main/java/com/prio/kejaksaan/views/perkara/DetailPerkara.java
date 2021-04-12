@@ -1,5 +1,7 @@
 package com.prio.kejaksaan.views.perkara;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,11 +17,15 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.prio.kejaksaan.R;
+import com.prio.kejaksaan.adapter.AdapterAnakPerkara;
+import com.prio.kejaksaan.adapter.AdapterPerkara;
 import com.prio.kejaksaan.databinding.DialogDetailPerkaraBinding;
 import com.prio.kejaksaan.layer.Layer_Perkara;
+import com.prio.kejaksaan.layer.Layer_Persediaan;
 import com.prio.kejaksaan.model.BaseModel;
 import com.prio.kejaksaan.model.MessageModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
@@ -35,6 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -54,6 +61,8 @@ public class DetailPerkara extends DialogFragment {
 
     DialogDetailPerkaraBinding binding;
     String days, tanggals;
+    SharedPreferences sharedPreferences;
+    AdapterAnakPerkara adapterAnakPerkara;
     PerkaraListModel.Item model;
     int status;
     public DetailPerkara(int status, PerkaraListModel.Item model){
@@ -65,8 +74,14 @@ public class DetailPerkara extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogDetailPerkaraBinding.inflate(inflater,container,false);
+        sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("session", Context.MODE_PRIVATE);
         binding.backpress.setOnClickListener(v -> dismiss());
-        switch (UserModel.i.type){
+//        switch (UserModel.i.type){
+        switch (sharedPreferences.getString("type", null)){
+            case "KPA":
+                binding.listperkaraKpa.setVisibility(View.VISIBLE);
+                CallingPerkaraProses();
+                break;
             case "SuperUser":
 //            case "KPA":
             case "Panitera":
@@ -142,7 +157,7 @@ public class DetailPerkara extends DialogFragment {
         binding.backpress.setOnClickListener(v->dismiss());
         binding.nomor.setText(model.nomor);
         binding.tanggal.setText(Laravel.getDate(model.tanggal));
-        switch (UserModel.i.type){
+        switch (sharedPreferences.getString("type", null)){
             case "PP":
             case "Jurusita":
                 binding.l5.setVisibility(View.GONE);
@@ -240,6 +255,8 @@ public class DetailPerkara extends DialogFragment {
         });
     }
 
+
+
     private void ShowDateTime(TextInputEditText texit){
         Calendar calendar = Calendar.getInstance();
         com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
@@ -269,5 +286,23 @@ public class DetailPerkara extends DialogFragment {
         datePickerDialog.setMinDate(calendar);
         datePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimaryDark));
         datePickerDialog.show(getChildFragmentManager(),"DateDialog");
+    }
+
+    public void CallingPerkaraProses(){
+        Call<List<PerkaraListModel>> call = BaseModel.i.getService().AllProsesPerkara();
+        call.enqueue(new Callback<List<PerkaraListModel>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<PerkaraListModel>> call, @NotNull Response<List<PerkaraListModel>> response) {
+                List<PerkaraListModel> data = response.body();
+//                adapterAnakPerkara = new AdapterPerkara(requireContext(), data);
+//                binding.listRecylerPerkaraKpa.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+//                binding.listRecylerPerkaraKpa.setAdapter(adapterAnakPerkara);
+            }
+
+            @Override
+            public void onFailure(Call<List<PerkaraListModel>> call, Throwable t) {
+
+            }
+        });
     }
 }

@@ -2,12 +2,17 @@ package com.prio.kejaksaan.views.document;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,7 +49,11 @@ import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import okhttp3.MediaType;
@@ -346,8 +355,10 @@ public class AddDocument extends DialogFragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.model_dropdown_input, R.id.dropdown_item, listType);
         binding.title.setAdapter(adapter);
         binding.uploadFile.setOnClickListener(v -> Permission());
+        binding.iconCameraUpload.setOnClickListener(v-> uploadCameras());
         binding.deleteFile.setOnClickListener(v -> {
             binding.uploadFile.setVisibility(View.VISIBLE);
+            binding.iconCameraUpload.setVisibility(View.VISIBLE);
             files = null;
             binding.nameFile.setText(null);
             binding.layoutNamefile.setVisibility(View.GONE);
@@ -381,7 +392,8 @@ public class AddDocument extends DialogFragment {
     }
 
     public void uploadCameras(){
-
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, 2);
     }
 
     public void openSetting(){
@@ -426,32 +438,60 @@ public class AddDocument extends DialogFragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 1) {
             try {
-//                verifyStoragePermissions(getActivity());
                 if (resultCode == RESULT_OK) {
                     assert data != null;
                     Log.i(TAG, "ini files getting nya : " + data.getData());
                     Uri path = data.getData();
-                    String checkfile = ConvertFiles.getPath(getContext(), path);
-                    Log.i(TAG, "check baru: " + checkfile);
 
-                    String filePath = RealPathUtil.getRealPath(requireContext(), path);
-                    assert filePath != null;
-                    assert checkfile != null;
-                    files = new File(checkfile);
-
-
-                    String name = files.getName();
-                    int size = (int) files.length() / 1024;
-                    Log.i(TAG, "file: " + "name = " + name + " size = " + size);
-                    if (files != null) {
-                        binding.nameFile.setText(name);
-                        binding.layoutNamefile.setVisibility(View.VISIBLE);
-                        binding.uploadFile.setVisibility(View.GONE);
+                    try {
+                        files = ConvertFiles.from(Objects.requireNonNull(getContext()),path);
+                        String name = files.getName();
+                        int size = (int) files.length() / 1024;
+                        if (files != null) {
+                            binding.nameFile.setText(name);
+                            binding.layoutNamefile.setVisibility(View.VISIBLE);
+                            binding.uploadFile.setVisibility(View.GONE);
+                            binding.iconCameraUpload.setVisibility(View.GONE);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-
                 }
             } catch (Exception e) {}
+        } else {
+            try {
+                if (resultCode == RESULT_OK){
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    Uri tempUri = getImageUri(getContext(), photo);
+
+                    // CALL THIS METHOD TO GET THE ACTUAL PATH
+                    files = new File(getRealPathFromURI(tempUri));
+                    if (files != null) {
+                        binding.nameFile.setText("Images.jpg");
+                        binding.layoutNamefile.setVisibility(View.VISIBLE);
+                        binding.uploadFile.setVisibility(View.GONE);
+                        binding.iconCameraUpload.setVisibility(View.GONE);
+                    }
+                    Log.i(TAG, "check dari kamera: " + files);
+                }
+            } catch (Exception err){
+
+            }
         }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
     }
 
     public void UploadSuratPanmud(){

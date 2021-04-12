@@ -34,6 +34,8 @@ import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -41,6 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
+import static java.security.AccessController.getContext;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -133,7 +136,7 @@ public class BaseActivity extends AppCompatActivity {
     public void Dashboard(){
         binding.progress.setVisibility(View.GONE);
         binding.bottomNavigation.setVisibility(View.VISIBLE);
-        switch (UserModel.i.type){
+        switch (sharedPreferences.getString("type", null)){
             case "PP":
                 binding.bottomNavigation.getMenu().findItem(R.id.document).setVisible(false);
                 binding.bottomNavigation.getMenu().findItem(R.id.anggaran).setVisible(false);
@@ -173,13 +176,33 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void Permission(){
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            Log.i("home", "Permission Storage: " + true);
-        } else {
-            IjinStorage();
+
+    private  boolean checkAndRequestPermissions() {
+        int permissionCamera = ContextCompat.checkSelfPermission(BaseActivity.this,
+                Manifest.permission.CAMERA);
+        int locationStorage = ContextCompat.checkSelfPermission(BaseActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (locationStorage != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
+        if (permissionCamera != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(BaseActivity.this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),PRIVATE_CODE);
+            return false;
+        }
+        return true;
+    }
+
+    public void Permission(){
+        checkAndRequestPermissions();
+//        if (ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+//            Log.i("home", "Permission Storage: " + true);
+//        } else {
+//            IjinStorage();
+//        }
     }
 
     public void IjinStorage(){

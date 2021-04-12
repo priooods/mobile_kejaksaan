@@ -18,6 +18,8 @@ public class UserModel extends Calling {
     public int id;
     public String password_verified;
 
+    public static int SetnewUsers;
+
     public UserModel(String tokens){
         this.token = tokens;
     }

@@ -55,6 +55,10 @@ public class Layer_Home extends Fragment {
         binding = FragHomeBinding.inflate(inflater, container, false);
         sharedPreferences = requireActivity().getSharedPreferences("session", Context.MODE_PRIVATE);
         binding.textUcapan.setText(getTimeZoneText(sharedPreferences.getString("name",null)));
+
+//        if (sharedPreferences.getString("type",null).equals("SuperUser") || sharedPreferences.getString("type",null).equals("KPA")){
+//           UserModel.SetnewUsers = 2;
+//        }
         binding.shimer.startShimmer();
         binding.usericon.setOnClickListener(v->{
             PopupMenu popupMenu = new PopupMenu(requireContext(), binding.usericon);
@@ -67,7 +71,8 @@ public class Layer_Home extends Fragment {
                 e.printStackTrace();
             }
             //TODO: Dicheck kalau typenya not KPA.kalau ga berhasil kabarin lgi
-            if (UserModel.i.type.equals("KPA") || UserModel.i.type.equals("SuperUser")){
+            if (sharedPreferences.getString("type",null).equals("SuperUser")
+                    || sharedPreferences.getString("type",null).equals("KPA")){
                 popupMenu.getMenu().findItem(R.id.add).setVisible(true);
             } else{
                 popupMenu.getMenu().findItem(R.id.add).setVisible(false);
@@ -100,7 +105,8 @@ public class Layer_Home extends Fragment {
 
         String type = null;
         if (UserModel.isExist())
-            type = UserModel.i.type;
+
+            type = sharedPreferences.getString("type",null);
 
         try {
             if (type == null && sharedPreferences != null)
@@ -219,7 +225,9 @@ public class Layer_Home extends Fragment {
                 if (Calling.TreatResponse(getContext(),"Getting Notifikasi", model)){
                     if (model != null && model.data.size() == 0){
                         binding.layoutKosong.setVisibility(View.VISIBLE);
+                        Log.i(TAG, "onResponse: " + "null");
                     } else {
+                        assert model != null;
                         Log.i(TAG, "onResponse: " + model.data.size());
                         for(ModelNotification.Item l : model.data){
                             Log.e(TAG,l.toString());
