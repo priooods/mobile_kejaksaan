@@ -157,6 +157,8 @@ public class Layer_Home extends Fragment {
                 if (Calling.TreatResponse(requireContext(), "logout", data)) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.remove("token");
+                    editor.remove("type");
+                    editor.remove("name");
                     editor.clear();
                     editor.apply();
                     BaseModel.i.token = "";
@@ -223,7 +225,7 @@ public class Layer_Home extends Fragment {
             public void onResponse(@NotNull Call<ModelNotification> call, @NotNull Response<ModelNotification> response) {
                 ModelNotification model = response.body();
                 if (Calling.TreatResponse(getContext(),"Getting Notifikasi", model)){
-                    if (model != null && model.data.size() == 0){
+                    if (model == null && model.data.size() == 0){
                         binding.layoutKosong.setVisibility(View.VISIBLE);
                         Log.i(TAG, "onResponse: " + "null");
                     } else {

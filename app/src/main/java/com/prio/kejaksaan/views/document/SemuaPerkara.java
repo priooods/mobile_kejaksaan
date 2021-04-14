@@ -51,7 +51,7 @@ public class SemuaPerkara extends Fragment implements goFilter {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void storeAdapter() {
-        adapterSurat = new AdapterPerkara(list ,requireContext());
+        adapterSurat = new AdapterPerkara(list ,requireContext(), false);
         binding.listDocument.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
         binding.listDocument.setHasFixedSize(true);
         binding.listDocument.setAdapter(adapterSurat);

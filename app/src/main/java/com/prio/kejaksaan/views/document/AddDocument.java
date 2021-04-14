@@ -98,9 +98,9 @@ public class AddDocument extends DialogFragment {
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogFullscreen);
     }
 
-    String[] listType = {"Pengiriman penetapan hari sidang","Pengiriman petikan / salinan putusan",
-            "Pengiriman surat penahanan & perpanjangan penahanan","Pengiriman salinan putusan",
-            "Pemberitahuan proses banding","Pemberitahuan putusan banding","Pemberitahuan proses kasasi","Pemberitahuan putusan kasasi"};
+    String[] listType = {"Pengiriman Penetapan Hari Sidang","Pengiriman Petikan / Salinan Putusan",
+            "Pengiriman Surat Penahanan & Perpanjangan Penahanan","Pengiriman Salinan Putusan",
+            "Pemberitahuan Proses Banding","Pemberitahuan Putusan Banding","Pemberitahuan Proses Kasasi","Pemberitahuan Putusan Kasasi"};
     DialogAddSuratBinding binding;
     public static int REQUEST_SETTING = 168;
     public static int PRIVATE_CODE = 1;
@@ -135,7 +135,7 @@ public class AddDocument extends DialogFragment {
         switch (mode){
             case 1: //ini untuk panmud upload files
                 binding.nama.setText(perkara.identitas);
-                binding.dakwaan.setVisibility(View.GONE);
+                binding.l2.setVisibility(View.GONE);
 //                binding.dakwaan.setText(perkara.proses.dakwaan);
                 binding.nomor.setText(perkara.nomor);
                 binding.jenisPerkara.setText(perkara.jenis);
@@ -245,6 +245,7 @@ public class AddDocument extends DialogFragment {
                     binding.l11.setVisibility(View.VISIBLE);
                     binding.uploadFile.setOnClickListener(v -> Permission());
                     binding.uploadFile.setVisibility(View.VISIBLE);
+                    binding.iconCameraUpload.setVisibility(View.VISIBLE);
                     binding.btnBayar.setOnClickListener(v -> {
                         if (files == null){
                             MDToast.makeText(requireContext(), "Pilih file permintaan bayar", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
@@ -260,9 +261,12 @@ public class AddDocument extends DialogFragment {
                 binding.top.setText("Surat Tugas");
                 binding.top2.setText("Tekan tombol unduh untuk melihat surat");
                 perkara = surat.perkara;
+                binding.a.setText(surat.tipe);
                 binding.nama.setText(perkara.identitas);
                 binding.dakwaan.setVisibility(View.GONE);
-//                binding.dakwaan.setText(perkara.proses.dakwaan);
+                binding.bantuanBiaya.setVisibility(View.VISIBLE);
+                binding.l2.setVisibility(View.GONE);
+                binding.titleBiaya.setText("Rp."+surat.biaya+",-");
                 binding.nomor.setText(perkara.nomor);
                 binding.jenisPerkara.setText(perkara.jenis);
                 binding.tanggal.setText(perkara.tanggal);
@@ -273,6 +277,7 @@ public class AddDocument extends DialogFragment {
                 binding.ppName.setText(perkara.fullname_pp);
                 binding.jurusitaName.setText(perkara.fullname_jurusita);
                 binding.surat.setVisibility(View.VISIBLE);
+
                 if (surat.daftar_pengantar == null){
                     binding.btnShowb.setVisibility(View.INVISIBLE);
                     binding.btnCreateletter.setVisibility(View.GONE);
@@ -293,6 +298,7 @@ public class AddDocument extends DialogFragment {
                 if (bayar.kuitansi == null) {
                     binding.uploadFile.setVisibility(View.VISIBLE);
                     binding.btnCreateletter.setText("Kirim Kwitansi");
+                    binding.iconCameraUpload.setVisibility(View.VISIBLE);
                     binding.btnCreateletter.setOnClickListener(v -> {
                         if (files == null) {
                             MDToast.makeText(requireContext(), "Please Completely all forms", Toast.LENGTH_LONG, MDToast.TYPE_ERROR).show();
@@ -309,7 +315,7 @@ public class AddDocument extends DialogFragment {
                     binding.top2.setText("Tekan tombol unduh untuk melihat surat!");
                     binding.btnCreateletter.setVisibility(View.GONE);
                 }else
-                    binding.top2.setText("Unggah berkas PDF/JPG/PNG Kuitansi untuk verifikasi permintaan pembiayaan!");
+                    binding.top2.setText("Unggah berkas PDF/JPG/PNG Kuitansi untuk verifikasi permintaan pembiayaan");
                 //surat kwitansi ada
 //                binding.btnUpreq.setVisibility(View.GONE);
                 binding.surat.setVisibility(View.VISIBLE);
@@ -323,6 +329,14 @@ public class AddDocument extends DialogFragment {
                 }
                 binding.btnUpreq.setOnClickListener(v -> {
                     Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+bayar.surat));
+                    startActivity(web);
+                });
+                binding.btnShowa.setOnClickListener(v -> {
+                    Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+bayar.surat_tugas.surat_tugas));
+                    startActivity(web);
+                });
+                binding.btnShowb.setOnClickListener(v -> {
+                    Intent web = new Intent(Intent.ACTION_VIEW, Uri.parse("https://digitalsystemindo.com/jaksa/public/files/"+bayar.surat_tugas.daftar_pengantar));
                     startActivity(web);
                 });
 

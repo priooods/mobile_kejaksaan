@@ -23,6 +23,7 @@ import com.prio.kejaksaan.model.MessageModel;
 import com.prio.kejaksaan.model.PerkaraListModel;
 import com.prio.kejaksaan.model.UserModel;
 import com.prio.kejaksaan.service.Calling;
+import com.prio.kejaksaan.tools.Laravel;
 import com.valdesekamdem.library.mdtoast.MDToast;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -99,7 +100,8 @@ public class AddPerkara extends DialogFragment {
             binding.top2.setText("Harap lengkapi semua form tersedia untuk membuat Perkara");
             binding.nomerDakwaan.setText(model.nomor);
             binding.jenis.setText(model.jenis);
-            binding.tanggal.setText(model.tanggal);
+            binding.tanggal.setText(Laravel.getDate(model.tanggal));
+            datesValue = model.tanggal;
             binding.identitas.setText(model.identitas);
             binding.btnCreatePerkara.setText("Update Perkara");
             binding.ppLayout.setVisibility(View.GONE);
@@ -124,9 +126,10 @@ public class AddPerkara extends DialogFragment {
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
             SimpleDateFormat fr = new SimpleDateFormat("YYYY/MM/dd", Locale.ENGLISH);
-            SimpleDateFormat tex = new SimpleDateFormat("dd MMMM YYYY", Locale.ENGLISH);
+//            SimpleDateFormat tex = new SimpleDateFormat("dd MMMM YYYY", Locale.ENGLISH);
             datesValue = fr.format(calendar.getTime());
-            texit.setText(tex.format(calendar.getTime()));
+            Log.e("GetDate",datesValue);
+            texit.setText(Laravel.getDate(datesValue));
         };
 
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -211,9 +214,7 @@ public class AddPerkara extends DialogFragment {
                     if (md.type.equals("PP")){
                         pp.add(md);
                         ppstr.add(md.fullname);
-                    }
-                }
-                for (UserModel md : baseModel){
+                    }else
                     if (md.type.startsWith("Jurusita")){
                         jurusita.add(md);
                         jurusitastr.add(md.fullname);

@@ -135,10 +135,12 @@ public class CreateUsers extends DialogFragment {
                     }
                     dismiss();
                 }
+                binding.progress.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(@NotNull Call<UserModel> call, @NotNull Throwable t) {
+                binding.progress.setVisibility(View.GONE);
                 Log.e(TAG, "onFailure: ", t );
             }
         });

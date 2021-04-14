@@ -80,7 +80,9 @@ public class DetailPerkara extends DialogFragment {
         switch (sharedPreferences.getString("type", null)){
             case "KPA":
                 binding.listperkaraKpa.setVisibility(View.VISIBLE);
-                CallingPerkaraProses();
+                adapterAnakPerkara = new AdapterAnakPerkara(requireContext(), model.proses_list);
+                binding.listRecylerPerkaraKpa.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+                binding.listRecylerPerkaraKpa.setAdapter(adapterAnakPerkara);
                 break;
             case "SuperUser":
 //            case "KPA":
@@ -287,22 +289,22 @@ public class DetailPerkara extends DialogFragment {
         datePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimaryDark));
         datePickerDialog.show(getChildFragmentManager(),"DateDialog");
     }
-
-    public void CallingPerkaraProses(){
-        Call<List<PerkaraListModel>> call = BaseModel.i.getService().AllProsesPerkara();
-        call.enqueue(new Callback<List<PerkaraListModel>>() {
-            @Override
-            public void onResponse(@NotNull Call<List<PerkaraListModel>> call, @NotNull Response<List<PerkaraListModel>> response) {
-                List<PerkaraListModel> data = response.body();
-//                adapterAnakPerkara = new AdapterPerkara(requireContext(), data);
-//                binding.listRecylerPerkaraKpa.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-//                binding.listRecylerPerkaraKpa.setAdapter(adapterAnakPerkara);
-            }
-
-            @Override
-            public void onFailure(Call<List<PerkaraListModel>> call, Throwable t) {
-
-            }
-        });
-    }
+//
+//    public void CallingPerkaraProses(){
+//        Call<List<PerkaraListModel>> call = BaseModel.i.getService().AllProsesPerkara();
+//        call.enqueue(new Callback<List<PerkaraListModel>>() {
+//            @Override
+//            public void onResponse(@NotNull Call<List<PerkaraListModel>> call, @NotNull Response<List<PerkaraListModel>> response) {
+//                List<PerkaraListModel> data = response.body();
+////                adapterAnakPerkara = new AdapterPerkara(requireContext(), data);
+////                binding.listRecylerPerkaraKpa.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+////                binding.listRecylerPerkaraKpa.setAdapter(adapterAnakPerkara);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<PerkaraListModel>> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 }

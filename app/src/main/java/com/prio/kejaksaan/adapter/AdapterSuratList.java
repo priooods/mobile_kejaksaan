@@ -75,6 +75,7 @@ public class AdapterSuratList extends RecyclerView.Adapter<AdapterSuratList.vHol
         } else {
             holder.binding.v4.setText("Sudah");
             holder.binding.v4.setTextColor(context.getColor(R.color.green));
+            holder.binding.garis.setBackground(context.getResources().getDrawable(R.color.green));
         }
         holder.binding.v5.setText(models.get(position).perkara.jenis);
         holder.binding.v6.setVisibility(View.GONE);//setText(models.get(position).perkara.jenis);

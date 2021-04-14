@@ -33,11 +33,13 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
     List<PerkaraListModel.Item> models;
     List<PerkaraListModel.Item> modelsfilter;
     Context context;
+    boolean laporan;
 
-    public AdapterPerkara(List<PerkaraListModel.Item> models, Context context) {
+    public AdapterPerkara(List<PerkaraListModel.Item> models, Context context, boolean Laporan) {
         this.models = models;
         this.context = context;
         this.modelsfilter = models;
+        laporan = Laporan;
     }
 
     @NonNull
@@ -74,6 +76,9 @@ public class AdapterPerkara extends RecyclerView.Adapter<AdapterPerkara.cHolder>
             FragmentActivity frg = (FragmentActivity)(context);
             FragmentManager mrg = frg.getSupportFragmentManager();
             DialogFragment fragment;
+            if (laporan){
+                fragment = new DetailPerkara(3,models.get(position));
+            }else
             if (models.get(position).status.equals("Sudah")){
                 fragment = new DetailPerkara(2, models.get(position));
             } else {

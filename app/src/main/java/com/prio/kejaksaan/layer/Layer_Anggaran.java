@@ -170,6 +170,7 @@ public class Layer_Anggaran extends Fragment {
                 holder.binding.v2.setTextColor(context.getColor(R.color.red));
                 holder.binding.v2.setText("Belum");
             }else{
+                holder.binding.garis.setBackground(context.getResources().getDrawable(R.color.green));
                 holder.binding.v2.setTextColor(context.getColor(R.color.green));
                 holder.binding.v2.setText("Sudah");
             }

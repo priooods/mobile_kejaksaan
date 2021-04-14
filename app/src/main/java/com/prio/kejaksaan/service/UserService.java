@@ -98,7 +98,7 @@ public interface UserService {
     Call<PerkaraListModel> AllPerkara();
 
     @GET("laporan/perkara")
-    Call<List<PerkaraListModel>> AllProsesPerkara();
+    Call<PerkaraListModel> AllProsesPerkara();
 
 
     @FormUrlEncoded
@@ -332,7 +332,7 @@ public interface UserService {
     Call<List<ModelLaporanATK>> LaporanAtkPPK();
 
     @FormUrlEncoded
-    @POST("notif2")
+    @POST("notif")
     Call<ModelNotification> AllNotifikasiUser(
             @Field("token") String token
     );

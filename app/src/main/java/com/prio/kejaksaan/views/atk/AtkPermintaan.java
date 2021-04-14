@@ -70,7 +70,7 @@ public class AtkPermintaan extends Fragment implements goFilter {
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
                 }else
-                    Log.e("ATKFILTER", ID+" on Call adapterSelainLogistik fail refresh!"+atkModel.data.size());
+                    Log.e("ATKFILTER", ID+" on Call adapterSelainLogistik fail refresh!");
             }
 
             @Override

@@ -16,6 +16,7 @@ public class SuratModel extends Calling {
         public String daftar_time;
         public String verify_time;
         public int perkara_id;
+        public String biaya;
         public String surat_tugas;
         public String daftar_pengantar;
         public String fullname_ppk;

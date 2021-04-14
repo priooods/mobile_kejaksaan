@@ -41,7 +41,7 @@ public class PerkaraListModel extends Calling {
             return perkara.identitas;
         }
         public String print(){
-            return hari+", "+ Laravel.getShortDate(tanggal)+" : "+agenda;
+            return "No."+perkara.nomor+"\n"+hari+", "+ Laravel.getShortDate(tanggal)+" : "+agenda;
         }
     }
 }

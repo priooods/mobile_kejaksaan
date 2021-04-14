@@ -57,7 +57,7 @@ public class Layer_Perkara extends Fragment {
             case "Ketua":
             case "SuperUser":
 //                GetPerkaraSudahDiProsess();
-                GettAllPerkara();
+                GetAllLaporan();
                 binding.btnAddTop.setVisibility(View.GONE);
                 binding.btnNewDoc.setVisibility(View.GONE);
                 break;
@@ -118,8 +118,8 @@ public class Layer_Perkara extends Fragment {
         return binding.getRoot();
     }
 
-    public void storeAdapter(List<PerkaraListModel.Item> md){
-        adapterPerkara = new AdapterPerkara(md, requireContext());
+    public void storeAdapter(List<PerkaraListModel.Item> md, boolean laporan){
+        adapterPerkara = new AdapterPerkara(md, requireContext(), laporan);
         binding.listPerkara.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
         binding.listPerkara.setHasFixedSize(true);
         binding.listPerkara.setAdapter(adapterPerkara);
@@ -136,7 +136,7 @@ public class Layer_Perkara extends Fragment {
                     return;
                 if (Calling.TreatResponse(requireContext(), "All Perkara by PP", baseModel)){
                     assert baseModel != null;
-                    storeAdapter(baseModel.data);
+                    storeAdapter(baseModel.data, false);
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
                 }
@@ -157,7 +157,7 @@ public class Layer_Perkara extends Fragment {
                 PerkaraListModel baseModel = response.body();
                 if (Calling.TreatResponse(requireContext(), "All Perkara by Jurusita", baseModel)){
                     assert baseModel != null;
-                    storeAdapter(baseModel.data);
+                    storeAdapter(baseModel.data, false);
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
                 }
@@ -180,7 +180,27 @@ public class Layer_Perkara extends Fragment {
                     assert baseModel != null;
                     binding.shimer.stopShimmer();
                     binding.shimer.setVisibility(View.GONE);
-                    storeAdapter(baseModel.data);
+                    storeAdapter(baseModel.data, false);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<PerkaraListModel> call, @NotNull Throwable t) {
+                Log.e(TAG, "onFailure: ", t );
+            }
+        });
+    }
+    public void GetAllLaporan(){
+        Call<PerkaraListModel> call = BaseModel.i.getService().AllProsesPerkara();
+        call.enqueue(new Callback<PerkaraListModel>() {
+            @Override
+            public void onResponse(@NotNull Call<PerkaraListModel> call, @NotNull Response<PerkaraListModel> response) {
+                PerkaraListModel baseModel = response.body();
+                if (Calling.TreatResponse(getContext(), "All Laporan", baseModel)) {
+                    assert baseModel != null;
+                    binding.shimer.stopShimmer();
+                    binding.shimer.setVisibility(View.GONE);
+                    storeAdapter(baseModel.data, true);
                 }
             }
 
